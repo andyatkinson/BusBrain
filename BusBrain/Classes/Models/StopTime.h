@@ -17,8 +17,8 @@
 	NSString *price;
 	NSString *headsign;
 	NSString *headsign_key;
-  int departure_time_hour;
-  int departure_time_minute;
+	int departure_time_hour;
+	int departure_time_minute;
 }
 
 @property (nonatomic, retain) NSString *departure_time;
@@ -32,8 +32,8 @@
 @property (nonatomic, retain) NSString *headsign_key;
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
-+ (void)stopTimesWithURLString:(NSString *)urlString near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^)(NSArray *records))block;
-+ (void)stopTimesSimple:(NSString *)urlString near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^)(NSArray *records))block;
++ (void)stopTimesWithURLString:(NSString *)urlString near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^) (NSArray *records))block;
++ (void)stopTimesSimple:(NSString *)urlString near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^) (NSArray *records))block;
 + (NSArray *)stopTimesFromArray:(NSArray *)array;
 
 @end

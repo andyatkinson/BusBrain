@@ -20,9 +20,9 @@
 	NSString *stop_city;
 	NSString *stop_desc;
 	CLLocation *location;
-  NSString *icon_path;
-  NSString *headsign_key;
-  Route *route;
+	NSString *icon_path;
+	NSString *headsign_key;
+	Route *route;
 }
 
 @property (nonatomic, retain) NSString *stop_id;
@@ -38,9 +38,9 @@
 @property (nonatomic, retain) Route *route;
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
-+ (void)stopsWithURLString:(NSString *)urlString near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^)(NSArray *records))block;
++ (void)stopsWithURLString:(NSString *)urlString near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^) (NSArray *records))block;
 + (NSArray *)stopsFromArray:(NSArray *)array;
 
-+ (void)stopsWithHeadsigns:(NSString *)urlString near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^)(NSDictionary *data))block;
-  
++ (void)stopsWithHeadsigns:(NSString *)urlString near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^) (NSDictionary *data))block;
+
 @end

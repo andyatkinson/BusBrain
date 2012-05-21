@@ -10,7 +10,7 @@
 
 @interface TimeEntry : NSObject {
 	NSArray *headsign_keys;
-  NSArray *headsigns;
+	NSArray *headsigns;
 	NSArray *stop_times;
 	NSString *template;
 }
