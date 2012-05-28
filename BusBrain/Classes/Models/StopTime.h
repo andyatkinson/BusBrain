@@ -10,15 +10,15 @@
 #import <CoreLocation/CoreLocation.h>
 
 @interface StopTime : NSObject {
-	NSString *departure_time;
-	NSString *arrival_time;
-	NSString *drop_off_type;
-	NSString *pickup_type;
-	NSString *price;
-	NSString *headsign;
-	NSString *headsign_key;
-	int departure_time_hour;
-	int departure_time_minute;
+  NSString *departure_time;
+  NSString *arrival_time;
+  NSString *drop_off_type;
+  NSString *pickup_type;
+  NSString *price;
+  NSString *headsign;
+  NSString *headsign_key;
+  int departure_time_hour;
+  int departure_time_minute;
 }
 
 @property (nonatomic, retain) NSString *departure_time;

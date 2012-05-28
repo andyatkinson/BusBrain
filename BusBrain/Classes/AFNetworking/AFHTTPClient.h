@@ -30,9 +30,9 @@
    Method used to encode parameters into request body
  */
 typedef enum {
-	AFFormURLParameterEncoding,
-	AFJSONParameterEncoding,
-	AFPropertyListParameterEncoding,
+  AFFormURLParameterEncoding,
+  AFJSONParameterEncoding,
+  AFPropertyListParameterEncoding,
 } AFHTTPClientParameterEncoding;
 
 /**
@@ -103,13 +103,13 @@ extern NSString * AFQueryStringFromParametersWithEncoding(NSDictionary *paramete
 
  */
 @interface AFHTTPClient : NSObject {
-	@private
-	NSURL *_baseURL;
-	NSStringEncoding _stringEncoding;
-	AFHTTPClientParameterEncoding _parameterEncoding;
-	NSMutableArray *_registeredHTTPOperationClassNames;
-	NSMutableDictionary *_defaultHeaders;
-	NSOperationQueue *_operationQueue;
+  @private
+  NSURL *_baseURL;
+  NSStringEncoding _stringEncoding;
+  AFHTTPClientParameterEncoding _parameterEncoding;
+  NSMutableArray *_registeredHTTPOperationClassNames;
+  NSMutableDictionary *_defaultHeaders;
+  NSOperationQueue *_operationQueue;
 }
 
 ///---------------------------------------
@@ -258,8 +258,8 @@ extern NSString * AFQueryStringFromParametersWithEncoding(NSDictionary *paramete
    @return An `NSMutableURLRequest` object
  */
 - (NSMutableURLRequest *)requestWithMethod:(NSString *)method
-        path:(NSString *)path
-        parameters:(NSDictionary *)parameters;
+  path:(NSString *)path
+  parameters:(NSDictionary *)parameters;
 
 /**
    Creates an `NSMutableURLRequest` object with the specified HTTP method and path, and constructs a `multipart/form-data` HTTP body, using the specified parameters and multipart form data block. See http://www.w3.org/TR/html4/interact/forms.html#h-17.13.4.2
@@ -276,9 +276,9 @@ extern NSString * AFQueryStringFromParametersWithEncoding(NSDictionary *paramete
    @return An `NSMutableURLRequest` object
  */
 - (NSMutableURLRequest *)multipartFormRequestWithMethod:(NSString *)method
-        path:(NSString *)path
-        parameters:(NSDictionary *)parameters
-        constructingBodyWithBlock:(void (^) (id <AFMultipartFormData> formData))block;
+  path:(NSString *)path
+  parameters:(NSDictionary *)parameters
+  constructingBodyWithBlock:(void (^) (id <AFMultipartFormData> formData))block;
 
 ///-------------------------------
 /// @name Creating HTTP Operations
@@ -294,8 +294,8 @@ extern NSString * AFQueryStringFromParametersWithEncoding(NSDictionary *paramete
    @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the resonse data. This block has no return value and takes two arguments:, the created request operation and the `NSError` object describing the network or parsing error that occurred.
  */
 - (AFHTTPRequestOperation *)HTTPRequestOperationWithRequest:(NSURLRequest *)request
-        success:(void (^) (AFHTTPRequestOperation *operation, id responseObject)) success
-        failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure;
+  success:(void (^) (AFHTTPRequestOperation *operation, id responseObject)) success
+  failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure;
 
 ///----------------------------------------
 /// @name Managing Enqueued HTTP Operations
@@ -330,8 +330,8 @@ extern NSString * AFQueryStringFromParametersWithEncoding(NSDictionary *paramete
    @discussion Operations are created by passing the specified `NSURLRequest` objects in `requests`, using `-HTTPRequestOperationWithRequest:success:failure:`, with `nil` for both the `success` and `failure` parameters.
  */
 - (void)enqueueBatchOfHTTPRequestOperationsWithRequests:(NSArray *)requests
-        progressBlock:(void (^) (NSUInteger numberOfCompletedOperations, NSUInteger totalNumberOfOperations)) progressBlock
-        completionBlock:(void (^) (NSArray *operations))completionBlock;
+  progressBlock:(void (^) (NSUInteger numberOfCompletedOperations, NSUInteger totalNumberOfOperations)) progressBlock
+  completionBlock:(void (^) (NSArray *operations))completionBlock;
 
 /**
    Enqueues the specified request operations into a batch. When each request operation finishes, the specified progress block is executed, until all of the request operations have finished, at which point the completion block also executes.
@@ -341,8 +341,8 @@ extern NSString * AFQueryStringFromParametersWithEncoding(NSDictionary *paramete
    @param completionBlock A block object to be executed upon the completion of all of the request operations in the batch. This block has no return value and takes a single argument: the batched request operations.
  */
 - (void)enqueueBatchOfHTTPRequestOperations:(NSArray *)operations
-        progressBlock:(void (^) (NSUInteger numberOfCompletedOperations, NSUInteger totalNumberOfOperations)) progressBlock
-        completionBlock:(void (^) (NSArray *operations))completionBlock;
+  progressBlock:(void (^) (NSUInteger numberOfCompletedOperations, NSUInteger totalNumberOfOperations)) progressBlock
+  completionBlock:(void (^) (NSArray *operations))completionBlock;
 
 ///---------------------------
 /// @name Making HTTP Requests
@@ -359,9 +359,9 @@ extern NSString * AFQueryStringFromParametersWithEncoding(NSDictionary *paramete
    @see HTTPRequestOperationWithRequest:success:failure
  */
 - (void)getPath:(NSString *)path
-        parameters:(NSDictionary *)parameters
-        success:(void (^) (AFHTTPRequestOperation *operation, id responseObject)) success
-        failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure;
+  parameters:(NSDictionary *)parameters
+  success:(void (^) (AFHTTPRequestOperation *operation, id responseObject)) success
+  failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure;
 
 /**
    Creates an `AFHTTPRequestOperation` with a `POST` request, and enqueues it to the HTTP client's operation queue.
@@ -374,9 +374,9 @@ extern NSString * AFQueryStringFromParametersWithEncoding(NSDictionary *paramete
    @see HTTPRequestOperationWithRequest:success:failure
  */
 - (void)postPath:(NSString *)path
-        parameters:(NSDictionary *)parameters
-        success:(void (^) (AFHTTPRequestOperation *operation, id responseObject)) success
-        failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure;
+  parameters:(NSDictionary *)parameters
+  success:(void (^) (AFHTTPRequestOperation *operation, id responseObject)) success
+  failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure;
 
 /**
    Creates an `AFHTTPRequestOperation` with a `PUT` request, and enqueues it to the HTTP client's operation queue.
@@ -389,9 +389,9 @@ extern NSString * AFQueryStringFromParametersWithEncoding(NSDictionary *paramete
    @see HTTPRequestOperationWithRequest:success:failure
  */
 - (void)putPath:(NSString *)path
-        parameters:(NSDictionary *)parameters
-        success:(void (^) (AFHTTPRequestOperation *operation, id responseObject)) success
-        failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure;
+  parameters:(NSDictionary *)parameters
+  success:(void (^) (AFHTTPRequestOperation *operation, id responseObject)) success
+  failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure;
 
 /**
    Creates an `AFHTTPRequestOperation` with a `DELETE` request, and enqueues it to the HTTP client's operation queue.
@@ -404,9 +404,9 @@ extern NSString * AFQueryStringFromParametersWithEncoding(NSDictionary *paramete
    @see HTTPRequestOperationWithRequest:success:failure
  */
 - (void)deletePath:(NSString *)path
-        parameters:(NSDictionary *)parameters
-        success:(void (^) (AFHTTPRequestOperation *operation, id responseObject)) success
-        failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure;
+  parameters:(NSDictionary *)parameters
+  success:(void (^) (AFHTTPRequestOperation *operation, id responseObject)) success
+  failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure;
 @end
 
 #pragma mark -

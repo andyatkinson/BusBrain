@@ -50,12 +50,12 @@
    - `image/x-win-bitmap`
  */
 @interface AFImageRequestOperation : AFHTTPRequestOperation {
-	@private
+  @private
 #if __IPHONE_OS_VERSION_MIN_REQUIRED
-	UIImage *_responseImage;
-	CGFloat _imageScale;
+  UIImage *_responseImage;
+  CGFloat _imageScale;
 #elif __MAC_OS_X_VERSION_MIN_REQUIRED
-	NSImage *_responseImage;
+  NSImage *_responseImage;
 #endif
 }
 
@@ -89,10 +89,10 @@
  */
 #if __IPHONE_OS_VERSION_MIN_REQUIRED
 + (AFImageRequestOperation *)imageRequestOperationWithRequest:(NSURLRequest *)urlRequest
-        success:(void (^) (UIImage *image))success;
+  success:(void (^) (UIImage *image))success;
 #elif __MAC_OS_X_VERSION_MIN_REQUIRED
 + (AFImageRequestOperation *)imageRequestOperationWithRequest:(NSURLRequest *)urlRequest
-        success:(void (^) (NSImage *image))success;
+  success:(void (^) (NSImage *image))success;
 #endif
 
 /**
@@ -108,16 +108,16 @@
  */
 #if __IPHONE_OS_VERSION_MIN_REQUIRED
 + (AFImageRequestOperation *)imageRequestOperationWithRequest:(NSURLRequest *)urlRequest
-        imageProcessingBlock:(UIImage *(^)(UIImage *)) imageProcessingBlock
-        cacheName:(NSString *)cacheNameOrNil
-        success:(void (^) (NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image)) success
-        failure:(void (^) (NSURLRequest *request, NSHTTPURLResponse *response, NSError *error))failure;
+  imageProcessingBlock:(UIImage *(^)(UIImage *)) imageProcessingBlock
+  cacheName:(NSString *)cacheNameOrNil
+  success:(void (^) (NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image)) success
+  failure:(void (^) (NSURLRequest *request, NSHTTPURLResponse *response, NSError *error))failure;
 #elif __MAC_OS_X_VERSION_MIN_REQUIRED
 + (AFImageRequestOperation *)imageRequestOperationWithRequest:(NSURLRequest *)urlRequest
-        imageProcessingBlock:(NSImage *(^)(NSImage *)) imageProcessingBlock
-        cacheName:(NSString *)cacheNameOrNil
-        success:(void (^) (NSURLRequest *request, NSHTTPURLResponse *response, NSImage *image)) success
-        failure:(void (^) (NSURLRequest *request, NSHTTPURLResponse *response, NSError *error))failure;
+  imageProcessingBlock:(NSImage *(^)(NSImage *)) imageProcessingBlock
+  cacheName:(NSString *)cacheNameOrNil
+  success:(void (^) (NSURLRequest *request, NSHTTPURLResponse *response, NSImage *image)) success
+  failure:(void (^) (NSURLRequest *request, NSHTTPURLResponse *response, NSError *error))failure;
 #endif
 
 @end

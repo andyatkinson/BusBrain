@@ -10,13 +10,13 @@
 #import <CoreLocation/CoreLocation.h>
 
 @interface Route : NSObject {
-	NSString *route_id;
-	NSString *long_name;
-	NSString *short_name;
-	NSString *route_desc;
-	NSString *route_type;
-	NSString *route_url;
-	NSString *icon_path;
+  NSString *route_id;
+  NSString *long_name;
+  NSString *short_name;
+  NSString *route_desc;
+  NSString *route_type;
+  NSString *route_url;
+  NSString *icon_path;
 }
 
 @property (nonatomic, retain) NSString *route_id;

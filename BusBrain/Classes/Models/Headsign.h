@@ -8,8 +8,8 @@
 #import <Foundation/Foundation.h>
 
 @interface Headsign : NSObject {
-	NSString *headsign_key;
-	NSString *headsign_public_name;
+  NSString *headsign_key;
+  NSString *headsign_public_name;
 }
 
 @property (nonatomic, retain) NSString *headsign_key;

@@ -14,17 +14,17 @@
 @synthesize headsign_keys, headsigns, template, stop_times;
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
-	self = [super init];
-	if (!self) {
-		return nil;
-	}
+  self = [super init];
+  if (!self) {
+    return nil;
+  }
 
-	self.headsign_keys = [attributes valueForKeyPath:@"headsign_keys"];
-	self.headsigns = [attributes valueForKeyPath:@"headsigns"];
-	self.template = [attributes valueForKeyPath:@"template"];
-	self.stop_times = [StopTime stopTimesFromArray:[attributes valueForKeyPath:@"stop_times"]];
+  self.headsign_keys = [attributes valueForKeyPath:@"headsign_keys"];
+  self.headsigns = [attributes valueForKeyPath:@"headsigns"];
+  self.template = [attributes valueForKeyPath:@"template"];
+  self.stop_times = [StopTime stopTimesFromArray:[attributes valueForKeyPath:@"stop_times"]];
 
-	return self;
+  return self;
 }
 
 @end

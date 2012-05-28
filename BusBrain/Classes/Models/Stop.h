@@ -12,17 +12,17 @@
 #import "Route.h"
 
 @interface Stop : NSObject {
-	NSString *stop_id;
-	NSString *stop_name;
-	NSString *stop_street;
-	NSString *stop_lat;
-	NSString *stop_lon;
-	NSString *stop_city;
-	NSString *stop_desc;
-	CLLocation *location;
-	NSString *icon_path;
-	NSString *headsign_key;
-	Route *route;
+  NSString *stop_id;
+  NSString *stop_name;
+  NSString *stop_street;
+  NSString *stop_lat;
+  NSString *stop_lon;
+  NSString *stop_city;
+  NSString *stop_desc;
+  CLLocation *location;
+  NSString *icon_path;
+  NSString *headsign_key;
+  Route *route;
 }
 
 @property (nonatomic, retain) NSString *stop_id;

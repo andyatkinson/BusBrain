@@ -32,10 +32,10 @@
  * MBProgressHUD operation modes.
  */
 typedef enum {
-	/** Progress is shown using an UIActivityIndicatorView. This is the default. */
-	MBProgressHUDModeIndeterminate,
-	/** Progress is shown using a MBRoundProgressView. */
-	MBProgressHUDModeDeterminate,
+  /** Progress is shown using an UIActivityIndicatorView. This is the default. */
+  MBProgressHUDModeIndeterminate,
+  /** Progress is shown using a MBRoundProgressView. */
+  MBProgressHUDModeDeterminate,
 } MBProgressHUDMode;
 
 
@@ -84,40 +84,40 @@ typedef enum {
  */
 @interface MBProgressHUD : UIView {
 
-	MBProgressHUDMode mode;
+  MBProgressHUDMode mode;
 
-	SEL methodForExecution;
-	id targetForExecution;
-	id objectForExecution;
-	BOOL useAnimation;
+  SEL methodForExecution;
+  id targetForExecution;
+  id objectForExecution;
+  BOOL useAnimation;
 
-	float yOffset;
-	float xOffset;
+  float yOffset;
+  float xOffset;
 
-	float width;
-	float height;
+  float width;
+  float height;
 
-	BOOL taskInProgress;
-	float graceTime;
-	float minShowTime;
-	NSTimer *graceTimer;
-	NSTimer *minShowTimer;
-	NSDate *showStarted;
+  BOOL taskInProgress;
+  float graceTime;
+  float minShowTime;
+  NSTimer *graceTimer;
+  NSTimer *minShowTimer;
+  NSDate *showStarted;
 
-	UIView *indicator;
-	UILabel *label;
-	UILabel *detailsLabel;
+  UIView *indicator;
+  UILabel *label;
+  UILabel *detailsLabel;
 
-	float progress;
+  float progress;
 
-	id<MBProgressHUDDelegate> delegate;
-	NSString *labelText;
-	NSString *detailsLabelText;
-	float opacity;
-	UIFont *labelFont;
-	UIFont *detailsLabelFont;
+  id<MBProgressHUDDelegate> delegate;
+  NSString *labelText;
+  NSString *detailsLabelText;
+  float opacity;
+  UIFont *labelFont;
+  UIFont *detailsLabelFont;
 
-	BOOL isFinished;
+  BOOL isFinished;
 }
 
 /**

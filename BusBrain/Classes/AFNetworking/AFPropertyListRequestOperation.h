@@ -33,11 +33,11 @@
    - `application/x-plist`
  */
 @interface AFPropertyListRequestOperation : AFHTTPRequestOperation {
-	@private
-	id _responsePropertyList;
-	NSPropertyListFormat _propertyListFormat;
-	NSPropertyListReadOptions _propertyListReadOptions;
-	NSError *_propertyListError;
+  @private
+  id _responsePropertyList;
+  NSPropertyListFormat _propertyListFormat;
+  NSPropertyListReadOptions _propertyListReadOptions;
+  NSError *_propertyListError;
 }
 
 ///----------------------------
@@ -68,7 +68,7 @@
    @return A new property list request operation
  */
 + (AFPropertyListRequestOperation *)propertyListRequestOperationWithRequest:(NSURLRequest *)urlRequest
-        success:(void (^) (NSURLRequest *request, NSHTTPURLResponse *response, id propertyList)) success
-        failure:(void (^) (NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id propertyList))failure;
+  success:(void (^) (NSURLRequest *request, NSHTTPURLResponse *response, id propertyList)) success
+  failure:(void (^) (NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id propertyList))failure;
 
 @end

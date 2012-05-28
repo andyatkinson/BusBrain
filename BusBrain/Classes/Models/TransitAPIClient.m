@@ -18,33 +18,33 @@ NSString * const kTransitAPIBaseURLString = @"http://localhost:3000";
 @implementation TransitAPIClient
 
 + (TransitAPIClient *)sharedClient {
-	static TransitAPIClient *_sharedClient = nil;
-	static dispatch_once_t oncePredicate;
-	dispatch_once(&oncePredicate, ^{
-	                      _sharedClient = [[self alloc] initWithBaseURL:[NSURL URLWithString:kTransitAPIBaseURLString]];
-		      });
+  static TransitAPIClient *_sharedClient = nil;
+  static dispatch_once_t oncePredicate;
+  dispatch_once(&oncePredicate, ^{
+                  _sharedClient = [[self alloc] initWithBaseURL:[NSURL URLWithString:kTransitAPIBaseURLString]];
+                });
 
-	return _sharedClient;
+  return _sharedClient;
 }
 
 - (id)initWithBaseURL:(NSURL *)url {
-	self = [super initWithBaseURL:url];
-	if (!self) {
-		return nil;
-	}
+  self = [super initWithBaseURL:url];
+  if (!self) {
+    return nil;
+  }
 
-	[self registerHTTPOperationClass:[AFJSONRequestOperation class]];
+  [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
 
-	// Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
-	[self setDefaultHeader:@"Accept" value:@"application/json"];
+  // Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
+  [self setDefaultHeader:@"Accept" value:@"application/json"];
 
-	// X-Transit-API-Key HTTP Header
-	[self setDefaultHeader:@"X-Transit-API-Key" value:kTransitAPIClientID];
+  // X-Transit-API-Key HTTP Header
+  [self setDefaultHeader:@"X-Transit-API-Key" value:kTransitAPIClientID];
 
-	// X-UDID HTTP Header
-	[self setDefaultHeader:@"X-UDID" value:[[UIDevice currentDevice] uniqueIdentifier]];
+  // X-UDID HTTP Header
+  [self setDefaultHeader:@"X-UDID" value:[[UIDevice currentDevice] uniqueIdentifier]];
 
-	return self;
+  return self;
 }
 
 @end

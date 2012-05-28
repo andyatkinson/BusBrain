@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface TimeEntry : NSObject {
-	NSArray *headsign_keys;
-	NSArray *headsigns;
-	NSArray *stop_times;
-	NSString *template;
+  NSArray *headsign_keys;
+  NSArray *headsigns;
+  NSArray *stop_times;
+  NSString *template;
 }
 
 @property (nonatomic, retain) NSArray *headsign_keys;

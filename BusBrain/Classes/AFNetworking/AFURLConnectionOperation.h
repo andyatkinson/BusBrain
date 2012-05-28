@@ -74,22 +74,22 @@ extern NSString * const AFNetworkingOperationDidFinishNotification;
    @warning Subclasses are strongly discouraged from overriding `setCompletionBlock:`, as `AFURLConnectionOperation`'s implementation includes a workaround to mitigate retain cycles, and what Apple rather ominously refers to as "The Deallocation Problem" (See http://developer.apple.com/library/ios/technotes/tn2109/_index.html#//apple_ref/doc/uid/DTS40010274-CH1-SUBSECTION11)
  */
 @interface AFURLConnectionOperation : NSOperation {
-	@private
-	unsigned short _state;
-	BOOL _cancelled;
-	NSRecursiveLock *_lock;
+  @private
+  unsigned short _state;
+  BOOL _cancelled;
+  NSRecursiveLock *_lock;
 
-	NSSet *_runLoopModes;
+  NSSet *_runLoopModes;
 
-	NSURLConnection *_connection;
-	NSURLRequest *_request;
-	NSHTTPURLResponse *_response;
-	NSError *_error;
+  NSURLConnection *_connection;
+  NSURLRequest *_request;
+  NSHTTPURLResponse *_response;
+  NSError *_error;
 
-	NSData *_responseData;
-	NSInteger _totalBytesRead;
-	NSMutableData *_dataAccumulator;
-	NSOutputStream *_outputStream;
+  NSData *_responseData;
+  NSInteger _totalBytesRead;
+  NSMutableData *_dataAccumulator;
+  NSOutputStream *_outputStream;
 }
 
 ///-------------------------------

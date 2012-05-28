@@ -12,15 +12,15 @@
 @synthesize headsign_key, headsign_public_name;
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
-	self = [super init];
-	if (!self) {
-		return nil;
-	}
+  self = [super init];
+  if (!self) {
+    return nil;
+  }
 
-	self.headsign_key = [attributes valueForKeyPath:@"headsign_key"];
-	self.headsign_public_name = [attributes valueForKeyPath:@"headsign_public_name"];
+  self.headsign_key = [attributes valueForKeyPath:@"headsign_key"];
+  self.headsign_public_name = [attributes valueForKeyPath:@"headsign_public_name"];
 
-	return self;
+  return self;
 }
 
 @end

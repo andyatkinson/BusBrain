@@ -40,12 +40,12 @@
    When `AFXMLRequestOperation` is registered with `AFHTTPClient`, the response object in the success callback of `HTTPRequestOperationWithRequest:success:failure:` will be an instance of `NSXMLParser`. On platforms that support `NSXMLDocument`, you have the option to ignore the response object, and simply use the `responseXMLDocument` property of the operation argument of the callback.
  */
 @interface AFXMLRequestOperation : AFHTTPRequestOperation {
-	@private
-	NSXMLParser *_responseXMLParser;
+  @private
+  NSXMLParser *_responseXMLParser;
 #if __MAC_OS_X_VERSION_MIN_REQUIRED
-	NSXMLDocument *_responseXMLDocument;
+  NSXMLDocument *_responseXMLDocument;
 #endif
-	NSError *_XMLError;
+  NSError *_XMLError;
 }
 
 ///----------------------------
@@ -74,8 +74,8 @@
    @return A new XML request operation
  */
 + (AFXMLRequestOperation *)XMLParserRequestOperationWithRequest:(NSURLRequest *)urlRequest
-        success:(void (^) (NSURLRequest *request, NSHTTPURLResponse *response, NSXMLParser *XMLParser)) success
-        failure:(void (^) (NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, NSXMLParser *XMLParse))failure;
+  success:(void (^) (NSURLRequest *request, NSHTTPURLResponse *response, NSXMLParser *XMLParser)) success
+  failure:(void (^) (NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, NSXMLParser *XMLParse))failure;
 
 
 #if __MAC_OS_X_VERSION_MIN_REQUIRED
@@ -89,8 +89,8 @@
    @return A new XML request operation
  */
 + (AFXMLRequestOperation *)XMLDocumentRequestOperationWithRequest:(NSURLRequest *)urlRequest
-        success:(void (^) (NSURLRequest *request, NSHTTPURLResponse *response, NSXMLDocument *document)) success
-        failure:(void (^) (NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, NSXMLDocument *document))failure;
+  success:(void (^) (NSURLRequest *request, NSHTTPURLResponse *response, NSXMLDocument *document)) success
+  failure:(void (^) (NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, NSXMLDocument *document))failure;
 #endif
 
 @end
