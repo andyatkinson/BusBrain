@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>stops</key>
+  <array>
+
+    <dict>
+      <key>stop_id</key>
+      <string>14946</string>
+      <key>route_family</key>
+      <string></string>
+      <key>stop_name</key>
+      <string>Hennepin Av E &amp; 8 St SE</string>
+      <key>stop_lat</key>
+      <string> 44.990627</string>
+      <key>stop_lon</key>
+      <string> -93.248573</string>
+      <key>route_id</key>
+      <string>2-56</string>
+      <key>stop_desc</key>
+      <string>Near side E</string>
+    </dict>
+
+    <dict>
+      <key>stop_id</key>
+      <string>40179</string>
+      <key>route_family</key>
+      <string></string>
+      <key>stop_name</key>
+      <string>Washington Ramp &amp; Cedar Av S</string>
+      <key>stop_lat</key>
+      <string> 44.972229</string>
+      <key>stop_lon</key>
+      <string> -93.247604</string>
+      <key>route_id</key>
+      <string>3-56</string>
+      <key>stop_desc</key>
+      <string>Far side W</string>
+    </dict>
+    
+    <dict>
+      <key>stop_id</key>
+      <string>13211</string>
+      <key>route_family</key>
+      <string></string>
+      <key>stop_name</key>
+      <string>Washington Av &amp; Willey Hall</string>
+      <key>stop_lat</key>
+      <string> 44.972595</string>
+      <key>stop_lon</key>
+      <string> -93.243423</string>
+      <key>route_id</key>
+      <string>3-56</string>
+      <key>stop_desc</key>
+      <string>Near side W</string>
+    </dict>
+
+    <dict>
+      <key>stop_id</key>
+      <string>17946</string>
+      <key>route_family</key>
+      <string></string>
+      <key>stop_name</key>
+      <string>Hennepin Av &amp; 7 St S</string>
+      <key>stop_lat</key>
+      <string> 44.977806</string>
+      <key>stop_lon</key>
+      <string> -93.274979</string>
+      <key>route_id</key>
+      <string>4-56</string>
+      <key>stop_desc</key>
+      <string>Near side N</string>
+    </dict>
+    
+    <dict>
+      <key>stop_id</key>
+      <string>17947</string>
+      <key>route_family</key>
+      <string></string>
+      <key>stop_name</key>
+      <string>Hennepin Av &amp; 5 St S</string>
+      <key>stop_lat</key>
+      <string> 44.979511</string>
+      <key>stop_lon</key>
+      <string> -93.272614</string>
+      <key>route_id</key>
+      <string>4-56</string>
+      <key>stop_desc</key>
+      <string>Near side N</string>
+    </dict>
+
+    <dict>
+      <key>stop_id</key>
+      <string>17948</string>
+      <key>route_family</key>
+      <string></string>
+      <key>stop_name</key>
+      <string>Hennepin Av &amp; 4 St S</string>
+      <key>stop_lat</key>
+      <string> 44.980625</string>
+      <key>stop_lon</key>
+      <string> -93.271049</string>
+      <key>route_id</key>
+      <string>4-56</string>
+      <key>stop_desc</key>
+      <string>Far side N</string>
+    </dict>
+
+    <dict>
+      <key>stop_id</key>
+      <string>17923</string>
+      <key>route_family</key>
+      <string></string>
+      <key>stop_name</key>
+      <string>Hennepin Av &amp; 8 St N</string>
+      <key>stop_lat</key>
+      <string> 44.977337</string>
+      <key>stop_lon</key>
+      <string> -93.275780</string>
+      <key>route_id</key>
+      <string>6-56</string>
+      <key>stop_desc</key>
+      <string>Near side S</string>
+    </dict>
+    
+    <dict>
+      <key>stop_id</key>
+      <string>40168</string>
+      <key>route_family</key>
+      <string></string>
+      <key>stop_name</key>
+      <string>Hennepin Av &amp; 6 St / 7 St N</string>
+      <key>stop_lat</key>
+      <string> 44.978317</string>
+      <key>stop_lon</key>
+      <string> -93.274483</string>
+      <key>route_id</key>
+      <string>6-56</string>
+      <key>stop_desc</key>
+      <string>Mid block S</string>
+    </dict>
+    
+  </array>
+</dict>
+</plist>

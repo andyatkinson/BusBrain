@@ -42,15 +42,15 @@
 #pragma mark Accessors
 
 @synthesize mode;
+@synthesize labelText;
+@synthesize progress;
+@synthesize detailsLabelText;
 
 @synthesize delegate;
-@synthesize labelText;
-@synthesize detailsLabelText;
+
 @synthesize opacity;
 @synthesize labelFont;
 @synthesize detailsLabelFont;
-@synthesize progress;
-
 @synthesize indicator;
 
 @synthesize width;

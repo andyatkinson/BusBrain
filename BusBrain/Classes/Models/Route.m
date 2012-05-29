@@ -1,6 +1,6 @@
 //
 //  Route.m
-//  TrainBrain
+//  BusBrain
 //
 //  Created by Andrew Atkinson on 12/2/11.
 //  Copyright 2011 Beetle Fight. All rights reserved.
@@ -28,11 +28,36 @@
   self.route_url = [attributes valueForKeyPath:@"route_url"];
 
   NSString *family = [attributes valueForKeyPath:@"route_family"];
-  if ([family length] > 0) {
+  if (family != (id)[NSNull null] ) {
     self.icon_path = [NSString stringWithFormat: @"icon_%@.png", family];
   }
 
   return self;
+}
+
++ (void) routesFromPlist:(void (^)(NSArray *records))block {
+  NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Routes" ofType:@"plist"];
+  NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:filepath];
+
+  NSMutableArray *mutableRecords = [NSMutableArray array];
+  for (NSDictionary *attributes in [[NSArray alloc] initWithArray :[dict objectForKey:@"routes"]]) {
+    if([mutableRecords count] < 5) {
+      Route *route = [[[Route alloc] initWithAttributes:attributes] autorelease];
+      [mutableRecords addObject:route];
+    }
+  }
+
+  if (block) {
+    block ([NSArray arrayWithArray:mutableRecords]);
+  }
+}
+
++ (void) routesFromPlist:(CLLocation *)location block:(void (^)(NSArray *records))block {
+  [Route routesFromPlist:^(NSArray *routeData) {
+     if (block) {
+       block ([NSArray arrayWithArray:routeData]);
+     }
+   }];
 }
 
 + (void)routesWithURLString:(NSString *)urlString parameters:(NSDictionary *)parameters block:(void (^)(NSArray *records))block {
@@ -55,7 +80,8 @@
    }];
 }
 
-+ (void)routesWithNearbyStops:(NSString *)urlString near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^)(NSDictionary *data))block {
++ (void)routesWithNearbyStops:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^)(NSDictionary *data))block {
+  NSString *urlString = @"train/v1/routes/nearby_stops";
   NSDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
 
   if (location) {

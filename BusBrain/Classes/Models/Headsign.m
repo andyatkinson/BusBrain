@@ -1,6 +1,6 @@
 //
 //  Headsign.m
-//  TrainBrain
+//  BusBrain
 //
 //  Copyright (c) 2012 Beetle Fight. All rights reserved.
 //
