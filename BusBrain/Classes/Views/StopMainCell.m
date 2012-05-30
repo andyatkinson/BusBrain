@@ -5,35 +5,60 @@
 //  Copyright (c) 2012 Beetle Fight. All rights reserved.
 //
 
-#import "StopTimeCell.h"
+#import "StopMainCell.h"
+#import "Stop.h"
 #import "StopTime.h"
 #import "OHAttributedLabel.h"
 #import "NSAttributedString+Attributes.h"
 #import "NSString+BeetleFight.h"
 
-@implementation StopTimeCell
+@implementation StopMainCell
 
-@synthesize relativeTime, scheduleTime, price, icon;
+@synthesize routeNumber, routeDirection, relativeTime, stopName, dataRefreshRequested;
 
-- (void) setStopTime:(StopTime*) stopTime {
-  NSArray  *departureData = [stopTime getTimeTillDeparture];
-  NSNumber *hour    = (NSNumber*) [departureData objectAtIndex:1];
-  NSNumber *minute  = (NSNumber*) [departureData objectAtIndex:2];
-  NSString *relativeString = [NSString stringWithFormat:@"%dh %02dm", [hour intValue], [minute intValue]];
+- (void) setStop:(Stop*) stop {
+  
+  StopTime *nextStopTime = [stop nextStopTime];
+
+  NSString *relativeString;
+  if (nextStopTime != nil) {
+    NSArray  *departureData = [[stop nextStopTime] getTimeTillDeparture];
+    NSNumber *hour    = (NSNumber*) [departureData objectAtIndex:1];
+    NSNumber *minute  = (NSNumber*) [departureData objectAtIndex:2];
+    NSNumber *seconds = (NSNumber*) [departureData objectAtIndex:3];
+
+    if([hour intValue] > 0){
+      relativeString = [NSString stringWithFormat:@"%dh", [hour intValue]];
+    } else if ( [minute intValue] > 0 ) {
+      relativeString = [NSString stringWithFormat:@"%dm", [minute intValue]];
+    } else if ( [seconds intValue] > 0 ) {
+      relativeString = [NSString stringWithFormat:@"%ds", [seconds intValue]];
+    } else {
+      [self setDataRefreshRequested:true];
+      relativeString = @"0s";
+    }
+  } else {
+    relativeString = @"";
+    [self setDataRefreshRequested:false];
+  }
 
   NSMutableAttributedString * string = [[NSMutableAttributedString alloc]
                                         initWithString:relativeString];
 
   [string setTextColor:self.relativeTime.textColor];
   [string setFont:self.relativeTime.font];
+  [string setTextAlignment:kCTRightTextAlignment lineBreakMode:0];
 
-  UIFont *smallFont = [UIFont boldSystemFontOfSize:15.0];
+  UIFont *smallFont = [UIFont boldSystemFontOfSize:12.0];
   [string setFont:smallFont range:[relativeString rangeOfString:@"h"]];
   [string setFont:smallFont range:[relativeString rangeOfString:@"m"]];
+  [string setFont:smallFont range:[relativeString rangeOfString:@"s"]];
 
   self.relativeTime.attributedText = string;
-  self.scheduleTime.text = [stopTime.departure_time hourMinuteFormatted];
-  self.price.text = [stopTime price];
+  self.stopName.text = stop.stop_name;
+  
+  self.routeNumber.text    = stop.route.short_name;
+  self.routeDirection.text = stop.stop_desc;
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -44,21 +69,23 @@
     UIImage *bgImg = [[UIImage imageNamed:@"bg_cell.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
     self.backgroundView = [[UIImageView alloc] initWithImage:bgImg];
 
-    self.icon = [[ UIImageView alloc ] init];
-    self.relativeTime = [self newLabelWithPrimaryColor:[UIColor whiteColor] selectedColor:[UIColor whiteColor] fontSize:28.0 bold:YES];
-    self.scheduleTime = [self newLabelWithPrimaryColor:[UIColor grayColor] selectedColor:[UIColor whiteColor] fontSize:15.0 bold:NO];
-    self.price = [self newLabelWithPrimaryColor:[UIColor grayColor] selectedColor:[UIColor whiteColor] fontSize:15.0 bold:NO];
+    self.relativeTime = [self newLabelWithPrimaryColor:[UIColor whiteColor] selectedColor:[UIColor whiteColor] fontSize:20.0 bold:YES];
+    self.routeNumber = [self newLabelWithPrimaryColor:[UIColor whiteColor] selectedColor:[UIColor whiteColor] fontSize:18.0 bold:YES];
+    self.routeDirection = [self newLabelWithPrimaryColor:[UIColor grayColor] selectedColor:[UIColor whiteColor] fontSize:10.0 bold:NO];
+     self.stopName = [self newLabelWithPrimaryColor:[UIColor grayColor] selectedColor:[UIColor whiteColor] fontSize:17.0 bold:NO];
+    
+    [self.routeNumber setTextAlignment:UITextAlignmentCenter];
 
-
-    [contentView addSubview:self.icon];
     [contentView addSubview:self.relativeTime];
-    [contentView addSubview:self.scheduleTime];
-    [contentView addSubview:self.price];
+    [contentView addSubview:self.routeNumber];
+    [contentView addSubview:self.routeDirection];
+    [contentView addSubview:self.stopName];
 
-    [self.icon release];
+    [self.routeNumber release];
+    [self.routeDirection release];
     [self.relativeTime release];
-    [self.scheduleTime release];
-    [self.price release];
+    [self.stopName release];
+    
   }
 
   return self;
@@ -77,17 +104,10 @@
     // get the X pixel spot
     CGFloat boundsX = contentRect.origin.x;
 
-    /*
-                 Place the label.
-                 place the label whatever the current X is plus 10 pixels from the left
-                 place the label 4 pixels from the top
-                 make the label 200 pixels wide
-                 make the label 20 pixels high
-     */
-    self.icon.frame          = CGRectMake(boundsX +  10, 18, 20,  20);
-    self.relativeTime.frame  = CGRectMake(boundsX +  40, 12, 200, 50);
-    self.scheduleTime.frame  = CGRectMake(boundsX + 185, 23, 80,  50);
-    self.price.frame         = CGRectMake(boundsX + 270, 23, 50,  50);
+    self.routeNumber.frame     = CGRectMake(boundsX +  20, 15, 30,  30);
+    self.routeDirection.frame  = CGRectMake(boundsX +  10, 32, 60,  20);
+    self.stopName.frame        = CGRectMake(boundsX +  75, 20, 180, 50);
+    self.relativeTime.frame    = CGRectMake(boundsX + 255, 17, 35,  30);
 
   }
 }

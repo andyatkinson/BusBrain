@@ -32,5 +32,6 @@
 + (void) routesFromPlist:(CLLocation *)location block:(void (^) (NSArray *records))block;
 + (void)routesWithURLString:(NSString *)urlString parameters:(NSDictionary *)parameters block:(void (^) (NSArray *records))block;
 + (void)routesWithNearbyStops:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^) (NSDictionary *data))block;
++ (void) getRoute:(NSString *)route_id block:(void (^)(NSArray *records))block;
 
 @end

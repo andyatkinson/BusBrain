@@ -7,7 +7,6 @@
 
 #import "StopTimesTableViewController.h"
 #import "BigDepartureTableViewCell.h"
-#import "RouteCell.h"
 #import "StopTimeCell.h"
 #import "StopTime.h"
 #import "NSString+BeetleFight.h"
@@ -71,20 +70,12 @@
 }
 
 - (void)loadStopTimes {
-  NSDate *now = [NSDate date];
-  NSCalendar *calendar = [NSCalendar currentCalendar];
-  NSDateComponents *components = [calendar components:NSHourCalendarUnit fromDate:now];
-
+  
 
   if (self.selectedStop == NULL || self.selectedStop.route.route_id == NULL) {
     NSLog(@"tried to call controller but didn't supply enough data. <selectedStop>: %@", self.selectedStop);
 
   } else {
-
-    NSString *url = [NSString stringWithFormat:@"train/v1/routes/%@/stops/%@/stop_times",
-                     self.selectedRoute.route_id, self.selectedStop.stop_id];
-
-    NSDictionary *params = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%d", [components hour]] forKey:@"hour"];
 
     /* Progress HUD overlay START */
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
@@ -95,7 +86,12 @@
     [HUD show:YES];
     /* Progress HUD overlay END */
 
-    [StopTime stopTimesSimple:url near:nil parameters:params block:^(NSArray *stops) {
+    
+    
+    [StopTime stopTimesSimple:self.selectedRoute.route_id 
+                         stop:self.selectedStop.stop_id
+                         near:nil  
+                        block:^(NSArray *stops) {
        self.stop_times = stops;
 
        if ([self.stop_times count] > 0) {
@@ -109,6 +105,7 @@
 
        NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
        [settings setObject:self.selectedStop.stop_id forKey:@"last_stop_id"];
+       [settings setObject:self.selectedRoute.route_id forKey:@"last_route_id"];
        [settings synchronize];
 
        [self.tableView reloadRowsAtIndexPaths:[self.tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationFade];
@@ -228,11 +225,10 @@
   if ([self.stop_times count] > 0) {
     if (indexPath.section == 0) {
 
-      StopTime *stop_time = (StopTime *)[self.stop_times objectAtIndex:indexPath.row];
-
       if (bigCell == NULL) {
         [self setBigCell:[[BigDepartureTableViewCell alloc] init]];
 
+        StopTime *stop_time = (StopTime *)[self.stop_times objectAtIndex:indexPath.row];
         [[self bigCell] setStopTime:stop_time];
         [self bigCell].funnySaying.text = [FunnyPhrase rand];
         [self bigCell].description.text = @"Next estimated train departure:";
@@ -244,9 +240,12 @@
 
     } else if (indexPath.section == 1) {
 
+      StopTimeCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+      if (cell == nil) {
+        cell = [[[StopTimeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+      }
+      
       StopTime *stop_time = (StopTime *)[self.stop_times objectAtIndex:indexPath.row];
-      StopTimeCell *cell = [[[StopTimeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-
       cell.icon.image = [UIImage imageNamed:@"icon_clock.png"];
       [cell setStopTime:stop_time];
 

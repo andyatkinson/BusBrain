@@ -6,13 +6,19 @@
 //  Copyright 2011 Beetle Fight. All rights reserved.
 //
 
+#import "Route.h"
 #import "Stop.h"
 #import "TransitAPIClient.h"
 #import "Headsign.h"
 
 @implementation Stop
 
-@synthesize stop_id, stop_name, stop_street, stop_lat, stop_lon, stop_city, stop_desc, location, icon_path, headsign_key, route;
+@synthesize stop_id, stop_name, stop_street, stop_lat, stop_lon, location, nextStopTime; 
+@synthesize stop_city, stop_desc, refLocation, distanceFromLocation, icon_path, headsign_key, route;
+
+- (NSComparisonResult)compareLocation:(Stop *)otherObject {
+  return [self.distanceFromLocation compare:otherObject.distanceFromLocation];
+}
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
   self = [super init];
@@ -21,12 +27,13 @@
   }
 
   self.stop_name = [attributes valueForKeyPath:@"stop_name"];
-  self.stop_id = [attributes valueForKeyPath:@"stop_id"];
+  self.stop_id   = [attributes valueForKeyPath:@"stop_id"];
   self.stop_desc = [attributes valueForKeyPath:@"stop_desc"];
-  self.stop_lat = [attributes valueForKeyPath:@"stop_lat"];
-  self.stop_lon = [attributes valueForKeyPath:@"stop_lon"];
+  self.stop_lat  = [attributes valueForKeyPath:@"stop_lat"];
+  self.stop_lon  = [attributes valueForKeyPath:@"stop_lon"];
   self.stop_city = [attributes valueForKeyPath:@"stop_city"];
-  self.location = [[CLLocation alloc] initWithLatitude:self.stop_lat.floatValue longitude:self.stop_lon.floatValue];
+  self.location  = [[CLLocation alloc] initWithLatitude:self.stop_lat.floatValue 
+                                              longitude:self.stop_lon.floatValue];
 
   NSString *family = [attributes valueForKeyPath:@"route_family"];
   if (family != (id)[NSNull null] ) {
@@ -35,42 +42,60 @@
 
   self.headsign_key = [attributes valueForKeyPath:@"headsign_key"];
 
-  self.route = [[Route alloc] initWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[attributes valueForKeyPath:@"route_id"], @"route_id", nil]];
-
+  self.route = [[Route alloc] initWithAttributes:(NSDictionary*)[attributes objectForKey:@"route"]];
+  
   return self;
 }
 
-+ (void) stopsFromPlist:(void (^)(NSArray *records))block {
+- (void) setRefLocation:(CLLocation *)thisLocation{
+  refLocation = thisLocation;
+  double dist = [self.location distanceFromLocation:thisLocation] / 1609.344;
+  [self setDistanceFromLocation:[NSNumber numberWithDouble:dist]];
+}
+
+- (void) loadNextStopTime {
+  [StopTime stopTimesSimple:self.route.route_id  stop:self.stop_id near:nil  block:^(NSArray *stops) {
+
+      if ([stops count] > 0) {
+        [self setNextStopTime:(StopTime *)[stops objectAtIndex:0]];
+      } else {
+        [self setNextStopTime:nil];
+      }
+                
+     }
+   ];
+}
+
++ (void) stopsFromPlist:(CLLocation *)location block:(void (^)(NSArray *records))block {
   NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Stops" ofType:@"plist"];
   NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:filepath];
 
   NSMutableArray *mutableRecords = [NSMutableArray array];
   for (NSDictionary *attributes in [[NSArray alloc] initWithArray :[dict objectForKey:@"stops"]]) {
     Stop *stop = [[[Stop alloc] initWithAttributes:attributes] autorelease];
+    [stop setRefLocation:location];
     [mutableRecords addObject:stop];
   }
 
+  NSArray *sortedArray;
+  sortedArray = [mutableRecords sortedArrayUsingSelector:@selector(compareLocation:)];
+  
   if (block) {
-    block ([NSArray arrayWithArray:mutableRecords]);
+    block ([NSArray arrayWithArray:sortedArray]);
   }
 }
 
-+ (void) stopsFromPlist:(CLLocation *)location block:(void (^)(NSArray *records))block {
-  [Stop stopsFromPlist:^(NSArray *stopData) {
-     if (block) {
-       block ([NSArray arrayWithArray:stopData]);
-     }
-   }];
-}
++ (void)getStops:(NSString *)route_id stop_id:(NSString *)stop_id block:(void (^)(NSArray *records))block {
+  NSString *urlString = [NSString stringWithFormat:@"train/v1/routes/%@/stops/all", route_id];
 
-+ (void)stopsWithURLString:(NSString *)urlString near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^)(NSArray *records))block {
-  NSDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
-
-  [[TransitAPIClient sharedClient] getPath:urlString parameters:mutableParameters success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
+  [[TransitAPIClient sharedClient] getPath:urlString parameters:nil success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
      NSMutableArray *mutableRecords = [NSMutableArray array];
      for (NSDictionary *attributes in [JSON valueForKeyPath:@"stops"]) {
        Stop *stop = [[[Stop alloc] initWithAttributes:attributes] autorelease];
-       [mutableRecords addObject:stop];
+       
+       if( stop_id == (id)[NSNull null] || [stop_id isEqualToString:stop.stop_id]){
+         [mutableRecords addObject:stop];
+       }
      }
 
      if (block) {
@@ -81,6 +106,17 @@
        block ([NSArray array]);
      }
    }];
+}
+
+- (void) loadRoute:(NSString*)route_id {
+  [Route getRoute:route_id block:^(NSArray *routes) {
+    if ([routes count] > 0 ) {
+      [self setRoute:(Route *)[routes objectAtIndex:0]];
+      [self loadNextStopTime];
+    } else {
+      [self setRoute:nil];
+    }
+  }];
 }
 
 + (NSArray *)stopsFromArray:(NSArray *)array {

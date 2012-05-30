@@ -17,7 +17,9 @@
   NSDictionary      *lastViewed;
   MBProgressHUD     *HUD;
   EGORefreshTableHeaderView *_refreshHeaderView;
-  int _fetchCount;
+  int      _fetchCount;
+  NSTimer *refreshTimer;
+  BOOL _dataRefreshRequested;
 }
 
 @property (nonatomic, retain) UITableView *tableView;
@@ -25,9 +27,9 @@
 @property (nonatomic, retain) NSArray *routes;
 @property (nonatomic, retain) NSArray *stops;
 @property (nonatomic, retain) NSDictionary *lastViewed;
-
 @property (nonatomic, retain) CLLocation *myLocation;
 @property (nonatomic, retain) CLLocationManager *locationManager;
+@property (nonatomic, retain) NSTimer *refreshTimer;
 
 - (void)loadDataForLocation:(CLLocation *)location;
 - (void)loadStopsForLocation:(CLLocation *)location;

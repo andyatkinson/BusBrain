@@ -32,8 +32,12 @@
 @property (nonatomic, retain) NSString *headsign_key;
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
-+ (void)stopTimesWithURLString:(NSString *)urlString near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^) (NSArray *records))block;
-+ (void)stopTimesSimple:(NSString *)urlString near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^) (NSArray *records))block;
+
++ (void)stopTimesSimple:(NSString *) route_id
+                   stop:(NSString *) stop_id
+                   near:(CLLocation *)location 
+                  block:(void (^)(NSArray *records))block;
+
 + (NSArray *)stopTimesFromArray:(NSArray *)array;
 - (NSDate*) getStopDate;
 - (NSArray*) getTimeTillDeparture;

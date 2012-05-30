@@ -75,27 +75,20 @@
   return timeArray;
 }
 
-+ (void)stopTimesWithURLString:(NSString *)urlString near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^)(NSArray *records))block {
-  NSDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
-
-  [[TransitAPIClient sharedClient] getPath:urlString parameters:mutableParameters success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
-     NSMutableArray *mutableRecords = [NSMutableArray array];
-
-     TimeEntry *te = [[[TimeEntry alloc] initWithAttributes:[JSON valueForKeyPath:@"time_entry"]] autorelease];
-     [mutableRecords addObject:te];
-
-     if (block) {
-       block ([NSArray arrayWithArray:mutableRecords]);
-     }
-   } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
-     if (block) {
-       block ([NSArray array]);
-     }
-   }];
-}
-
-+ (void)stopTimesSimple:(NSString *)urlString near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^)(NSArray *records))block {
-  NSDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
++ (void)stopTimesSimple:(NSString *) route_id
+                   stop:(NSString *) stop_id
+                   near:(CLLocation *)location 
+                  block:(void (^)(NSArray *records))block {
+  
+  NSString *urlString = [NSString stringWithFormat:@"train/v1/routes/%@/stops/%@/stop_times", route_id, stop_id];
+  
+  NSDate *now = [NSDate date];
+  NSCalendar *calendar = [NSCalendar currentCalendar];
+  NSDateComponents *components = [calendar components:NSHourCalendarUnit fromDate:now];
+  int hour = [components hour];
+  NSDictionary *params = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%d", hour] forKey:@"hour"];
+  
+  NSDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:params];
 
   [[TransitAPIClient sharedClient] getPath:urlString parameters:mutableParameters success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
 

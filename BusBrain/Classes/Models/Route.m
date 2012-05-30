@@ -60,6 +60,23 @@
    }];
 }
 
++ (void) getRoute:(NSString *)route_id block:(void (^)(NSArray *records))block {
+  [Route routesFromPlist:^(NSArray *routeData) {
+    if (block) {
+      NSMutableArray *mutableRecords = [NSMutableArray array];
+      NSEnumerator *e = [routeData objectEnumerator];
+      Route *route;
+      while (route = [e nextObject]) {
+        if( route_id == (id)[NSNull null] || [route_id isEqualToString:route.route_id]){
+          [mutableRecords addObject:route];
+        }
+      }
+
+      block ([NSArray arrayWithArray:mutableRecords]);
+    }
+  }];
+}
+
 + (void)routesWithURLString:(NSString *)urlString parameters:(NSDictionary *)parameters block:(void (^)(NSArray *records))block {
   NSDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
 

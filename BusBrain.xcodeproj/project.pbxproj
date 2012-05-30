@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		522CF47A157403AA006B1F04 /* BusBrainAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF4791574032F006B1F04 /* BusBrainAppDelegate.m */; };
 		522CF48B15740422006B1F04 /* BigDepartureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF47C1574040B006B1F04 /* BigDepartureTableViewCell.m */; };
-		522CF49015740422006B1F04 /* StopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF4881574040B006B1F04 /* StopAnnotation.m */; };
 		522CF49115740422006B1F04 /* StopTimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF48A1574040B006B1F04 /* StopTimeCell.m */; };
 		522CF49F15740485006B1F04 /* InfoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF49515740461006B1F04 /* InfoTableViewController.m */; };
 		522CF4A015740485006B1F04 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF49715740461006B1F04 /* MainTableViewController.m */; };
@@ -27,7 +26,6 @@
 		522CF4C91574060E006B1F04 /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 522CF4C01574060E006B1F04 /* grayArrow@2x.png */; };
 		522CF4CA1574060E006B1F04 /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 522CF4C11574060E006B1F04 /* whiteArrow.png */; };
 		522CF4CB1574060E006B1F04 /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 522CF4C21574060E006B1F04 /* whiteArrow@2x.png */; };
-		522CF4CC15740657006B1F04 /* RouteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF4861574040B006B1F04 /* RouteCell.m */; };
 		522CF4D21574068F006B1F04 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522CF4D11574068F006B1F04 /* QuartzCore.framework */; };
 		522CF4D41574069D006B1F04 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522CF4D31574069D006B1F04 /* CoreText.framework */; };
 		522CF4D6157407D1006B1F04 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 522CF4D5157407D0006B1F04 /* MainWindow.xib */; };
@@ -69,10 +67,10 @@
 		522CF54215740F21006B1F04 /* icon_news@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 522CF50E15740F21006B1F04 /* icon_news@2x.png */; };
 		522CF54E157410B7006B1F04 /* Routes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 522CF54D157410B7006B1F04 /* Routes.plist */; };
 		522CF5561574175C006B1F04 /* Stops.plist in Resources */ = {isa = PBXBuildFile; fileRef = 522CF5551574175C006B1F04 /* Stops.plist */; };
-		522CF558157418FD006B1F04 /* Last.plist in Resources */ = {isa = PBXBuildFile; fileRef = 522CF557157418FD006B1F04 /* Last.plist */; };
 		522CF57715745F63006B1F04 /* NSAttributedString+Attributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF57415745F44006B1F04 /* NSAttributedString+Attributes.m */; };
 		522CF57815745F63006B1F04 /* OHAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF57615745F44006B1F04 /* OHAttributedLabel.m */; };
 		522CF5C115763FEE006B1F04 /* routes.png in Resources */ = {isa = PBXBuildFile; fileRef = 522CF5C015763FEE006B1F04 /* routes.png */; };
+		526223EF157784B700816859 /* StopMainCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 526223EE157783B100816859 /* StopMainCell.m */; };
 		A15BFA751569C5E8004651B9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15BFA741569C5E8004651B9 /* UIKit.framework */; };
 		A15BFA771569C5E8004651B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15BFA761569C5E8004651B9 /* Foundation.framework */; };
 		A15BFA791569C5E8004651B9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15BFA781569C5E8004651B9 /* CoreGraphics.framework */; };
@@ -105,10 +103,6 @@
 		522CF4791574032F006B1F04 /* BusBrainAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BusBrainAppDelegate.m; sourceTree = "<group>"; };
 		522CF47B1574040B006B1F04 /* BigDepartureTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BigDepartureTableViewCell.h; sourceTree = "<group>"; };
 		522CF47C1574040B006B1F04 /* BigDepartureTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BigDepartureTableViewCell.m; sourceTree = "<group>"; };
-		522CF4851574040B006B1F04 /* RouteCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RouteCell.h; sourceTree = "<group>"; };
-		522CF4861574040B006B1F04 /* RouteCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RouteCell.m; sourceTree = "<group>"; };
-		522CF4871574040B006B1F04 /* StopAnnotation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StopAnnotation.h; sourceTree = "<group>"; };
-		522CF4881574040B006B1F04 /* StopAnnotation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopAnnotation.m; sourceTree = "<group>"; };
 		522CF4891574040B006B1F04 /* StopTimeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StopTimeCell.h; sourceTree = "<group>"; };
 		522CF48A1574040B006B1F04 /* StopTimeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopTimeCell.m; sourceTree = "<group>"; };
 		522CF49415740461006B1F04 /* InfoTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InfoTableViewController.h; sourceTree = "<group>"; };
@@ -176,12 +170,13 @@
 		522CF50E15740F21006B1F04 /* icon_news@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_news@2x.png"; sourceTree = "<group>"; };
 		522CF54D157410B7006B1F04 /* Routes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Routes.plist; path = Data/Routes.plist; sourceTree = "<group>"; };
 		522CF5551574175C006B1F04 /* Stops.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Stops.plist; path = Data/Stops.plist; sourceTree = "<group>"; };
-		522CF557157418FD006B1F04 /* Last.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Last.plist; path = Data/Last.plist; sourceTree = "<group>"; };
 		522CF57315745F44006B1F04 /* NSAttributedString+Attributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSAttributedString+Attributes.h"; path = "OHAttributedLabel/NSAttributedString+Attributes.h"; sourceTree = "<group>"; };
 		522CF57415745F44006B1F04 /* NSAttributedString+Attributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSAttributedString+Attributes.m"; path = "OHAttributedLabel/NSAttributedString+Attributes.m"; sourceTree = "<group>"; };
 		522CF57515745F44006B1F04 /* OHAttributedLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OHAttributedLabel.h; path = OHAttributedLabel/OHAttributedLabel.h; sourceTree = "<group>"; };
 		522CF57615745F44006B1F04 /* OHAttributedLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = OHAttributedLabel.m; path = OHAttributedLabel/OHAttributedLabel.m; sourceTree = "<group>"; };
 		522CF5C015763FEE006B1F04 /* routes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = routes.png; path = Mockups/routes.png; sourceTree = SOURCE_ROOT; };
+		526223ED157783B100816859 /* StopMainCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StopMainCell.h; sourceTree = "<group>"; };
+		526223EE157783B100816859 /* StopMainCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopMainCell.m; sourceTree = "<group>"; };
 		A15BFA701569C5E8004651B9 /* BusBrain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BusBrain.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A15BFA741569C5E8004651B9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A15BFA761569C5E8004651B9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -307,7 +302,6 @@
 		522CF54C15741097006B1F04 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				522CF557157418FD006B1F04 /* Last.plist */,
 				522CF5551574175C006B1F04 /* Stops.plist */,
 				522CF54D157410B7006B1F04 /* Routes.plist */,
 			);
@@ -510,12 +504,10 @@
 		A1C637A41569C68A004D06D9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				526223ED157783B100816859 /* StopMainCell.h */,
+				526223EE157783B100816859 /* StopMainCell.m */,
 				522CF47B1574040B006B1F04 /* BigDepartureTableViewCell.h */,
 				522CF47C1574040B006B1F04 /* BigDepartureTableViewCell.m */,
-				522CF4851574040B006B1F04 /* RouteCell.h */,
-				522CF4861574040B006B1F04 /* RouteCell.m */,
-				522CF4871574040B006B1F04 /* StopAnnotation.h */,
-				522CF4881574040B006B1F04 /* StopAnnotation.m */,
 				522CF4891574040B006B1F04 /* StopTimeCell.h */,
 				522CF48A1574040B006B1F04 /* StopTimeCell.m */,
 			);
@@ -629,7 +621,6 @@
 				522CF54215740F21006B1F04 /* icon_news@2x.png in Resources */,
 				522CF54E157410B7006B1F04 /* Routes.plist in Resources */,
 				522CF5561574175C006B1F04 /* Stops.plist in Resources */,
-				522CF558157418FD006B1F04 /* Last.plist in Resources */,
 				522CF5C115763FEE006B1F04 /* routes.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -641,16 +632,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				526223EF157784B700816859 /* StopMainCell.m in Sources */,
 				522CF57715745F63006B1F04 /* NSAttributedString+Attributes.m in Sources */,
 				522CF57815745F63006B1F04 /* OHAttributedLabel.m in Sources */,
-				522CF4CC15740657006B1F04 /* RouteCell.m in Sources */,
 				522CF4AF15740592006B1F04 /* FunnyPhrase.m in Sources */,
 				522CF4B015740592006B1F04 /* Info.m in Sources */,
 				522CF49F15740485006B1F04 /* InfoTableViewController.m in Sources */,
 				522CF4A015740485006B1F04 /* MainTableViewController.m in Sources */,
 				522CF4A315740485006B1F04 /* StopTimesTableViewController.m in Sources */,
 				522CF48B15740422006B1F04 /* BigDepartureTableViewCell.m in Sources */,
-				522CF49015740422006B1F04 /* StopAnnotation.m in Sources */,
 				522CF49115740422006B1F04 /* StopTimeCell.m in Sources */,
 				522CF47A157403AA006B1F04 /* BusBrainAppDelegate.m in Sources */,
 				A1C637AA1569C68A004D06D9 /* AFHTTPClient.m in Sources */,
