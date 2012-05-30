@@ -1,6 +1,6 @@
 //
 //  NSString+BeetleFight.h
-//  TrainBrain
+//  BusBrain
 //
 //  Copyright (c) 2012 Beetle Fight. All rights reserved.
 //
@@ -13,7 +13,5 @@
 - (NSString *)hourMinuteFormatted;
 - (int)hourFromDepartureString;
 - (int)minuteFromDepartureString;
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 
 @end

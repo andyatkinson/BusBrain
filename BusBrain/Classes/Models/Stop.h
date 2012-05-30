@@ -1,6 +1,6 @@
 //
 //  Stop.h
-//  TrainBrain
+//  BusBrain
 //
 //  Created by Andrew Atkinson on 12/3/11.
 //  Copyright 2011 Beetle Fight. All rights reserved.
@@ -41,6 +41,8 @@
 + (void)stopsWithURLString:(NSString *)urlString near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^) (NSArray *records))block;
 + (NSArray *)stopsFromArray:(NSArray *)array;
 
++ (void) stopsFromPlist:(void (^) (NSArray *records))block;
++ (void) stopsFromPlist:(CLLocation *)location block:(void (^) (NSArray *records))block;
 + (void)stopsWithHeadsigns:(NSString *)urlString near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^) (NSDictionary *data))block;
 
 @end

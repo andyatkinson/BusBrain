@@ -1,6 +1,6 @@
 //
 //  Stop.m
-//  TrainBrain
+//  BusBrain
 //
 //  Created by Andrew Atkinson on 12/3/11.
 //  Copyright 2011 Beetle Fight. All rights reserved.
@@ -29,7 +29,7 @@
   self.location = [[CLLocation alloc] initWithLatitude:self.stop_lat.floatValue longitude:self.stop_lon.floatValue];
 
   NSString *family = [attributes valueForKeyPath:@"route_family"];
-  if ([family length] > 0) {
+  if (family != (id)[NSNull null] ) {
     self.icon_path = [NSString stringWithFormat: @"icon_%@.png", family];
   }
 
@@ -38,6 +38,29 @@
   self.route = [[Route alloc] initWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[attributes valueForKeyPath:@"route_id"], @"route_id", nil]];
 
   return self;
+}
+
++ (void) stopsFromPlist:(void (^)(NSArray *records))block {
+  NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Stops" ofType:@"plist"];
+  NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:filepath];
+
+  NSMutableArray *mutableRecords = [NSMutableArray array];
+  for (NSDictionary *attributes in [[NSArray alloc] initWithArray :[dict objectForKey:@"stops"]]) {
+    Stop *stop = [[[Stop alloc] initWithAttributes:attributes] autorelease];
+    [mutableRecords addObject:stop];
+  }
+
+  if (block) {
+    block ([NSArray arrayWithArray:mutableRecords]);
+  }
+}
+
++ (void) stopsFromPlist:(CLLocation *)location block:(void (^)(NSArray *records))block {
+  [Stop stopsFromPlist:^(NSArray *stopData) {
+     if (block) {
+       block ([NSArray arrayWithArray:stopData]);
+     }
+   }];
 }
 
 + (void)stopsWithURLString:(NSString *)urlString near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^)(NSArray *records))block {

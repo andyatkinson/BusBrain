@@ -1,6 +1,6 @@
 //
 //  NSString+BeetleFight.m
-//  TrainBrain
+//  BusBrain
 //
 //  Copyright (c) 2012 Beetle Fight. All rights reserved.
 //
@@ -8,15 +8,6 @@
 #import "NSString+BeetleFight.h"
 
 @implementation NSString (BeetleFight)
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-  self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-  if (self) {
-    // Initialization code
-  }
-  return self;
-}
 
 // Expects time strings in this format: 00:00:00, e.g. "08:10:00"
 
@@ -60,7 +51,7 @@
   [formatter setDateFormat:@"HH:mm:ss"];
   NSDate *date = [formatter dateFromString:self];
 
-  [formatter setDateFormat:@"HH:mm a"];
+  [formatter setDateFormat:@"h:mm a"];
 
   NSString *formattedTime = [NSString stringWithFormat:@"%@", [formatter stringFromDate:date]];
   [formatter release];

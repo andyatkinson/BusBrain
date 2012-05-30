@@ -1,6 +1,6 @@
 //
 //  StopTime.m
-//  TrainBrain
+//  BusBrain
 //
 //  Created by Andrew Atkinson on 12/3/11.
 //  Copyright 2011 Beetle Fight. All rights reserved.
@@ -34,6 +34,46 @@
   return self;
 }
 
+- (NSDate*) getStopDate {
+  NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+  NSDateComponents *components = [gregorian components:NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit fromDate:[NSDate date]];
+  [components setHour:self.departure_time_hour];
+  [components setMinute:self.departure_time_minute];
+  [components setSecond:0];
+
+  NSDate *stopDate = [gregorian dateFromComponents:components];
+  [gregorian release];
+
+  return stopDate;
+}
+
+- (NSArray*) getTimeTillDeparture {
+  NSDate *currentDate = [NSDate date];
+  NSDate *stopDate    = [self getStopDate];
+
+  NSTimeInterval timeInterval;
+  if([stopDate compare: currentDate] == NSOrderedDescending) {
+    timeInterval = [stopDate timeIntervalSinceDate:currentDate];
+  } else {
+    timeInterval = 0;
+  }
+
+  NSDate *timerDate = [NSDate dateWithTimeIntervalSince1970:timeInterval];
+
+  NSCalendar *calendar = [NSCalendar currentCalendar];
+  [calendar setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0.0]];
+  NSDateComponents *components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:timerDate];
+  NSInteger hour    = [components hour];
+  NSInteger minute  = [components minute];
+  NSInteger seconds = [components second];
+
+  NSArray *timeArray = [NSArray arrayWithObjects:[NSNumber numberWithInteger:timeInterval],
+                        [NSNumber numberWithInteger:hour],
+                        [NSNumber numberWithInteger:minute],
+                        [NSNumber numberWithInteger:seconds],
+                        nil];
+  return timeArray;
+}
 
 + (void)stopTimesWithURLString:(NSString *)urlString near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^)(NSArray *records))block {
   NSDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
@@ -62,7 +102,11 @@
      NSMutableArray *mutableRecords = [NSMutableArray array];
      for (NSDictionary *attributes in [JSON valueForKeyPath:@"stop_times"]) {
        StopTime *stop_time = [[[StopTime alloc] initWithAttributes:attributes] autorelease];
-       [mutableRecords addObject:stop_time];
+
+       //Cehck if stop is in the past
+       if([[stop_time getStopDate] compare: [NSDate date]] == NSOrderedDescending) {
+         [mutableRecords addObject:stop_time];
+       }
      }
 
      if (block) {

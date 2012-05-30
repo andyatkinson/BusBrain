@@ -1,6 +1,6 @@
 //
 //  TransitAPIClient.m
-//  TrainBrain
+//  BusBrain
 //
 //  Created by Andrew Atkinson on 2/5/12.
 //  Copyright (c) 2012 Beetle Fight. All rights reserved.
@@ -12,8 +12,8 @@
 
 NSString * const kTransitAPIClientID = @"94adbe66804dbf92e7290de08334d5d0";
 
-//NSString * const kTransitAPIBaseURLString = @"http://api.beetlefight.com";
-NSString * const kTransitAPIBaseURLString = @"http://localhost:3000";
+NSString * const kTransitAPIBaseURLString = @"http://api.beetlefight.com";
+//NSString * const kTransitAPIBaseURLString = @"http://localhost:3000";
 
 @implementation TransitAPIClient
 
