@@ -71,6 +71,7 @@
 		522CF57815745F63006B1F04 /* OHAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF57615745F44006B1F04 /* OHAttributedLabel.m */; };
 		522CF5C115763FEE006B1F04 /* routes.png in Resources */ = {isa = PBXBuildFile; fileRef = 522CF5C015763FEE006B1F04 /* routes.png */; };
 		526223EF157784B700816859 /* StopMainCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 526223EE157783B100816859 /* StopMainCell.m */; };
+		52C374DC157A93F600B61A47 /* StopLastCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52C374DA157A93E200B61A47 /* StopLastCell.m */; };
 		A15BFA751569C5E8004651B9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15BFA741569C5E8004651B9 /* UIKit.framework */; };
 		A15BFA771569C5E8004651B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15BFA761569C5E8004651B9 /* Foundation.framework */; };
 		A15BFA791569C5E8004651B9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15BFA781569C5E8004651B9 /* CoreGraphics.framework */; };
@@ -177,6 +178,8 @@
 		522CF5C015763FEE006B1F04 /* routes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = routes.png; path = Mockups/routes.png; sourceTree = SOURCE_ROOT; };
 		526223ED157783B100816859 /* StopMainCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StopMainCell.h; sourceTree = "<group>"; };
 		526223EE157783B100816859 /* StopMainCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopMainCell.m; sourceTree = "<group>"; };
+		52C374D9157A93E200B61A47 /* StopLastCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StopLastCell.h; sourceTree = "<group>"; };
+		52C374DA157A93E200B61A47 /* StopLastCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopLastCell.m; sourceTree = "<group>"; };
 		A15BFA701569C5E8004651B9 /* BusBrain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BusBrain.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A15BFA741569C5E8004651B9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A15BFA761569C5E8004651B9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -506,6 +509,8 @@
 			children = (
 				526223ED157783B100816859 /* StopMainCell.h */,
 				526223EE157783B100816859 /* StopMainCell.m */,
+				52C374D9157A93E200B61A47 /* StopLastCell.h */,
+				52C374DA157A93E200B61A47 /* StopLastCell.m */,
 				522CF47B1574040B006B1F04 /* BigDepartureTableViewCell.h */,
 				522CF47C1574040B006B1F04 /* BigDepartureTableViewCell.m */,
 				522CF4891574040B006B1F04 /* StopTimeCell.h */,
@@ -632,6 +637,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52C374DC157A93F600B61A47 /* StopLastCell.m in Sources */,
 				526223EF157784B700816859 /* StopMainCell.m in Sources */,
 				522CF57715745F63006B1F04 /* NSAttributedString+Attributes.m in Sources */,
 				522CF57815745F63006B1F04 /* OHAttributedLabel.m in Sources */,

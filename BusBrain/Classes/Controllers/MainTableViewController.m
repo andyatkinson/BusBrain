@@ -7,6 +7,7 @@
 #import "Route.h"
 #import "Stop.h"
 #import "StopMainCell.h"
+#import "StopLastCell.h"
 #import "StopTimesTableViewController.h"
 #import "NSString+BeetleFight.h"
 
@@ -295,9 +296,9 @@ NSString * const kLastSectionID  = @"LAST";
 
   if ( [id isEqualToString:kLastSectionID] )  {
 
-    StopMainCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    StopLastCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-      cell = [[[StopMainCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+      cell = [[[StopLastCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
 
     Stop *stop = (Stop *)[self.lastViewed valueForKey:@"stop"];
