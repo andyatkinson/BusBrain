@@ -10,7 +10,7 @@
 
 @implementation Info
 
-@synthesize detail;
+@synthesize detail = _detail;
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
   self = [super init];
@@ -18,7 +18,7 @@
     return nil;
   }
 
-  self.detail = [attributes valueForKeyPath:@"detail"];
+  [self setDetail:[attributes valueForKeyPath:@"detail"]];
 
   return self;
 }
@@ -42,6 +42,12 @@
        block ([NSArray array]);
      }
    }];
+}
+
+- (void)dealloc {
+  [_detail dealloc];
+  
+  [super dealloc];
 }
 
 @end

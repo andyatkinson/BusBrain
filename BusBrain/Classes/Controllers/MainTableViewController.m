@@ -3,7 +3,10 @@
 //
 //
 
+#import "BusBrainAppDelegate.h"
+#import "BusTable.h"
 #import "MainTableViewController.h"
+#import "SearchTableViewController.h"
 #import "Route.h"
 #import "Stop.h"
 #import "StopMainCell.h"
@@ -11,18 +14,27 @@
 #import "StopTimesTableViewController.h"
 #import "NSString+BeetleFight.h"
 
-NSString * const kStopSectionID = @"STOP";
-NSString * const kLastSectionID  = @"LAST";
+NSString * const kStopSectionID   = @"STOP";
+NSString * const kLastSectionID   = @"LAST";
 
 @implementation MainTableViewController
 
-@synthesize tableView, dataArraysForRoutesScreen, routes, stops, lastViewed, locationManager, myLocation;
-@synthesize refreshTimer;
+@synthesize dataArraysForRoutesScreen = _dataArraysForRoutesScreen; 
+@synthesize routes                    = _routes; 
+@synthesize stopsDisplayed            = _stopsDisplayed; 
+@synthesize stopsDB                   = _stopsDB; 
+@synthesize lastViewed                = _lastViewed; 
+@synthesize locationManager           = _locationManager; 
+@synthesize myLocation                = _myLocation;
+@synthesize refreshTimer              = _refreshTimer;
+@synthesize dataRefreshRequested      = _dataRefreshRequested;
+@synthesize fetchCount                = _fetchCount;
+@synthesize cacheLoaded               = _cacheLoaded;
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
   [self loadDataForLocation:newLocation];
-  self.myLocation = newLocation;
-  [self.locationManager stopUpdatingLocation];
+  [self setMyLocation: newLocation];
+  [[self locationManager] stopUpdatingLocation];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
@@ -36,30 +48,34 @@ NSString * const kLastSectionID  = @"LAST";
 
 }
 
+- (void) loadData {
+  [self loadDataForLocation:[self myLocation]];
+}
+
 - (void) hideHUD {
-  if(_fetchCount == 0) {
-    [HUD hide:YES];
+  if([self fetchCount] == 0) {
+    [[self HUD] hide:YES];
   }
 }
 
 - (void) loadStopsForLocation:(CLLocation *)location {
   
-  [Stop stopsFromPlist:location block:^(NSArray *stopData) {
-    self.stops = stopData;
+  [Stop nearbyStops:location block:^(NSArray *stopData) {
+    [self setStopsDisplayed:stopData];
     
-    NSEnumerator *e = [self.stops objectEnumerator];
+    NSEnumerator *e = [[self stopsDisplayed] objectEnumerator];
     Stop *stop;
     while (stop = [e nextObject]) {
      [stop loadNextStopTime];
     }
 
-    [self.tableView reloadData];
-    [self.tableView reloadRowsAtIndexPaths:[self.tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationFade];
+    [[self tableView] reloadData];
+    [[self tableView] reloadRowsAtIndexPaths:[[self tableView] indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationFade];
 
-    _fetchCount--;
+    [self setFetchCount: [self fetchCount] - 1];
     [self hideHUD];
 
-    [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+    [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:[self tableView]];
 
    }];
 
@@ -78,82 +94,85 @@ NSString * const kLastSectionID  = @"LAST";
         
         [stop loadRoute:last_route_id];
         
-        [self.lastViewed setValue:stop forKey:@"stop"];
+        [[self lastViewed] setValue:stop forKey:@"stop"];
       }
       
-      _fetchCount--;
+      [self setFetchCount: [self fetchCount] - 1];
       [self hideHUD];
       
     }];
   } else {
-    _fetchCount--;
+    [self setFetchCount: [self fetchCount] - 1];
     [self hideHUD];
   }
   
 }
 
 - (void) repaintTable {
-  if(_dataRefreshRequested){
-    _dataRefreshRequested = false;
-    [self loadDataForLocation:self.myLocation];
-  } else {
-    [[self tableView] reloadData];
-  }
+    if([self dataRefreshRequested]){
+      [self setDataRefreshRequested: false];
+      [self loadDataForLocation:[self myLocation]];
+    } else {
+      [[self tableView] reloadData];
+    }
 }
 
 - (void) loadDataForLocation:(CLLocation *)location {
-  /* Progress HUD overlay START */
-  UIWindow *window = [UIApplication sharedApplication].keyWindow;
-  HUD = [[MBProgressHUD alloc] initWithWindow:window];
-  [window addSubview:HUD];
-  HUD.delegate = self;
-  HUD.labelText = @"Loading";
-  [HUD show:YES];
-  /* Progress HUD overlay END */
+  [self showHUD];
 
-  _fetchCount = 2;
+  [self setFetchCount: 2];
   [self loadStopsForLocation:location];
   [self loadLastViewedStop];
 
 }
 
+- (void) purgeCachedData {
+#ifdef DEBUG_BB
+  NSLog(@"Cache Dumped");
+#endif
+  [self setStopsDB:nil];
+}
+
+-(void) cacheStopDB {
+  [self setCacheLoaded:false];
+#ifdef DEBUG_BB
+  NSLog(@"Cache Started");
+#endif
+  [Stop loadStopsDB:^(NSArray *db) {
+    [self setStopsDB:db];
+    [self setCacheLoaded:true];
+#ifdef DEBUG_BB
+    NSLog(@"Cache Compelte %d", [db count]);
+#endif
+  }];
+}
+
 - (void) initData {
-
+  [self cacheStopDB];
+  
   Stop *s1 = [[Stop alloc] initWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:@"Loading...", @"stop_desc", nil]];
-  self.stops = [NSArray arrayWithObjects:s1, nil];
+  [self setStopsDisplayed:[NSArray arrayWithObjects:s1, nil]];
 
+  
   NSDictionary *lastStopIDDict = [NSDictionary dictionaryWithObject:kLastSectionID forKey:@"id"];
   NSDictionary *stopsDict      = [NSDictionary dictionaryWithObject:kStopSectionID forKey:@"id"];
 
-  dataArraysForRoutesScreen = [[NSMutableArray alloc] init];
-  
-  [dataArraysForRoutesScreen addObject:stopsDict];
-  [dataArraysForRoutesScreen addObject:lastStopIDDict];
+  [self setDataArraysForRoutesScreen: [[NSMutableArray alloc] init]];
+
+  [[self dataArraysForRoutesScreen] addObject:stopsDict];
+  [[self dataArraysForRoutesScreen] addObject:lastStopIDDict];
   
   [self setLastViewed:[[NSMutableDictionary alloc] init]];
 
 }
 
-- (void) initPullRefresh {
-  if (_refreshHeaderView == nil) {
-    EGORefreshTableHeaderView *view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
-    view.delegate = self;
-    [self.tableView addSubview:view];
-    _refreshHeaderView = view;
-    [view release];
-  }
-
-  //  update the last update date
-  [_refreshHeaderView refreshLastUpdatedDate];
-}
-
 - (void) initLocation {
-  if( self.myLocation == NULL) {
+  if( [self myLocation] == NULL) {
     CLLocation *mpls = [[CLLocation alloc] initWithLatitude:44.949651 longitude:-93.242223];
 
     if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized) {
-      self.myLocation = mpls;
-      [self loadDataForLocation:self.myLocation];
+      [self setMyLocation: mpls];
+      [self loadDataForLocation:[self myLocation]];
     } else {
       if([CLLocationManager locationServicesEnabled]) {
         [self setLocationManager:[[CLLocationManager alloc] init]];
@@ -162,33 +181,49 @@ NSString * const kLastSectionID  = @"LAST";
         [[self locationManager] setDesiredAccuracy:kCLLocationAccuracyNearestTenMeters];
         [[self locationManager] startUpdatingLocation];
       } else {
-        self.myLocation = mpls;
-        [self loadDataForLocation:self.myLocation];
+        [self setMyLocation: mpls];
+        [self loadDataForLocation:[self myLocation]];
       }
     }
   } else {
-    [self loadDataForLocation:self.myLocation];
+    [self loadDataForLocation:[self myLocation]];
   }
 }
 
+- (void) openSearch:(id)sender {
+  SearchTableViewController *target = [[SearchTableViewController alloc] init];
+  [target setStopsDB:[self stopsDB]];
+  [target setMyLocation:[self myLocation]];
+   
+  [[self navigationController] pushViewController:target animated:YES];
+}
+
 - (void)viewDidLoad {
-  self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(22, 207, 270, 233)];
+  [self setTableView:[[UITableView alloc] initWithFrame:CGRectMake(22, 207, 270, 233)]];
 
   [super viewDidLoad];
 
-  self.navigationItem.title = @"bus brain";
-  self.tableView.delegate   = self;
-  self.tableView.dataSource = self;
-  self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
-  self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_app.png"]];
-  self.view = self.tableView;
+  [[self navigationItem] setTitle:kAppName];
+  
+  UIBarButtonItem *searchButton = [[UIBarButtonItem alloc]
+                                   initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
+                                   target:self
+                                   action:@selector(openSearch:)];
+  [searchButton setTintColor:[UIColor blackColor]];
+   
+  [[self navigationItem] setRightBarButtonItem:searchButton];
+ 
+  [[self tableView] setDelegate:self];
+  [[self tableView] setDataSource:self];
+  [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+  [[self tableView] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_app.png"]]];
+  [self setView:[self tableView]];
 
   [self initData];
   [self initPullRefresh];
-
   [self initLocation];
   
-  _dataRefreshRequested = false;
+  [self setDataRefreshRequested:false];
   [self setRefreshTimer: [NSTimer scheduledTimerWithTimeInterval:1.0
                                                           target:self
                                                         selector:@selector(repaintTable)
@@ -209,47 +244,17 @@ NSString * const kLastSectionID  = @"LAST";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 
-  return [dataArraysForRoutesScreen count];
+  return [[self dataArraysForRoutesScreen] count];
 }
-
-- (CGFloat)tableView:(UITableView *)tv heightForHeaderInSection:(NSInteger)section {
-  if ([self tableView:tv titleForHeaderInSection:section] != nil) {
-    return 27; // want to eliminate a 1px bottom gray line, and a 1px bottom white line under
-  }
-  else {
-    // If no section header title, no section header needed
-    return 0;
-  }
-}
-
-- (UIView *)tableView:(UITableView *)tv viewForHeaderInSection:(NSInteger)section {
-
-  UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0,0,self.tableView.frame.size.width,30)] autorelease];
-
-  UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(10,0,headerView.frame.size.width, headerView.frame.size.height)];
-  headerLabel.textAlignment = UITextAlignmentLeft;
-  headerLabel.textColor = [UIColor colorWithRed:74/256.0 green:60/256.0 blue:0 alpha:1];
-  headerLabel.text = [self tableView:tv titleForHeaderInSection:section];
-  headerLabel.font = [UIFont boldSystemFontOfSize:14.0];
-  headerLabel.shadowOffset = CGSizeMake(0,1);
-
-  headerLabel.backgroundColor = [UIColor clearColor];
-  [headerView addSubview:headerLabel];
-
-  headerView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"header_bar_default.png"]];
-
-  return headerView;
-}
-
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-  NSString *id = [[dataArraysForRoutesScreen objectAtIndex:section] valueForKeyPath:@"id"];
+  NSString *id = [[[self dataArraysForRoutesScreen] objectAtIndex:section] valueForKeyPath:@"id"];
 
   if ([id isEqualToString:kLastSectionID] ) {
 
-    Stop *stop = (Stop *)[self.lastViewed valueForKey:@"stop"];
+    Stop *stop = (Stop *)[[self lastViewed] valueForKey:@"stop"];
     if (stop) {
       return 1;
     } else {
@@ -257,23 +262,18 @@ NSString * const kLastSectionID  = @"LAST";
     }
 
   } else if ([id isEqualToString:kStopSectionID]) {
-    if([self.stops count] <= 3){
-      return [self.stops count];
-    } else {
-      return 3;
-    }
+    return [[self stopsDisplayed] count];
   } else {
-    // should not reach here
     return 0;
   }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-  NSString *id = [[dataArraysForRoutesScreen objectAtIndex:section] valueForKeyPath:@"id"];
+  NSString *id = [[[self dataArraysForRoutesScreen] objectAtIndex:section] valueForKeyPath:@"id"];
 
   if ([id isEqualToString:kLastSectionID]) {
 
-    Stop *stop = (Stop *)[self.lastViewed valueForKey:@"stop"];
+    Stop *stop = (Stop *)[[self lastViewed] valueForKey:@"stop"];
     if (stop) {
       return @"Last Viewed";
     } else {
@@ -283,31 +283,31 @@ NSString * const kLastSectionID  = @"LAST";
   } else if ([id isEqualToString:kStopSectionID]) {
     return @"Stops Near You";
   }
+  
   return NULL;
 }
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)thisTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-  static NSString *CellIdentifier = @"Cell";
-
-  int section = indexPath.section;
-  NSString *id = [[dataArraysForRoutesScreen objectAtIndex:section] valueForKeyPath:@"id"];
+  
+  int section = [indexPath section];
+  NSString *id = [[[self dataArraysForRoutesScreen] objectAtIndex:section] valueForKeyPath:@"id"];
 
   if ( [id isEqualToString:kLastSectionID] )  {
 
+    static NSString *CellIdentifier = @"LastCell";
     StopLastCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
       cell = [[[StopLastCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
 
-    Stop *stop = (Stop *)[self.lastViewed valueForKey:@"stop"];
+    Stop *stop = (Stop *)[[self lastViewed] valueForKey:@"stop"];
     [cell setStop: stop];
     if ( [cell dataRefreshRequested] ) {
-      _dataRefreshRequested = true;
+      [stop loadNextStopTime];
       [cell setDataRefreshRequested:false];
     }
-    cell.accessoryView = [[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]];
+    [cell setAccessoryView: [[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
     return cell;
@@ -315,22 +315,25 @@ NSString * const kLastSectionID  = @"LAST";
 
   } else if ( [id isEqualToString:kStopSectionID] )  {
 
-    StopMainCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-      cell = [[[StopMainCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    }
-
-    Stop *stop = (Stop *)[self.stops objectAtIndex:indexPath.row];
-    [cell setStop: stop];
-
-    if ( [cell dataRefreshRequested] ) {
-      _dataRefreshRequested = true;
-      [cell setDataRefreshRequested:false];
-    }
-    cell.accessoryView = [[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]];
-    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    Stop *stop = (Stop *)[[self stopsDisplayed] objectAtIndex:[indexPath row]];
     
-    return cell;
+      static NSString *CellIdentifier = @"StopCell";
+      StopMainCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+      if (cell == nil) {
+        cell = [[[StopMainCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+      }
+      
+      [cell setStop: stop];
+      
+      if ( [cell dataRefreshRequested] ) {
+        [stop loadNextStopTime];
+        [cell setDataRefreshRequested:false];
+      }
+      [cell setAccessoryView:[[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];
+      [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    
+      return cell;
+    
   }
 
   return NULL;
@@ -338,40 +341,31 @@ NSString * const kLastSectionID  = @"LAST";
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  int section = indexPath.section;
-  NSString *id = [[dataArraysForRoutesScreen objectAtIndex:section] valueForKeyPath:@"id"];
+  int section = [indexPath section];
+  NSString *id = [[[self dataArraysForRoutesScreen] objectAtIndex:section] valueForKeyPath:@"id"];
 
   if ( [id isEqualToString:kLastSectionID] )  {
 
-    Stop *stop = (Stop *)[self.lastViewed valueForKey:@"stop"];
+    Stop *stop = (Stop *)[[self lastViewed] valueForKey:@"stop"];
     StopTimesTableViewController *target = [[StopTimesTableViewController alloc] init];
     [target setSelectedStop:stop];
-    [target setSelectedRoute:stop.route];
+    [target setSelectedRoute:[stop route]];
     
     [[self navigationController] pushViewController:target animated:YES];
 
   } else if ( [id isEqualToString:kStopSectionID] )  {
 
-    Stop *stop = (Stop *)[self.stops objectAtIndex:indexPath.row];
+    Stop *stop = (Stop *)[[self stopsDisplayed] objectAtIndex:[indexPath row]];
     StopTimesTableViewController *target = [[StopTimesTableViewController alloc] init];
     [target setSelectedStop:stop];
-    [target setSelectedRoute:stop.route];
+    [target setSelectedRoute:[stop route]];
 
     [[self navigationController] pushViewController:target animated:YES];
   }
 
 }
 
-- (void)tableView:(UITableView *)tv accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-
-  [self tableView:tv didSelectRowAtIndexPath:indexPath];
-}
-
--(void)hudWasHidden {
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  // indexPath.section && indexPath.row (inside a section) are options to control in more detail
   return 57;
 }
 
@@ -391,35 +385,22 @@ NSString * const kLastSectionID  = @"LAST";
 
   //  model should call this when its done loading
   //_reloading = NO;
-  //[_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+  [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:[self tableView]];
 }
 
-#pragma mark -
-#pragma mark EGORefreshTableHeaderDelegate Methods
+- (void) dealloc {
 
-- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view {
-  [self loadDataForLocation:self.myLocation];
-  [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
-
-}
-
-- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view {
-
-  //return _reloading; // should return if data source model is reloading
-  return NO;
-}
-
-- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view {
-
-  return [NSDate date];       // should return date data source was last changed
-
-}
-
-- (void)dealloc {
-
-  [dataArraysForRoutesScreen release];
+  [_stopsDB dealloc];
+  [_stopsDisplayed dealloc];
+  [_routes dealloc];
+  [_lastViewed dealloc];
+  [_myLocation dealloc];
+  [_dataArraysForRoutesScreen dealloc];
+  [_locationManager dealloc];
+  [_refreshTimer dealloc];
+  
   [super dealloc];
-  [HUD dealloc];
+ 
 }
 
 @end

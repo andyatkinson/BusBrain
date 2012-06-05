@@ -6,13 +6,20 @@
 //  Copyright 2011 Beetle Fight. All rights reserved.
 //
 
+#import "BusBrainAppDelegate.h"
 #import "Route.h"
 #import "Stop.h"
 #import "TransitAPIClient.h"
 
 @implementation Route
 
-@synthesize route_id, long_name, short_name, route_desc, route_type, route_url, icon_path;
+@synthesize number    = _number;
+@synthesize longName  = _longName;
+@synthesize shortName = _shortName;
+@synthesize desc      = _desc;
+@synthesize type      = _type;
+@synthesize url       = _url;
+@synthesize iconPath  = _iconPath;
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
   self = [super init];
@@ -20,16 +27,16 @@
     return nil;
   }
 
-  self.route_id = [attributes valueForKeyPath:@"route_id"];
-  self.long_name = [attributes valueForKeyPath:@"long_name"];
-  self.short_name = [attributes valueForKeyPath:@"short_name"];
-  self.route_desc = [attributes valueForKeyPath:@"route_desc"];
-  self.route_type = [attributes valueForKeyPath:@"route_type"];
-  self.route_url = [attributes valueForKeyPath:@"route_url"];
+  [self setNumber: [attributes valueForKeyPath:@"route_id"]];
+  [self setLongName: [attributes valueForKeyPath:@"long_name"]];
+  [self setShortName: [attributes valueForKeyPath:@"shortName"]];
+  [self setDesc: [attributes valueForKeyPath:@"route_desc"]];
+  [self setType: [attributes valueForKeyPath:@"route_type"]];
+  [self setUrl: [attributes valueForKeyPath:@"route_url"]];
 
   NSString *family = [attributes valueForKeyPath:@"route_family"];
   if (family != (id)[NSNull null] ) {
-    self.icon_path = [NSString stringWithFormat: @"icon_%@.png", family];
+    [self setIconPath: [NSString stringWithFormat: @"icon_%@.png", family]];
   }
 
   return self;
@@ -67,7 +74,7 @@
       NSEnumerator *e = [routeData objectEnumerator];
       Route *route;
       while (route = [e nextObject]) {
-        if( route_id == (id)[NSNull null] || [route_id isEqualToString:route.route_id]){
+        if( route_id == (id)[NSNull null] || [route_id isEqualToString:[route number]]){
           [mutableRecords addObject:route];
         }
       }
@@ -99,6 +106,10 @@
 
 + (void)routesWithNearbyStops:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^)(NSDictionary *data))block {
   NSString *urlString = @"train/v1/routes/nearby_stops";
+#ifdef DEBUG_BB
+  NSLog(@"DEBUG: %@", urlString);
+#endif
+  
   NSDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
 
   if (location) {
@@ -160,6 +171,7 @@
      }
    }];
 }
+
 
 @end
 

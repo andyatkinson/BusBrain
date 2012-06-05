@@ -10,22 +10,22 @@
 #import <CoreLocation/CoreLocation.h>
 
 @interface Route : NSObject {
-  NSString *route_id;
-  NSString *long_name;
-  NSString *short_name;
-  NSString *route_desc;
-  NSString *route_type;
-  NSString *route_url;
-  NSString *icon_path;
+  NSString *_number;
+  NSString *_longName;
+  NSString *_shortName;
+  NSString *_desc;
+  NSString *_type;
+  NSString *_url;
+  NSString *_iconPath;
 }
 
-@property (nonatomic, retain) NSString *route_id;
-@property (nonatomic, retain) NSString *long_name;
-@property (nonatomic, retain) NSString *short_name;
-@property (nonatomic, retain) NSString *route_desc;
-@property (nonatomic, retain) NSString *route_type;
-@property (nonatomic, retain) NSString *route_url;
-@property (nonatomic, retain) NSString *icon_path;
+@property (nonatomic, retain) NSString *number;
+@property (nonatomic, retain) NSString *longName;
+@property (nonatomic, retain) NSString *shortName;
+@property (nonatomic, retain) NSString *desc;
+@property (nonatomic, retain) NSString *type;
+@property (nonatomic, retain) NSString *url;
+@property (nonatomic, retain) NSString *iconPath;
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
 + (void) routesFromPlist:(void (^) (NSArray *records))block;

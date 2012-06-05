@@ -13,7 +13,7 @@
 
 @implementation BusBrainAppDelegate
 
-@synthesize window, routesTableViewController, infoViewController, infoTableViewController, tabBarController;
+@synthesize window, mainTableViewController, infoViewController, infoTableViewController, tabBarController;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
 
@@ -26,13 +26,13 @@
   //UIColor *navBarColor = UIColorFromRGB(0x111111);
 
   tabBarController = [[UITabBarController alloc] init];
-  routesTableViewController = [[MainTableViewController alloc] init];
-  UINavigationController *routesController = [[[UINavigationController alloc] initWithRootViewController:routesTableViewController] autorelease];
+  mainTableViewController = [[MainTableViewController alloc] init];
+  UINavigationController *routesController = [[[UINavigationController alloc] initWithRootViewController:mainTableViewController] autorelease];
   routesController.navigationBar.barStyle = UIBarStyleDefault;
   //routesController.navigationBar.tintColor = navBarColor;
   routesController.tabBarItem.title = @"Departures";
   routesController.tabBarItem.image = [UIImage imageNamed:@"11-clock.png"];
-  [routesTableViewController release];
+  [mainTableViewController release];
 
   infoTableViewController = [[InfoTableViewController alloc] init];
   UINavigationController *infoController = [[[UINavigationController alloc] initWithRootViewController:infoTableViewController] autorelease];
@@ -49,8 +49,12 @@
   [window makeKeyAndVisible];
 }
 
+- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
+	[[self mainTableViewController] purgeCachedData];
+}
+
 - (void)dealloc {
-  [routesTableViewController release];
+  [mainTableViewController release];
   [infoViewController release];
   [tabBarController release];
   [window release];

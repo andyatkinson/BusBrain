@@ -6,6 +6,7 @@
 //  Copyright 2011 Beetle Fight. All rights reserved.
 //
 
+#import "BusBrainAppDelegate.h"
 #import "StopTime.h"
 #import "TransitAPIClient.h"
 #import "TimeEntry.h"
@@ -13,7 +14,15 @@
 
 @implementation StopTime
 
-@synthesize departure_time, arrival_time, drop_off_type, pickup_type, price, headsign, headsign_key, departure_time_hour, departure_time_minute;
+@synthesize departureTime       = _departureTime;
+@synthesize arrivalTime         = _arrivalTime;
+@synthesize dropOffType         = _dropOffType;
+@synthesize pickupType          = _pickupType;
+@synthesize price               = _price;
+@synthesize headsign            = _headsign;
+@synthesize headsignKey         = _headsignKey;
+@synthesize departureTimeHour   = _departureTimeHour;
+@synthesize departureTimeMinute = _departureTimeMinute;
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
   self = [super init];
@@ -21,15 +30,15 @@
     return nil;
   }
 
-  self.departure_time = [attributes valueForKeyPath:@"departure_time"];
-  self.arrival_time = [attributes valueForKeyPath:@"arrival_time"];
-  self.drop_off_type = [attributes valueForKeyPath:@"drop_off_type"];
-  self.pickup_type = [attributes valueForKeyPath:@"pickup_type"];
-  self.price = [attributes valueForKeyPath:@"price"];
-  self.headsign = [attributes valueForKey:@"headsign"];
-  self.headsign_key = [attributes valueForKey:@"headsign_key"];
-  self.departure_time_hour = [self.departure_time hourFromDepartureString];
-  self.departure_time_minute = [self.departure_time minuteFromDepartureString];
+  [self setDepartureTime: [attributes valueForKeyPath:@"departure_time"]];
+  [self setArrivalTime: [attributes valueForKeyPath:@"arrival_time"]];
+  [self setDropOffType: [attributes valueForKeyPath:@"drop_off_type"]];
+  [self setPickupType: [attributes valueForKeyPath:@"pickup_type"]];
+  [self setPrice: [attributes valueForKeyPath:@"price"]];
+  [self setHeadsign: [attributes valueForKey:@"headsign"]];
+  [self setHeadsignKey: [attributes valueForKey:@"headsign_key"]];
+  [self setDepartureTimeHour: [[self departureTime] hourFromDepartureString]];
+  [self setDepartureTimeMinute: [[self departureTime] minuteFromDepartureString]];
 
   return self;
 }
@@ -37,8 +46,8 @@
 - (NSDate*) getStopDate {
   NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
   NSDateComponents *components = [gregorian components:NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit fromDate:[NSDate date]];
-  [components setHour:self.departure_time_hour];
-  [components setMinute:self.departure_time_minute];
+  [components setHour:[self departureTimeHour]];
+  [components setMinute:[self departureTimeMinute]];
   [components setSecond:0];
 
   NSDate *stopDate = [gregorian dateFromComponents:components];
@@ -81,7 +90,11 @@
                   block:(void (^)(NSArray *records))block {
   
   NSString *urlString = [NSString stringWithFormat:@"train/v1/routes/%@/stops/%@/stop_times", route_id, stop_id];
-  
+
+#ifdef DEBUG_BB
+  NSLog(@"DEBUG: %@", urlString);
+#endif
+
   NSDate *now = [NSDate date];
   NSCalendar *calendar = [NSCalendar currentCalendar];
   NSDateComponents *components = [calendar components:NSHourCalendarUnit fromDate:now];
@@ -121,5 +134,6 @@
 
   return mutableRecords;
 }
+
 
 @end

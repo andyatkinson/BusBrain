@@ -9,24 +9,22 @@
 #import "OHAttributedLabel.h"
 #import "StopTime.h"
 #import "Stop.h"
+#import "BusTableCell.h"
 
-@interface StopLastCell : UITableViewCell {
-  OHAttributedLabel *routeNumber;
-  OHAttributedLabel *stopName;
-  OHAttributedLabel *routeName;
-  OHAttributedLabel *relativeTime;
+@interface StopLastCell : BusTableCell {
+  OHAttributedLabel *_routeNumber;
+  OHAttributedLabel *_stopName;
+  OHAttributedLabel *_routeName;
+  OHAttributedLabel *_relativeTime;
   
-  BOOL dataRefreshRequested;
 }
 
 @property (nonatomic, retain) OHAttributedLabel *routeNumber;
 @property (nonatomic, retain) OHAttributedLabel *stopName;
 @property (nonatomic, retain) OHAttributedLabel *routeName;
 @property (nonatomic, retain) OHAttributedLabel *relativeTime;
-@property (nonatomic) BOOL dataRefreshRequested;
 
 // internal function to ease setting up label text
--(OHAttributedLabel *)newLabelWithPrimaryColor:(UIColor *)primaryColor selectedColor:(UIColor *)selectedColor fontSize:(CGFloat)fontSize bold:(BOOL)bold;
 - (void) setStop:(Stop*) stop;
 
 @end

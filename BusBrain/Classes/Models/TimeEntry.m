@@ -11,7 +11,10 @@
 
 @implementation TimeEntry
 
-@synthesize headsign_keys, headsigns, template, stop_times;
+@synthesize headsignKeys = _headsignKeys;
+@synthesize headsigns    = _headsigns;
+@synthesize template     = _template;
+@synthesize stopTimes    = _stopTimes;
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
   self = [super init];
@@ -19,12 +22,13 @@
     return nil;
   }
 
-  self.headsign_keys = [attributes valueForKeyPath:@"headsign_keys"];
-  self.headsigns = [attributes valueForKeyPath:@"headsigns"];
-  self.template = [attributes valueForKeyPath:@"template"];
-  self.stop_times = [StopTime stopTimesFromArray:[attributes valueForKeyPath:@"stop_times"]];
+  [self setHeadsignKeys: [attributes valueForKeyPath:@"headsign_keys"]];
+  [self setHeadsigns: [attributes valueForKeyPath:@"headsigns"]];
+  [self setTemplate: [attributes valueForKeyPath:@"template"]];
+  [self setStopTimes: [StopTime stopTimesFromArray:[attributes valueForKeyPath:@"stop_times"]]];
 
   return self;
 }
+
 
 @end

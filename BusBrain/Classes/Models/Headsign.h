@@ -8,12 +8,12 @@
 #import <Foundation/Foundation.h>
 
 @interface Headsign : NSObject {
-  NSString *headsign_key;
-  NSString *headsign_public_name;
+  NSString *_headsignKey;
+  NSString *_headsignPublicName;
 }
 
-@property (nonatomic, retain) NSString *headsign_key;
-@property (nonatomic, retain) NSString *headsign_public_name;
+@property (nonatomic, retain) NSString *headsignKey;
+@property (nonatomic, retain) NSString *headsignPublicName;
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
 

@@ -14,7 +14,10 @@
 
 @implementation StopLastCell
 
-@synthesize routeNumber, routeName, relativeTime, stopName, dataRefreshRequested;
+@synthesize routeNumber          = _routeNumber;
+@synthesize routeName            = _routeName;
+@synthesize relativeTime         = _relativeTime;
+@synthesize stopName             = _stopName;
 
 - (void) setStop:(Stop*) stop {
   
@@ -45,8 +48,8 @@
   NSMutableAttributedString * string = [[NSMutableAttributedString alloc]
                                         initWithString:relativeString];
 
-  [string setTextColor:self.relativeTime.textColor];
-  [string setFont:self.relativeTime.font];
+  [string setTextColor:[[self relativeTime] textColor]];
+  [string setFont:[[self relativeTime] font]];
   [string setTextAlignment:kCTRightTextAlignment lineBreakMode:0];
 
   UIFont *smallFont = [UIFont boldSystemFontOfSize:12.0];
@@ -54,38 +57,36 @@
   [string setFont:smallFont range:[relativeString rangeOfString:@"m"]];
   [string setFont:smallFont range:[relativeString rangeOfString:@"s"]];
 
-  self.relativeTime.attributedText = string;
-  self.stopName.text = stop.stop_name;
+  [[self relativeTime] setAttributedText: string];
+  [[self stopName] setText: [stop name]];
   
-  self.routeNumber.text    = stop.route.short_name;
-  self.routeName.text = stop.route.long_name;
+  [[self routeNumber] setText: [[stop route] shortName]];
+  [[self routeName] setText: [[stop route] longName]];
 }
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
   if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-    UIView *contentView = self.contentView;
+    UIView *contentView = [self contentView];
 
     UIImage *bgImg = [[UIImage imageNamed:@"bg_cell.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
-    self.backgroundView = [[UIImageView alloc] initWithImage:bgImg];
+    [self setBackgroundView: [[UIImageView alloc] initWithImage:bgImg]];
 
-    self.relativeTime = [self newLabelWithPrimaryColor:[UIColor whiteColor] selectedColor:[UIColor whiteColor] fontSize:20.0 bold:YES];
-    self.routeNumber = [self newLabelWithPrimaryColor:[UIColor whiteColor] selectedColor:[UIColor whiteColor] fontSize:18.0 bold:YES];
+    [self setRelativeTime: [self newLabelWithPrimaryColor:[UIColor whiteColor] selectedColor:[UIColor whiteColor] fontSize:20.0 bold:YES]];
+    [self setRouteNumber:  [self newLabelWithPrimaryColor:[UIColor whiteColor] selectedColor:[UIColor whiteColor] fontSize:18.0 bold:YES]];
+    [self setRouteName:    [self newLabelWithPrimaryColor:[UIColor grayColor] selectedColor:[UIColor whiteColor] fontSize:14.0 bold:NO]];
+    [self setStopName:     [self newLabelWithPrimaryColor:[UIColor whiteColor] selectedColor:[UIColor whiteColor] fontSize:14.0 bold:YES]];
     
-    self.routeName = [self newLabelWithPrimaryColor:[UIColor grayColor] selectedColor:[UIColor whiteColor] fontSize:14.0 bold:NO];
-    self.stopName = [self newLabelWithPrimaryColor:[UIColor whiteColor] selectedColor:[UIColor whiteColor] fontSize:14.0 bold:YES];
-    
-    [self.routeNumber setTextAlignment:UITextAlignmentCenter];
+    [[self routeNumber] setTextAlignment:UITextAlignmentCenter];
 
-    [contentView addSubview:self.relativeTime];
-    [contentView addSubview:self.routeNumber];
-    [contentView addSubview:self.routeName];
-    [contentView addSubview:self.stopName];
+    [contentView addSubview:[self relativeTime]];
+    [contentView addSubview:[self routeNumber]];
+    [contentView addSubview:[self routeName]];
+    [contentView addSubview:[self stopName]];
 
-    [self.routeNumber release];
-    [self.routeName release];
-    [self.relativeTime release];
-    [self.stopName release];
+    [[self routeNumber] release];
+    [[self routeName] release];
+    [[self relativeTime] release];
+    [[self stopName] release];
     
   }
 
@@ -97,56 +98,28 @@
   [super layoutSubviews];
 
   // getting the cell size
-  CGRect contentRect = self.contentView.bounds;
+  CGRect contentRect = [[self contentView] bounds];
 
-  // In this example we will never be editing, but this illustrates the appropriate pattern
-  if (!self.editing) {
+  // get the X pixel spot
+  CGFloat boundsX = contentRect.origin.x;
 
-    // get the X pixel spot
-    CGFloat boundsX = contentRect.origin.x;
-
-    self.routeNumber.frame  = CGRectMake(boundsX +  23, 15, 30,  30);
-    
-    self.stopName.frame     = CGRectMake(boundsX +  75, 10, 180, 30);
-    self.routeName.frame    = CGRectMake(boundsX +  75, 30, 180, 30);
-    
-    self.relativeTime.frame = CGRectMake(boundsX + 255, 17, 35,  30);
-
-  }
+  [[self routeNumber]  setFrame: CGRectMake(boundsX +  23, 15, 30,  30)];
+  [[self stopName]     setFrame: CGRectMake(boundsX +  75, 10, 180, 30)];
+  [[self routeName]    setFrame: CGRectMake(boundsX +  75, 30, 180, 30)];
+  [[self relativeTime] setFrame: CGRectMake(boundsX + 255, 17, 35,  30)];
 }
 
-- (OHAttributedLabel *)newLabelWithPrimaryColor:(UIColor *)primaryColor selectedColor:(UIColor *)selectedColor fontSize:(CGFloat)fontSize bold:(BOOL)bold
-{
-  /*
-     Create and configure a label.
-   */
-
-  UIFont *font;
-  if (bold) {
-    font = [UIFont boldSystemFontOfSize:fontSize];
-  } else {
-    font = [UIFont systemFontOfSize:fontSize];
-  }
-
-  /*
-         Views are drawn most efficiently when they are opaque and do not have a clear background, so set these defaults.  To show selection properly, however, the views need to be transparent (so that the selection color shows through).  This is handled in setSelected:animated:.
-   */
-  OHAttributedLabel *newLabel = [[OHAttributedLabel alloc] initWithFrame:CGRectZero];
-  newLabel.backgroundColor = [UIColor clearColor];
-  newLabel.opaque = YES;
-  newLabel.textColor = primaryColor;
-  newLabel.highlightedTextColor = selectedColor;
-  newLabel.font = font;
-  //newLabel.lineBreakMode = UILineBreakModeTailTruncation;
-
-  return newLabel;
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
   [super setSelected:selected animated:animated];
+}
 
-  // Configure the view for the selected state
+- (void)dealloc {
+  [_routeNumber dealloc];
+  [_routeName dealloc];
+  [_stopName dealloc];
+  [_relativeTime dealloc];
+  
+  [super dealloc];
 }
 
 @end

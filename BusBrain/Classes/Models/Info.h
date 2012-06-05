@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 
 @interface Info : NSObject {
-  NSString *detail;
+  NSString *_detail;
 }
 
 @property (nonatomic, retain) NSString *detail;

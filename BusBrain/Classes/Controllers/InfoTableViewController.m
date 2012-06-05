@@ -184,4 +184,11 @@
   }
 }
 
+- (void)dealloc {
+  [tableView dealloc];
+  [dataArrays dealloc];
+  
+  [super dealloc];
+}
+
 @end
