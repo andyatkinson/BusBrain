@@ -5,6 +5,7 @@
 //  Copyright (c) 2012 Beetle Fight. All rights reserved.
 //
 
+#import "BusLooknFeel.h"
 #import "StopMainCell.h"
 #import "Stop.h"
 #import "StopTime.h"
@@ -55,10 +56,9 @@
   [string setFont:[[self relativeTime] font]];
   [string setTextAlignment:kCTRightTextAlignment lineBreakMode:0];
 
-  UIFont *smallFont = [UIFont boldSystemFontOfSize:12.0];
-  [string setFont:smallFont range:[relativeString rangeOfString:@"h"]];
-  [string setFont:smallFont range:[relativeString rangeOfString:@"m"]];
-  [string setFont:smallFont range:[relativeString rangeOfString:@"s"]];
+  [string setFont:[BusLooknFeel getDetailSmallFont] range:[relativeString rangeOfString:@"h"]];
+  [string setFont:[BusLooknFeel getDetailSmallFont] range:[relativeString rangeOfString:@"m"]];
+  [string setFont:[BusLooknFeel getDetailSmallFont] range:[relativeString rangeOfString:@"s"]];
 
   [[self relativeTime] setAttributedText: string];
   [[self stopName] setText: [stop name]];
@@ -75,10 +75,21 @@
     UIImage *bgImg = [[UIImage imageNamed:@"bg_cell.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
     [self setBackgroundView: [[UIImageView alloc] initWithImage:bgImg]];
 
-    [self setRelativeTime: [self newLabelWithPrimaryColor:[UIColor whiteColor] selectedColor:[UIColor whiteColor] fontSize:20.0 bold:YES]];
-    [self setRouteNumber: [self newLabelWithPrimaryColor:[UIColor whiteColor] selectedColor:[UIColor whiteColor] fontSize:18.0 bold:YES]];
-    [self setRouteDirection: [self newLabelWithPrimaryColor:[UIColor grayColor] selectedColor:[UIColor whiteColor] fontSize:10.0 bold:NO]];
-    [self setStopName: [self newLabelWithPrimaryColor:[UIColor grayColor] selectedColor:[UIColor whiteColor] fontSize:17.0 bold:NO]];
+    [self setRelativeTime  : [self newLabelWithPrimaryColor:[BusLooknFeel getDetailColor] 
+                                              selectedColor:[BusLooknFeel getDetailColor] 
+                                                       font:[BusLooknFeel getDetailFont]]];
+    
+    [self setRouteNumber   : [self newLabelWithPrimaryColor:[BusLooknFeel getDetailColor] 
+                                              selectedColor:[BusLooknFeel getDetailColor] 
+                                                       font:[BusLooknFeel getDetailFont]]];
+    
+    [self setStopName      : [self newLabelWithPrimaryColor:[BusLooknFeel getStopTitleColor] 
+                                              selectedColor:[BusLooknFeel getStopTitleColor] 
+                                                       font:[BusLooknFeel getStopTitleFont]]];
+    
+    [self setRouteDirection: [self newLabelWithPrimaryColor:[BusLooknFeel getRouteDirectionColor] 
+                                              selectedColor:[BusLooknFeel getRouteDirectionColor] 
+                                                       font:[BusLooknFeel getRouteDirectionFont]]];
     
     [[self routeNumber] setTextAlignment:UITextAlignmentCenter];
 
@@ -111,7 +122,7 @@
   [[self routeNumber]    setFrame: CGRectMake(boundsX +  20, 15, 30,  30)];
   [[self routeDirection] setFrame: CGRectMake(boundsX +  10, 32, 60,  20)];
   [[self stopName]       setFrame: CGRectMake(boundsX +  75, 20, 180, 50)];
-  [[self relativeTime]   setFrame: CGRectMake(boundsX + 255, 17, 35,  30)];
+  [[self relativeTime]   setFrame: CGRectMake(boundsX + 255, 18, 35,  30)];
 
 }
 

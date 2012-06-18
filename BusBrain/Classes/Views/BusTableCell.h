@@ -16,10 +16,12 @@
 
 @property (nonatomic) BOOL dataRefreshRequested;
 
-- (void) addShadow:(OHAttributedLabel*) thisLabel;
 - (OHAttributedLabel *)newLabelWithPrimaryColor:(UIColor *)primaryColor 
                                   selectedColor:(UIColor *)selectedColor 
                                        fontSize:(CGFloat)fontSize 
                                            bold:(BOOL)bold;
 
+- (OHAttributedLabel *)newLabelWithPrimaryColor:(UIColor *)primaryColor 
+                                  selectedColor:(UIColor *)selectedColor 
+                                       font:(UIFont *) font;
 @end

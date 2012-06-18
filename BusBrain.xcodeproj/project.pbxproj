@@ -73,6 +73,7 @@
 		526223EF157784B700816859 /* StopMainCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 526223EE157783B100816859 /* StopMainCell.m */; };
 		52685701158D0D07000A99BB /* BusTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 526856FC158D0B75000A99BB /* BusTableCell.m */; };
 		5275A17D158D15190095B382 /* BusTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 5275A17A158D14980095B382 /* BusTable.m */; };
+		5275A195158E64590095B382 /* BusLooknFeel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5275A194158E64060095B382 /* BusLooknFeel.m */; };
 		52C374DC157A93F600B61A47 /* StopLastCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52C374DA157A93E200B61A47 /* StopLastCell.m */; };
 		52DBE6A4158184D400C42C03 /* NearbyStops.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52DBE6A3158184D400C42C03 /* NearbyStops.plist */; };
 		52E627F21586CE4C00ACF885 /* StopSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E627F01586CE4000ACF885 /* StopSearchCell.m */; };
@@ -187,6 +188,8 @@
 		526856FC158D0B75000A99BB /* BusTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BusTableCell.m; sourceTree = "<group>"; };
 		5275A17A158D14980095B382 /* BusTable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BusTable.m; sourceTree = "<group>"; };
 		5275A17B158D14980095B382 /* BusTable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BusTable.h; sourceTree = "<group>"; };
+		5275A193158E64060095B382 /* BusLooknFeel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BusLooknFeel.h; sourceTree = "<group>"; };
+		5275A194158E64060095B382 /* BusLooknFeel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BusLooknFeel.m; sourceTree = "<group>"; };
 		52C374D9157A93E200B61A47 /* StopLastCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StopLastCell.h; sourceTree = "<group>"; };
 		52C374DA157A93E200B61A47 /* StopLastCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopLastCell.m; sourceTree = "<group>"; };
 		52DBE6A3158184D400C42C03 /* NearbyStops.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = NearbyStops.plist; path = Data/NearbyStops.plist; sourceTree = "<group>"; };
@@ -447,8 +450,8 @@
 				A1C637961569C68A004D06D9 /* MBProgressHUD.m */,
 				A1C637BE1569C6C7004D06D9 /* NSString+BeetleFight.h */,
 				A1C637BF1569C6C7004D06D9 /* NSString+BeetleFight.m */,
-				A1C637A41569C68A004D06D9 /* Views */,
 				A1C637941569C68A004D06D9 /* Controllers */,
+				A1C637A41569C68A004D06D9 /* Views */,
 				A1C637971569C68A004D06D9 /* Models */,
 				522CF5BF15763F5E006B1F04 /* 3rd Party */,
 			);
@@ -503,6 +506,8 @@
 		A1C637971569C68A004D06D9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5275A193158E64060095B382 /* BusLooknFeel.h */,
+				5275A194158E64060095B382 /* BusLooknFeel.m */,
 				522CF4AB15740565006B1F04 /* FunnyPhrase.h */,
 				522CF4AC15740565006B1F04 /* FunnyPhrase.m */,
 				522CF4AD15740565006B1F04 /* Info.h */,
@@ -661,6 +666,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5275A195158E64590095B382 /* BusLooknFeel.m in Sources */,
 				5275A17D158D15190095B382 /* BusTable.m in Sources */,
 				52685701158D0D07000A99BB /* BusTableCell.m in Sources */,
 				52E627F515881A9F00ACF885 /* SearchTableViewController.m in Sources */,

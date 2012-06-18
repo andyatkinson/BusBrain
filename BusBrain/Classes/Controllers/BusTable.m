@@ -3,6 +3,7 @@
 //
 //
 #import "BusTable.h"
+#import "BusLooknFeel.h"
 
 @implementation BusTable
 
@@ -40,10 +41,13 @@
   UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0,0,[[self tableView] frame].size.width,30)] autorelease];
 
   UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(10,0,[headerView frame].size.width, [headerView frame].size.height)];
-  [headerLabel setTextAlignment: UITextAlignmentLeft];
-  [headerLabel setTextColor:[UIColor colorWithRed:74/256.0 green:60/256.0 blue:0 alpha:1]];
   [headerLabel setText: [self tableView:tv titleForHeaderInSection:section]];
-  [headerLabel setFont: [UIFont boldSystemFontOfSize:14.0]];
+  [headerLabel setTextAlignment: UITextAlignmentLeft];
+  
+  
+  [headerLabel setFont: [BusLooknFeel getHeaderFont]];
+  [headerLabel setTextColor:[BusLooknFeel getHeaderTextColor]];
+  [headerLabel setShadowColor:[BusLooknFeel getHeaderShadowtColor]];
   [headerLabel setShadowOffset: CGSizeMake(0,1)];
 
   [headerLabel setBackgroundColor: [UIColor clearColor]];

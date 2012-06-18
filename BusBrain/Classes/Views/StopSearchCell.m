@@ -5,6 +5,7 @@
 //  Copyright (c) 2012 Beetle Fight. All rights reserved.
 //
 
+#import "BusLooknFeel.h"
 #import "StopSearchCell.h"
 #import "Stop.h"
 #import "StopTime.h"
@@ -32,9 +33,17 @@
     UIImage *bgImg = [[UIImage imageNamed:@"bg_cell.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
     [self setBackgroundView: [[UIImageView alloc] initWithImage:bgImg]];
 
-    [self setRouteNumber:    [self newLabelWithPrimaryColor:[UIColor whiteColor] selectedColor:[UIColor whiteColor] fontSize:18.0 bold:YES]];
-    [self setRouteDirection: [self newLabelWithPrimaryColor:[UIColor grayColor] selectedColor:[UIColor whiteColor] fontSize:10.0 bold:NO]];
-    [self setStopName:       [self newLabelWithPrimaryColor:[UIColor grayColor] selectedColor:[UIColor whiteColor] fontSize:17.0 bold:NO]];
+    [self setRouteNumber   : [self newLabelWithPrimaryColor:[BusLooknFeel getDetailColor] 
+                                              selectedColor:[BusLooknFeel getDetailColor] 
+                                                       font:[BusLooknFeel getDetailFont]]];
+    
+    [self setStopName      : [self newLabelWithPrimaryColor:[BusLooknFeel getStopTitleColor] 
+                                              selectedColor:[BusLooknFeel getStopTitleColor] 
+                                                       font:[BusLooknFeel getStopTitleFont]]];
+    
+    [self setRouteDirection: [self newLabelWithPrimaryColor:[BusLooknFeel getRouteDirectionColor] 
+                                              selectedColor:[BusLooknFeel getRouteDirectionColor] 
+                                                       font:[BusLooknFeel getRouteDirectionFont]]];
     
     [[self routeNumber] setTextAlignment:UITextAlignmentCenter];
 

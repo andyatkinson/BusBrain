@@ -5,6 +5,7 @@
 //  Copyright (c) 2012 Beetle Fight. All rights reserved.
 //
 
+#import "BusLooknFeel.h"
 #import "StopLastCell.h"
 #import "Stop.h"
 #import "StopTime.h"
@@ -52,10 +53,9 @@
   [string setFont:[[self relativeTime] font]];
   [string setTextAlignment:kCTRightTextAlignment lineBreakMode:0];
 
-  UIFont *smallFont = [UIFont boldSystemFontOfSize:12.0];
-  [string setFont:smallFont range:[relativeString rangeOfString:@"h"]];
-  [string setFont:smallFont range:[relativeString rangeOfString:@"m"]];
-  [string setFont:smallFont range:[relativeString rangeOfString:@"s"]];
+  [string setFont:[BusLooknFeel getDetailSmallFont] range:[relativeString rangeOfString:@"h"]];
+  [string setFont:[BusLooknFeel getDetailSmallFont] range:[relativeString rangeOfString:@"m"]];
+  [string setFont:[BusLooknFeel getDetailSmallFont] range:[relativeString rangeOfString:@"s"]];
 
   [[self relativeTime] setAttributedText: string];
   [[self stopName] setText: [stop name]];
@@ -71,10 +71,23 @@
     UIImage *bgImg = [[UIImage imageNamed:@"bg_cell.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
     [self setBackgroundView: [[UIImageView alloc] initWithImage:bgImg]];
 
-    [self setRelativeTime: [self newLabelWithPrimaryColor:[UIColor whiteColor] selectedColor:[UIColor whiteColor] fontSize:20.0 bold:YES]];
-    [self setRouteNumber:  [self newLabelWithPrimaryColor:[UIColor whiteColor] selectedColor:[UIColor whiteColor] fontSize:18.0 bold:YES]];
-    [self setRouteName:    [self newLabelWithPrimaryColor:[UIColor grayColor] selectedColor:[UIColor whiteColor] fontSize:14.0 bold:NO]];
-    [self setStopName:     [self newLabelWithPrimaryColor:[UIColor whiteColor] selectedColor:[UIColor whiteColor] fontSize:14.0 bold:YES]];
+
+    [self setRouteNumber   : [self newLabelWithPrimaryColor:[BusLooknFeel getDetailColor] 
+                                              selectedColor:[BusLooknFeel getDetailColor] 
+                                                       font:[BusLooknFeel getDetailFont]]];
+    
+    [self setRelativeTime  : [self newLabelWithPrimaryColor:[BusLooknFeel getDetailColor] 
+                                              selectedColor:[BusLooknFeel getDetailColor] 
+                                                       font:[BusLooknFeel getDetailFont]]];
+    
+    [self setStopName      : [self newLabelWithPrimaryColor:[BusLooknFeel getTitleColor] 
+                                              selectedColor:[BusLooknFeel getTitleColor] 
+                                                       font:[BusLooknFeel getTitleFont]]];
+    
+    [self setRouteName     : [self newLabelWithPrimaryColor:[BusLooknFeel getSubTitleColor] 
+                                              selectedColor:[BusLooknFeel getSubTitleColor] 
+                                                       font:[BusLooknFeel getSubTitleFont]]];
+
     
     [[self routeNumber] setTextAlignment:UITextAlignmentCenter];
 

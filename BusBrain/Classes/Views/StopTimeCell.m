@@ -5,6 +5,7 @@
 //  Copyright (c) 2012 Beetle Fight. All rights reserved.
 //
 
+#import "BusLooknFeel.h"
 #import "StopTimeCell.h"
 #import "StopTime.h"
 #import "OHAttributedLabel.h"
@@ -30,9 +31,8 @@
   [string setTextColor:[[self relativeTime] textColor]];
   [string setFont: [[self relativeTime] font]];
 
-  UIFont *smallFont = [UIFont boldSystemFontOfSize:15.0];
-  [string setFont:smallFont range:[relativeString rangeOfString:@"h"]];
-  [string setFont:smallFont range:[relativeString rangeOfString:@"m"]];
+  [string setFont:[BusLooknFeel getUpcomingTitleSmallFont] range:[relativeString rangeOfString:@"h"]];
+  [string setFont:[BusLooknFeel getUpcomingTitleSmallFont] range:[relativeString rangeOfString:@"m"]];
 
   [[self relativeTime] setAttributedText: string];
   [[self scheduleTime] setText: [[stopTime departureTime] hourMinuteFormatted]];
@@ -48,10 +48,17 @@
     [self setBackgroundView: [[UIImageView alloc] initWithImage:bgImg]];
 
     [self setIcon : [[ UIImageView alloc ] init]];
-    [self setRelativeTime : [self newLabelWithPrimaryColor:[UIColor whiteColor] selectedColor:[UIColor whiteColor] fontSize:28.0 bold:YES]];
-    [self setScheduleTime : [self newLabelWithPrimaryColor:[UIColor grayColor] selectedColor:[UIColor whiteColor] fontSize:15.0 bold:NO]];
-    [self setPrice : [self newLabelWithPrimaryColor:[UIColor grayColor] selectedColor:[UIColor whiteColor] fontSize:15.0 bold:NO]];
-
+    
+    [self setRelativeTime  : [self newLabelWithPrimaryColor:[BusLooknFeel getUpcomingTitleColor] 
+                                              selectedColor:[BusLooknFeel getUpcomingTitleColor] 
+                                                       font:[BusLooknFeel getUpcomingTitleBigFont]]];
+    
+    [self setScheduleTime  : [self newLabelWithPrimaryColor:[BusLooknFeel getUpcomingSubTitleColor] 
+                                              selectedColor:[BusLooknFeel getUpcomingSubTitleColor] 
+                                                       font:[BusLooknFeel getUpcomingSubTitleFont]]];
+    [self setPrice         : [self newLabelWithPrimaryColor:[BusLooknFeel getUpcomingSubTitleColor] 
+                                              selectedColor:[BusLooknFeel getUpcomingSubTitleColor] 
+                                                       font:[BusLooknFeel getUpcomingSubTitleFont]]];
 
     [contentView addSubview:[self icon]];
     [contentView addSubview:[self relativeTime]];
@@ -85,7 +92,7 @@
         make the label 20 pixels high
   */
   [[self icon]         setFrame: CGRectMake(boundsX +  10, 18, 20,  20)];
-  [[self relativeTime] setFrame: CGRectMake(boundsX +  40, 12, 200, 50)];
+  [[self relativeTime] setFrame: CGRectMake(boundsX +  40, 10, 200, 50)];
   [[self scheduleTime] setFrame: CGRectMake(boundsX + 185, 23, 80,  50)];
   [[self price]        setFrame: CGRectMake(boundsX + 270, 23, 50,  50)];
 
