@@ -18,6 +18,10 @@
 -(void) showHUD {
   /* Progress HUD overlay START */
   UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+  if(window == nil){
+    return;
+  }
+  
   _HUD = [[MBProgressHUD alloc] initWithWindow:window];
   [window addSubview:_HUD];
   [_HUD setDelegate: self];

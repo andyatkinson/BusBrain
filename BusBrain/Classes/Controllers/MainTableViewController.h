@@ -6,6 +6,8 @@
 #import <CoreLocation/CoreLocation.h>
 #import "BusTable.h"
 
+@protocol BusProgressDelegate;
+
 @interface MainTableViewController : BusTable <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate> {
   NSMutableArray    *_dataArraysForRoutesScreen;
   CLLocation        *_myLocation;
@@ -33,8 +35,17 @@
 @property (nonatomic)         BOOL              dataRefreshRequested;
 @property (nonatomic)         BOOL              cacheLoaded;
 
+- (void) initData:(id <BusProgressDelegate>)delegate;
+- (void) initLocation;
+- (BOOL) isCacheStail;
 - (void) purgeCachedData;
 - (void) loadDataForLocation:(CLLocation *)location;
 - (void) loadStopsForLocation:(CLLocation *)location;
+- (void) downloadCache:(id <BusProgressDelegate>)delegate;
 
+@end
+
+@protocol BusProgressDelegate
+- (void) setProgress:(float) progress;
+- (void) dismiss;
 @end

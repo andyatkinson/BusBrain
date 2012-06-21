@@ -66,7 +66,7 @@
 		522CF54115740F21006B1F04 /* icon_news.png in Resources */ = {isa = PBXBuildFile; fileRef = 522CF50D15740F21006B1F04 /* icon_news.png */; };
 		522CF54215740F21006B1F04 /* icon_news@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 522CF50E15740F21006B1F04 /* icon_news@2x.png */; };
 		522CF54E157410B7006B1F04 /* Routes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 522CF54D157410B7006B1F04 /* Routes.plist */; };
-		522CF5561574175C006B1F04 /* Stops.plist in Resources */ = {isa = PBXBuildFile; fileRef = 522CF5551574175C006B1F04 /* Stops.plist */; };
+		522CF5561574175C006B1F04 /* DefaultStopsDB.plist in Resources */ = {isa = PBXBuildFile; fileRef = 522CF5551574175C006B1F04 /* DefaultStopsDB.plist */; };
 		522CF57715745F63006B1F04 /* NSAttributedString+Attributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF57415745F44006B1F04 /* NSAttributedString+Attributes.m */; };
 		522CF57815745F63006B1F04 /* OHAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF57615745F44006B1F04 /* OHAttributedLabel.m */; };
 		522CF5C115763FEE006B1F04 /* routes.png in Resources */ = {isa = PBXBuildFile; fileRef = 522CF5C015763FEE006B1F04 /* routes.png */; };
@@ -74,6 +74,7 @@
 		52685701158D0D07000A99BB /* BusTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 526856FC158D0B75000A99BB /* BusTableCell.m */; };
 		5275A17D158D15190095B382 /* BusTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 5275A17A158D14980095B382 /* BusTable.m */; };
 		5275A195158E64590095B382 /* BusLooknFeel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5275A194158E64060095B382 /* BusLooknFeel.m */; };
+		5282A38D1593FE7400B258CB /* SpashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5282A38B1593FDD900B258CB /* SpashViewController.m */; };
 		52C374DC157A93F600B61A47 /* StopLastCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52C374DA157A93E200B61A47 /* StopLastCell.m */; };
 		52DBE6A4158184D400C42C03 /* NearbyStops.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52DBE6A3158184D400C42C03 /* NearbyStops.plist */; };
 		52E627F21586CE4C00ACF885 /* StopSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E627F01586CE4000ACF885 /* StopSearchCell.m */; };
@@ -176,12 +177,13 @@
 		522CF50D15740F21006B1F04 /* icon_news.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_news.png; sourceTree = "<group>"; };
 		522CF50E15740F21006B1F04 /* icon_news@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_news@2x.png"; sourceTree = "<group>"; };
 		522CF54D157410B7006B1F04 /* Routes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Routes.plist; path = Data/Routes.plist; sourceTree = "<group>"; };
-		522CF5551574175C006B1F04 /* Stops.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Stops.plist; path = Data/Stops.plist; sourceTree = "<group>"; };
+		522CF5551574175C006B1F04 /* DefaultStopsDB.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = DefaultStopsDB.plist; path = Data/DefaultStopsDB.plist; sourceTree = "<group>"; };
 		522CF57315745F44006B1F04 /* NSAttributedString+Attributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSAttributedString+Attributes.h"; path = "OHAttributedLabel/NSAttributedString+Attributes.h"; sourceTree = "<group>"; };
 		522CF57415745F44006B1F04 /* NSAttributedString+Attributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSAttributedString+Attributes.m"; path = "OHAttributedLabel/NSAttributedString+Attributes.m"; sourceTree = "<group>"; };
 		522CF57515745F44006B1F04 /* OHAttributedLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OHAttributedLabel.h; path = OHAttributedLabel/OHAttributedLabel.h; sourceTree = "<group>"; };
 		522CF57615745F44006B1F04 /* OHAttributedLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = OHAttributedLabel.m; path = OHAttributedLabel/OHAttributedLabel.m; sourceTree = "<group>"; };
 		522CF5C015763FEE006B1F04 /* routes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = routes.png; path = Mockups/routes.png; sourceTree = SOURCE_ROOT; };
+		5248745F159D33DA00DADD72 /* MBProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		526223ED157783B100816859 /* StopMainCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StopMainCell.h; sourceTree = "<group>"; };
 		526223EE157783B100816859 /* StopMainCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopMainCell.m; sourceTree = "<group>"; };
 		526856FB158D0B74000A99BB /* BusTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BusTableCell.h; sourceTree = "<group>"; };
@@ -190,6 +192,8 @@
 		5275A17B158D14980095B382 /* BusTable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BusTable.h; sourceTree = "<group>"; };
 		5275A193158E64060095B382 /* BusLooknFeel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BusLooknFeel.h; sourceTree = "<group>"; };
 		5275A194158E64060095B382 /* BusLooknFeel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BusLooknFeel.m; sourceTree = "<group>"; };
+		5282A38B1593FDD900B258CB /* SpashViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpashViewController.m; sourceTree = "<group>"; };
+		5282A38C1593FDDA00B258CB /* SpashViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpashViewController.h; sourceTree = "<group>"; };
 		52C374D9157A93E200B61A47 /* StopLastCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StopLastCell.h; sourceTree = "<group>"; };
 		52C374DA157A93E200B61A47 /* StopLastCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopLastCell.m; sourceTree = "<group>"; };
 		52DBE6A3158184D400C42C03 /* NearbyStops.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = NearbyStops.plist; path = Data/NearbyStops.plist; sourceTree = "<group>"; };
@@ -224,7 +228,6 @@
 		A1C6378F1569C68A004D06D9 /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFXMLRequestOperation.m; sourceTree = "<group>"; };
 		A1C637901569C68A004D06D9 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
 		A1C637911569C68A004D06D9 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
-		A1C637951569C68A004D06D9 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		A1C637961569C68A004D06D9 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		A1C637981569C68A004D06D9 /* Headsign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Headsign.h; sourceTree = "<group>"; };
 		A1C637991569C68A004D06D9 /* Headsign.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Headsign.m; sourceTree = "<group>"; };
@@ -323,7 +326,7 @@
 			isa = PBXGroup;
 			children = (
 				52DBE6A3158184D400C42C03 /* NearbyStops.plist */,
-				522CF5551574175C006B1F04 /* Stops.plist */,
+				522CF5551574175C006B1F04 /* DefaultStopsDB.plist */,
 				522CF54D157410B7006B1F04 /* Routes.plist */,
 			);
 			name = Data;
@@ -343,12 +346,22 @@
 		522CF5BF15763F5E006B1F04 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				52487455159D292D00DADD72 /* HUD */,
 				A1C6377C1569C68A004D06D9 /* AFNetworking */,
 				522CF4B1157405E7006B1F04 /* EGOTableViewPullRefresh */,
 				522CF57115745F1F006B1F04 /* OHAttributedLabel */,
 				522CF4A4157404F1006B1F04 /* SVSegmentedControl */,
 			);
 			name = "3rd Party";
+			sourceTree = "<group>";
+		};
+		52487455159D292D00DADD72 /* HUD */ = {
+			isa = PBXGroup;
+			children = (
+				5248745F159D33DA00DADD72 /* MBProgressHUD.h */,
+				A1C637961569C68A004D06D9 /* MBProgressHUD.m */,
+			);
+			name = HUD;
 			sourceTree = "<group>";
 		};
 		A15BFA651569C5E8004651B9 = {
@@ -446,8 +459,6 @@
 			children = (
 				522CF4781574032F006B1F04 /* BusBrainAppDelegate.h */,
 				522CF4791574032F006B1F04 /* BusBrainAppDelegate.m */,
-				A1C637951569C68A004D06D9 /* MBProgressHUD.h */,
-				A1C637961569C68A004D06D9 /* MBProgressHUD.m */,
 				A1C637BE1569C6C7004D06D9 /* NSString+BeetleFight.h */,
 				A1C637BF1569C6C7004D06D9 /* NSString+BeetleFight.m */,
 				A1C637941569C68A004D06D9 /* Controllers */,
@@ -489,6 +500,8 @@
 		A1C637941569C68A004D06D9 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				5282A38C1593FDDA00B258CB /* SpashViewController.h */,
+				5282A38B1593FDD900B258CB /* SpashViewController.m */,
 				5275A17B158D14980095B382 /* BusTable.h */,
 				5275A17A158D14980095B382 /* BusTable.m */,
 				522CF49615740461006B1F04 /* MainTableViewController.h */,
@@ -653,7 +666,7 @@
 				522CF54115740F21006B1F04 /* icon_news.png in Resources */,
 				522CF54215740F21006B1F04 /* icon_news@2x.png in Resources */,
 				522CF54E157410B7006B1F04 /* Routes.plist in Resources */,
-				522CF5561574175C006B1F04 /* Stops.plist in Resources */,
+				522CF5561574175C006B1F04 /* DefaultStopsDB.plist in Resources */,
 				522CF5C115763FEE006B1F04 /* routes.png in Resources */,
 				52DBE6A4158184D400C42C03 /* NearbyStops.plist in Resources */,
 			);
@@ -666,6 +679,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5282A38D1593FE7400B258CB /* SpashViewController.m in Sources */,
 				5275A195158E64590095B382 /* BusLooknFeel.m in Sources */,
 				5275A17D158D15190095B382 /* BusTable.m in Sources */,
 				52685701158D0D07000A99BB /* BusTableCell.m in Sources */,

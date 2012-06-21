@@ -14,6 +14,9 @@
 #import "StopTimesTableViewController.h"
 #import "NSString+BeetleFight.h"
 
+#import "TransitAPIClient.h"
+#import "AFJSONRequestOperation.h"
+
 NSString * const kStopSectionID   = @"STOP";
 NSString * const kLastSectionID   = @"LAST";
 
@@ -126,6 +129,27 @@ NSString * const kLastSectionID   = @"LAST";
 
 }
 
+- (BOOL) isCacheStail{
+  NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+
+  int lastCacheStamp = [settings integerForKey:@"lastCacheStamp"];
+  NSDate *lastCacheDate = [NSDate dateWithTimeIntervalSince1970:lastCacheStamp];
+  NSDate *now = [NSDate date];
+
+  NSCalendar *calendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+  NSDateComponents *components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit
+                                             fromDate:lastCacheDate
+                                               toDate:now
+                                              options:0];
+  
+  if(components.day > 0 || components.hour > 20){
+    return true;
+  } else {
+    return false;
+  }
+
+}
+
 - (void) purgeCachedData {
 #ifdef DEBUG_BB
   NSLog(@"Cache Dumped");
@@ -133,22 +157,24 @@ NSString * const kLastSectionID   = @"LAST";
   [self setStopsDB:nil];
 }
 
--(void) cacheStopDB {
+-(void) cacheStopDB:(id <BusProgressDelegate>)delegate {
   [self setCacheLoaded:false];
-#ifdef DEBUG_BB
-  NSLog(@"Cache Started");
-#endif
+
+  //Kick off download of new cache
+  if([self isCacheStail]){
+    [self downloadCache:delegate];
+  }
+  
+  //Load existing cache
   [Stop loadStopsDB:^(NSArray *db) {
     [self setStopsDB:db];
     [self setCacheLoaded:true];
-#ifdef DEBUG_BB
-    NSLog(@"Cache Compelte %d", [db count]);
-#endif
   }];
+  
 }
 
-- (void) initData {
-  [self cacheStopDB];
+- (void) initData:(id <BusProgressDelegate>)delegate {
+  [self cacheStopDB:delegate];
   
   Stop *s1 = [[Stop alloc] initWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:@"Loading...", @"stop_desc", nil]];
   [self setStopsDisplayed:[NSArray arrayWithObjects:s1, nil]];
@@ -198,6 +224,73 @@ NSString * const kLastSectionID   = @"LAST";
   [[self navigationController] pushViewController:target animated:YES];
 }
 
+- (void) downloadCache:(id <BusProgressDelegate>)delegate {
+#ifdef DEBUG_BB
+  NSLog(@"Cache Download Started");
+#endif
+  
+  NSMutableURLRequest *afRequest = [[TransitAPIClient sharedClient]      
+                                    requestWithMethod:@"GET"
+                                    path:@"/bus/v1/stops"  
+                                    parameters:nil]; 
+  
+  AFHTTPRequestOperation *operation = [[TransitAPIClient sharedClient] HTTPRequestOperationWithRequest:afRequest 
+                         success:^(AFHTTPRequestOperation *operation, id JSON) {
+                           NSMutableArray *stopRecords = [NSMutableArray array];
+                           NSMutableArray *dictRecords  = [NSMutableArray array];
+                           for (NSDictionary *attributes in [JSON valueForKeyPath:@"stops"]) {
+                             Stop *stop = [[[Stop alloc] initWithAttributes:attributes] autorelease];
+                             [stopRecords addObject:stop];
+                             [dictRecords addObject:attributes];
+                           }
+#ifdef DEBUG_BB
+  NSLog(@"Cache Download Complete");
+#endif
+                           NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+                           [settings setInteger:[[NSDate date] timeIntervalSince1970] forKey:@"lastCacheStamp"];
+                           
+                           //[self setStopsDB:stopRecords];
+                           [delegate dismiss];
+                           
+                           NSError* error = nil;
+                           NSFileManager *fileMgr = [NSFileManager defaultManager];
+                           NSString *documentsDirectory = [NSHomeDirectory() 
+                                                           stringByAppendingPathComponent:@"Documents"];
+                           NSString *downloadPath = [documentsDirectory 
+                                                 stringByAppendingPathComponent:@"Download.plist"];
+                           
+                           if(![dictRecords writeToFile:downloadPath atomically:NO]) {
+                             NSLog(@"Array wasn't saved properly");
+                           };
+                           
+                           NSString *copyPath = [documentsDirectory 
+                                                     stringByAppendingPathComponent:@"DownloadStops.plist"];
+                           if ([fileMgr removeItemAtPath:copyPath error:&error] != YES) {
+                             NSLog(@"Unable to delete file: %@", [error localizedDescription]);
+                           }
+                           
+                           if(![fileMgr copyItemAtPath:downloadPath 
+                                                toPath:copyPath
+                                                 error:&error]){
+                             NSLog(@"Failed to Copy");
+                             NSLog(@"Error description-%@ \n", [error localizedDescription]);
+                             NSLog(@"Error reason-%@", [error localizedFailureReason]);
+                           }
+                           
+                         } 
+                         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                           NSLog(@"Failed: %@",[error localizedDescription]);     
+                         }];
+  
+  [operation setDownloadProgressBlock:^(NSInteger bytesRead, NSInteger totalBytesRead, NSInteger totalBytesExpectedToRead) {
+    float progress = ((float)((int)totalBytesRead) / (float)((int)totalBytesExpectedToRead));
+    [delegate setProgress:progress];
+  }];
+  
+  [[TransitAPIClient sharedClient] enqueueHTTPRequestOperation:operation];
+  
+}
+
 - (void)viewDidLoad {
   [self setTableView:[[UITableView alloc] initWithFrame:CGRectMake(22, 207, 270, 233)]];
 
@@ -219,10 +312,8 @@ NSString * const kLastSectionID   = @"LAST";
   [[self tableView] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_app.png"]]];
   [self setView:[self tableView]];
 
-  [self initData];
-  [self initPullRefresh];
-  [self initLocation];
   
+  [self initPullRefresh];
   [self setDataRefreshRequested:false];
   [self setRefreshTimer: [NSTimer scheduledTimerWithTimeInterval:1.0
                                                           target:self

@@ -80,11 +80,19 @@
 }
 
 + (void) loadStopsDB:(void (^)(NSArray *records))block {
-  NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Stops" ofType:@"plist"];
-  NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:filepath];
+  NSString *documentsDirectory = [NSHomeDirectory() 
+                                  stringByAppendingPathComponent:@"Documents"];
+  NSString *filepath = [documentsDirectory 
+                            stringByAppendingPathComponent:@"DownloadStopsXXX.plist"];
+  
+  if(! [[NSFileManager defaultManager] fileExistsAtPath:filepath]){
+    filepath = [[NSBundle mainBundle] pathForResource:@"DefaultStopsDB" ofType:@"plist"];
+  }
+  
+  NSArray *stopDictArray = [[NSArray alloc] initWithContentsOfFile:filepath];
   
   NSMutableArray *mutableRecords = [NSMutableArray array];
-  for (NSDictionary *attributes in [[NSArray alloc] initWithArray :[dict objectForKey:@"stops"]]) {
+  for (NSDictionary *attributes in stopDictArray) {
     Stop *stop = [[[Stop alloc] initWithAttributes:attributes] autorelease];
     [mutableRecords addObject:stop];
   }
