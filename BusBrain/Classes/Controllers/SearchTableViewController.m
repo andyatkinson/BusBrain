@@ -47,6 +47,9 @@
 }
 
 - (void)viewDidLoad {
+  UIImage *backButton = [[UIImage imageNamed:@"btn.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+  [[UIBarButtonItem appearance] setBackButtonBackgroundImage:backButton forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+  
   [self setTableView:[[UITableView alloc] initWithFrame:CGRectMake(22, 207, 270, 233)]];
 
   [super viewDidLoad];

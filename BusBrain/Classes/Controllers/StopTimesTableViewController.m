@@ -113,7 +113,9 @@
 
 - (void)viewDidLoad {
 
-  // TODO set the custom background
+  UIImage *backButton = [[UIImage imageNamed:@"btn.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+  [[UIBarButtonItem appearance] setBackButtonBackgroundImage:backButton forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+  
   UIBarButtonItem *backBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:nil action:nil];
   [[self navigationItem] setBackBarButtonItem: backBarButton];
   [backBarButton release];

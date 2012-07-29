@@ -63,6 +63,9 @@
   }
   
   [window makeKeyAndVisible];
+  
+  self.window.rootViewController = tabBarController;
+  
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {

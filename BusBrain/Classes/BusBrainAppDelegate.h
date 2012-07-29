@@ -7,7 +7,7 @@
 //
 
 #import "MainTableViewController.h"
-#define kAppName @"Bus Brain"
+#define kAppName @"bus brain"
 //#define DEBUG_BB 1;
 
 @interface BusBrainAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
