@@ -221,7 +221,7 @@ NSString * const kLastSectionID   = @"LAST";
   [target setStopsDB:[self stopsDB]];
   [target setMyLocation:[self myLocation]];
    
-  [[self navigationController] pushViewController:target animated:YES];
+  [[self navigationController] pushViewController:target animated:NO];
 }
 
 - (void) downloadCache:(id <BusProgressDelegate>)delegate {
