@@ -12,6 +12,8 @@
   NSArray           *_stopsDB;
   NSArray           *_searchArray;
   UISearchBar       *_searchBar;
+  UIView            *_greyView;
+  UILabel           *_message;
   
 }
 
@@ -19,8 +21,9 @@
 @property (nonatomic, retain) NSArray           *stopsDB;
 @property (nonatomic, retain) NSArray           *searchArray;
 @property (nonatomic, retain) UISearchBar       *searchBar;
+@property (nonatomic, retain) UIView            *greyView;
+@property (nonatomic, retain) UILabel           *message;
 
 - (void) performSearch:(NSString*) searchString;
-- (void) toggleSearch:(id)sender;
 
 @end

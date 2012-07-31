@@ -18,21 +18,52 @@
 @synthesize stopsDB     = _stopsDB;
 @synthesize myLocation  = _myLocation;
 @synthesize searchBar   = _searchBar;
+@synthesize greyView    = _greyView;
+@synthesize message     = _message;
+
+- (void)cancelSearch:(UITapGestureRecognizer *)recognizer {
+  //CGPoint location = [recognizer locationInView:[recognizer.view superview]];
+  
+  [[self searchBar] resignFirstResponder];
+  [[self navigationController] popViewControllerAnimated:YES];
+  [[self navigationItem] setHidesBackButton: NO];
+}
 
 - (void) searchBarCancelButtonClicked:(UISearchBar *) searchBar {
-  [self toggleSearch:nil];
-   [searchBar resignFirstResponder];
+  [searchBar resignFirstResponder];
+  [[self navigationController] popViewControllerAnimated:YES];
+  [[self navigationItem] setHidesBackButton: NO];
 }
 
 - (void) searchBarSearchButtonClicked:(UISearchBar *) searchBar {
   [searchBar resignFirstResponder];
 }
 
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
+  
+  searchBar.showsScopeBar = YES;
+  [searchBar sizeToFit];
+  
+  searchBar.showsCancelButton = YES;
+  return YES;
+}
+
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar {
+  
+  searchBar.showsScopeBar = NO;
+  [searchBar sizeToFit];
+  
+  searchBar.showsCancelButton = NO;
+  return YES;
+}
+
 - (void) buildSearchArrayFrom: (NSString *) searchText {
   if ([searchText length] == 0) {
-    [self setSearchArray: [NSArray arrayWithArray:[self stopsDB]]];
+    [self setSearchArray: nil];
+    [[self greyView] setHidden:NO];
   } else {
     [self setSearchArray: [Stop filterStopArray:[self stopsDB] filter:searchText location:[self myLocation]]];
+    [[self greyView] setHidden:YES];
   }
 	
 	[[self tableView] reloadData];
@@ -48,49 +79,13 @@
   [self buildSearchArrayFrom:searchText];
 }
 
-- (void) toggleSearch:(id)sender {
-  // get the height of the search bar
-  float delta = self.searchBar.frame.size.height;
-  // check if toolbar was visible or hidden before the animation
-  BOOL isHidden = [self.searchBar isHidden];
-  
-  // if search bar was visible set delta to negative value so that animation goes up not down
-  if (isHidden){
-    // if search bar was hidden then make it visible before animation begins
-    self.searchBar.hidden = NO;
-  }
-  
-  [UIView animateWithDuration:0.3 delay: 0.0 options: UIViewAnimationOptionCurveEaseIn animations:^{
-
-    CGRect searchFrame = self.searchBar.frame;
-    CGRect tableFrame  = self.tableView.frame;
-    if (isHidden){
-      searchFrame = CGRectOffset(searchFrame, 0.0, delta);
-      tableFrame = CGRectMake(0, CGRectGetMinY(tableFrame) + delta, CGRectGetMaxX(tableFrame), CGRectGetMaxY(tableFrame) );
-    } else {
-      searchFrame = CGRectOffset(searchFrame, 0.0, -delta);
-      tableFrame  = CGRectMake(0, 0, CGRectGetMaxX(tableFrame), CGRectGetMaxY(tableFrame) );
-    }
-    
-    self.searchBar.frame = searchFrame;
-    self.tableView.frame = tableFrame;
-    
-  }
-                   completion:^(BOOL finished){
-                     // on completion if the bar was originally visible then hide it
-                     if (!isHidden){
-                       self.searchBar.hidden = YES;
-                       [self.searchBar resignFirstResponder];
-                     }
-                   }];
-}
-
 
 - (void)viewDidLoad {
+  [super viewDidLoad];
+  
   UIImage *backButton = [[UIImage imageNamed:@"btn.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
   [[UIBarButtonItem appearance] setBackButtonBackgroundImage:backButton forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
   
-  [super viewDidLoad];
 	
   //Setup View
   [self setView:[[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]]];
@@ -103,39 +98,23 @@
 	[search setPlaceholder: @""];
 	[search setAutocorrectionType: UITextAutocorrectionTypeNo];
 	[search setAutocapitalizationType: UITextAutocapitalizationTypeNone];
-  
-  //[search setBarStyle:UIBarStyleBlack];
-  //[search setTranslucent:YES];
+  //[search setShowsCancelButton:YES];
+  [search setTintColor: [UIColor colorWithWhite:0.3 alpha:1.0]];
   
   for (UIView *view in [search subviews]) {
     if ([view isKindOfClass:NSClassFromString(@"UISearchBarBackground")]) {
       [view removeFromSuperview];
-      break;
+    }
+    
+    if ([view isKindOfClass:[UIButton class]]) {
+      [(UIButton *)view setEnabled:YES];
     }
   }
   
-  UITextField *searchField = [[search subviews] lastObject];
-	[searchField setReturnKeyType:UIReturnKeyDone];
-  
-  UIBarButtonItem *searchButton = [[UIBarButtonItem alloc]
-                                   initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
-                                   target:self
-                                   action:@selector(toggleSearch:)];
-  [searchButton setTintColor:[UIColor blackColor]];
-  [[self navigationItem] setRightBarButtonItem:searchButton];
-	//[[self navigationItem] setTitleView: search];
 	[self setSearchBar:search];
   
-  //Hide the search
-  float delta = self.searchBar.frame.size.height;
-  CGRect searchFrame = self.searchBar.frame;
-  searchFrame = CGRectMake(0, -delta, CGRectGetMaxX(searchFrame), delta);
-  self.searchBar.frame = searchFrame;
-  self.searchBar.hidden = YES;
-  
-  [[self view] addSubview:[self searchBar]];
-  
-  
+  [[self navigationItem] setHidesBackButton: YES];
+  [[self navigationItem] setTitleView: [self searchBar]];
   
   //Setup Table View
   [self setTableView:[[UITableView alloc] initWithFrame:[[UIScreen mainScreen] bounds]]];
@@ -146,8 +125,28 @@
   
   [[self view] addSubview:[self tableView]];
   
-  //Toggle the search into view
-  [self toggleSearch:searchButton];
+  
+  
+  [self setGreyView:[[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]]];
+  [self greyView].backgroundColor = [UIColor colorWithRed:(200/255.0) green:(200/255.0) blue:(200/255.0) alpha:0.05f];
+  
+  float messageMargin = 30;
+  [self setMessage: [[UILabel alloc] initWithFrame: CGRectMake(messageMargin, 30, CGRectGetMaxX(self.view.frame) - (2*messageMargin), 30)]];
+  [[self message] setAutoresizesSubviews:NO];
+  [[self message] setBackgroundColor:[UIColor clearColor]];
+  [[self message] setTextColor:[UIColor grayColor]];
+  [[self message] setFont:[UIFont boldSystemFontOfSize:13.0]];
+  
+  [[self message] setText:@"Enter your search term to display stops"];
+  [[self greyView] addSubview:[self message]];
+  
+  UITapGestureRecognizer *singleFingerTap =
+  [[UITapGestureRecognizer alloc] initWithTarget:self
+                                          action:@selector(cancelSearch:)];
+  [[self greyView] addGestureRecognizer:singleFingerTap];
+  
+  
+  [[self view] addSubview:[self greyView]];
 
 }
 
@@ -172,7 +171,13 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @"Search Results";
+  NSString *searchText = [[self searchBar] text];
+  
+  if([searchText length] > 0){
+    return [NSString stringWithFormat:@"Search Results for \"%@\"", searchText];
+  } else {
+    return nil;
+  }
 }
 
 // Customize the appearance of table view cells.
