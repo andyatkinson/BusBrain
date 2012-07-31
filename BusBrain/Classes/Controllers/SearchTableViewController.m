@@ -111,6 +111,9 @@
     }
   }
   
+  UITextField *searchField = [[search subviews] lastObject];
+	[searchField setReturnKeyType:UIReturnKeyDone];
+  
 	[self setSearchBar:search];
   
   [[self navigationItem] setHidesBackButton: YES];
