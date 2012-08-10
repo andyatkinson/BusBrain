@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5222D42A15D4936D007B9ABE /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5222D42915D4936D007B9ABE /* Icon-Small@2x.png */; };
+		5222D42C15D49379007B9ABE /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5222D42B15D49379007B9ABE /* Icon@2x.png */; };
 		522CF47A157403AA006B1F04 /* BusBrainAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF4791574032F006B1F04 /* BusBrainAppDelegate.m */; };
 		522CF48B15740422006B1F04 /* BigDepartureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF47C1574040B006B1F04 /* BigDepartureTableViewCell.m */; };
 		522CF49115740422006B1F04 /* StopTimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF48A1574040B006B1F04 /* StopTimeCell.m */; };
@@ -107,6 +109,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5222D42915D4936D007B9ABE /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
+		5222D42B15D49379007B9ABE /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		522CF4781574032F006B1F04 /* BusBrainAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BusBrainAppDelegate.h; sourceTree = "<group>"; };
 		522CF4791574032F006B1F04 /* BusBrainAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BusBrainAppDelegate.m; sourceTree = "<group>"; };
 		522CF47B1574040B006B1F04 /* BigDepartureTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BigDepartureTableViewCell.h; sourceTree = "<group>"; };
@@ -367,6 +371,8 @@
 		A15BFA651569C5E8004651B9 = {
 			isa = PBXGroup;
 			children = (
+				5222D42B15D49379007B9ABE /* Icon@2x.png */,
+				5222D42915D4936D007B9ABE /* Icon-Small@2x.png */,
 				A1C637771569C68A004D06D9 /* BusBrain */,
 				A15BFA731569C5E8004651B9 /* Frameworks */,
 				A15BFA711569C5E8004651B9 /* Products */,
@@ -669,6 +675,8 @@
 				522CF5561574175C006B1F04 /* DefaultStopsDB.plist in Resources */,
 				522CF5C115763FEE006B1F04 /* routes.png in Resources */,
 				52DBE6A4158184D400C42C03 /* NearbyStops.plist in Resources */,
+				5222D42A15D4936D007B9ABE /* Icon-Small@2x.png in Resources */,
+				5222D42C15D49379007B9ABE /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
