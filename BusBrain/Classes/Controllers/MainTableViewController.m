@@ -221,7 +221,17 @@ NSString * const kLastSectionID   = @"LAST";
   [target setStopsDB:[self stopsDB]];
   [target setMyLocation:[self myLocation]];
    
-  [[self navigationController] pushViewController:target animated:NO];
+  //[[self navigationController] pushViewController:target animated:NO];
+  
+  [UIView beginAnimations:@"View Flip" context:nil];
+  [UIView setAnimationDuration:0.70];
+  [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+  
+  [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromRight forView:self.navigationController.view cache:NO];
+
+  [self.navigationController pushViewController:target animated:YES];
+  [UIView commitAnimations];
+  
 }
 
 - (void) downloadCache:(id <BusProgressDelegate>)delegate {

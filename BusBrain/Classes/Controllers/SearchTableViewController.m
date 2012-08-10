@@ -98,7 +98,6 @@
 	[search setPlaceholder: @""];
 	[search setAutocorrectionType: UITextAutocorrectionTypeNo];
 	[search setAutocapitalizationType: UITextAutocapitalizationTypeNone];
-  //[search setShowsCancelButton:YES];
   [search setTintColor: [UIColor colorWithWhite:0.3 alpha:1.0]];
   
   for (UIView *view in [search subviews]) {
