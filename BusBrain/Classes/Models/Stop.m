@@ -105,7 +105,7 @@
 + (NSArray*) filterStopArray:(NSArray*) stopArray filter:(NSString*) filterString location:(CLLocation *)location {
   NSString *match = [NSString stringWithFormat:@"*%@*", filterString];
   
-  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name like[c] %@", match];
+  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name like[c] %@ or route.number like[c] %@", match, match];
   
   NSMutableArray *resultArray = [NSMutableArray arrayWithArray:stopArray];
   [resultArray filterUsingPredicate:predicate];
@@ -114,6 +114,7 @@
   Stop *stop;
   while (stop = [e nextObject]) {
     [stop setRefLocation:location];
+    //NSLog(@"DEBUG: %@", [[stop route] number]);
   }
   
   NSArray *sortedArray;
