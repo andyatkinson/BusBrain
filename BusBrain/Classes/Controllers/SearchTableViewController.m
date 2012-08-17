@@ -61,12 +61,50 @@
   if ([searchText length] == 0) {
     [self setSearchArray: nil];
     [[self greyView] setHidden:NO];
+    
+    [[self tableView] reloadData];
+    
   } else {
-    [self setSearchArray: [Stop filterStopArray:[self stopsDB] filter:searchText location:[self myLocation]]];
-    [[self greyView] setHidden:YES];
+    
+    [self showHUD];
+    
+    if(_queueSearch == nil){
+      _queueSearch = dispatch_queue_create("busbrain_search", 0);
+    }
+    
+    _pendingSearches++;
+    
+    dispatch_async( _queueSearch, ^{
+      if(_pendingSearches == 1){
+        [self showHUD];
+        
+        NSArray *resultArray;
+        if ([searchText length] < 2) {
+          resultArray = [Stop filterStopArray:[self searchArray] filter:searchText location:[self myLocation]];
+        } else {
+          resultArray = [Stop filterStopArray:[self stopsDB] filter:searchText location:[self myLocation]];
+        }
+        
+        dispatch_async( dispatch_get_main_queue(), ^{
+          // Add code here to update the UI/send notifications based on the
+          // results of the background processing
+          [self setSearchArray: resultArray];
+          
+          [[self tableView] reloadData];
+          
+          [[self greyView] setHidden:YES];
+          [[self HUD] hide:YES];
+          
+        });
+      }
+      
+      _pendingSearches--;
+
+    });
+    
   }
 	
-	[[self tableView] reloadData];
+	
 }
 
 // When the search text changes, update the array
@@ -82,6 +120,8 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  
+  _pendingSearches = 0;
   
   UIImage *backButton = [[UIImage imageNamed:@"btn.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
   [[UIBarButtonItem appearance] setBackButtonBackgroundImage:backButton forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
@@ -149,7 +189,9 @@
   
   
   [[self view] addSubview:[self greyView]];
-
+  
+  
+  [search becomeFirstResponder];
 }
 
 - (void)viewDidAppear {

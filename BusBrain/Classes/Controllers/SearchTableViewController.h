@@ -14,6 +14,8 @@
   UISearchBar       *_searchBar;
   UIView            *_greyView;
   UILabel           *_message;
+  dispatch_queue_t   _queueSearch;
+  int                _pendingSearches;
   
 }
 

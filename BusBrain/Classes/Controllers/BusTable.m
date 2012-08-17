@@ -22,7 +22,10 @@
     return;
   }
   
-  _HUD = [[MBProgressHUD alloc] initWithWindow:window];
+  if(_HUD == nil){
+    _HUD = [[MBProgressHUD alloc] initWithWindow:window];
+  }
+  
   [window addSubview:_HUD];
   [_HUD setDelegate: self];
   [_HUD setLabelText:@"Loading"];
