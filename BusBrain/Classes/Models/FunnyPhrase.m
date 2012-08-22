@@ -2,7 +2,6 @@
 //  FunnyPhrase.m
 //  BusBrain
 //
-//  Created by Aaron Batalion on 4/9/12.
 //  Copyright (c) 2012 Beetle Fight. All rights reserved.
 //
 

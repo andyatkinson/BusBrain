@@ -2,8 +2,7 @@
 //  BusBrainAppDelegate.m
 //  bus brain
 //
-//  Created by Andy Atkinson on 6/22/09.
-//  Copyright Andy Atkinson 2009 http://webandy.com. All rights reserved.
+//  Copyright 2012, Beetle Fight. All rights reserved.
 //
 
 #import "BusBrainAppDelegate.h"

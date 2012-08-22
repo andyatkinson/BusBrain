@@ -3,7 +3,7 @@
 //  bus brain
 //
 //  Created by Andy Atkinson on 6/22/09.
-//  Copyright 2009 Andy Atkinson http://webandy.com. All rights reserved.
+//  Copyright 2012, Beetle Fight. All rights reserved.
 //
 
 #import "MainTableViewController.h"
