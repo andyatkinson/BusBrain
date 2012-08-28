@@ -251,6 +251,7 @@
 		A1C637BF1569C6C7004D06D9 /* NSString+BeetleFight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+BeetleFight.m"; sourceTree = "<group>"; };
 		A1C637C11569C6FD004D06D9 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		A1C637C31569C75F004D06D9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		A1EE5AB215ED134E00B21B1B /* BusBrain.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = BusBrain.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -404,6 +405,7 @@
 		A1C637771569C68A004D06D9 /* BusBrain */ = {
 			isa = PBXGroup;
 			children = (
+				A1EE5AB215ED134E00B21B1B /* BusBrain.entitlements */,
 				522CF54C15741097006B1F04 /* Data */,
 				522CF4D5157407D0006B1F04 /* MainWindow.xib */,
 				A1C637781569C68A004D06D9 /* Assets */,
@@ -790,6 +792,7 @@
 		A15BFA891569C5E8004651B9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = BusBrain/BusBrain.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BusBrain/BusBrain-Prefix.pch";
 				INFOPLIST_FILE = "BusBrain/BusBrain-Info.plist";
@@ -801,6 +804,7 @@
 		A15BFA8A1569C5E8004651B9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = BusBrain/BusBrain.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BusBrain/BusBrain-Prefix.pch";
 				INFOPLIST_FILE = "BusBrain/BusBrain-Info.plist";
