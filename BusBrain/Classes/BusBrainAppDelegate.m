@@ -56,14 +56,12 @@
 
   tabBarController.viewControllers = [NSArray arrayWithObjects:routesController, infoController, nil];
   [window addSubview:tabBarController.view];
-
-  if(splash != nil){
-    [mainTableViewController presentModalViewController:splash animated:NO];
-  }
-  
   [window makeKeyAndVisible];
   
   self.window.rootViewController = tabBarController;
+  if(splash != nil){
+    [mainTableViewController presentModalViewController:splash animated:NO];
+  }
   
 }
 
