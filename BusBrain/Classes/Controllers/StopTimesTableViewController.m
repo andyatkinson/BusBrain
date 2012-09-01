@@ -73,15 +73,15 @@
 - (void)loadStopTimes {
   
 
-  if ([self selectedStop] == NULL || [[[self selectedStop] route] number] == NULL) {
+  if ([self selectedStop] == NULL || [[[self selectedStop] route] route_id] == NULL) {
     NSLog(@"tried to call controller but didn't supply enough data. <selectedStop>: %@", [self selectedStop]);
 
   } else {
 
     [self showHUD];
     
-    [StopTime stopTimesSimple:[[self selectedRoute] number] 
-                         stop:[[self selectedStop] number]
+    [StopTime stopTimesSimple:[[self selectedRoute] route_id]
+                         stop:[[self selectedStop] stop_id]
                          near:nil  
                         block:^(NSArray *stops) {
                           
@@ -97,8 +97,8 @@
        [[self tableView] reloadData];
 
        NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
-       [settings setObject:[[self selectedStop] number] forKey:@"last_stop_id"];
-       [settings setObject:[[self selectedRoute] number] forKey:@"last_route_id"];
+       [settings setObject:[[self selectedStop] stop_id] forKey:@"last_stop_id"];
+       [settings setObject:[[self selectedRoute] route_id] forKey:@"last_route_id"];
        [settings synchronize];
 
        [[self tableView] reloadRowsAtIndexPaths:[[self tableView] indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationFade];
@@ -136,7 +136,7 @@
   [[self tableView] setBackgroundColor: [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_app.png"]]];
 
 
-  [[self navigationItem] setTitle: [[self selectedStop] name]];
+  [[self navigationItem] setTitle: [[self selectedStop] stop_name]];
 
   [self setView: [self tableView]];
 }

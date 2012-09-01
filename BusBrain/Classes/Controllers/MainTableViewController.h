@@ -12,8 +12,7 @@
   NSMutableArray    *_dataArraysForRoutesScreen;
   CLLocation        *_myLocation;
   CLLocationManager *_locationManager;
-  NSArray           *_routes;
-  NSArray           *_stopsDisplayed;
+  NSArray           *_stops;
   NSArray           *_stopsDB;
   NSDictionary      *_lastViewed;
   NSTimer           *_refreshTimer;
@@ -24,8 +23,7 @@
 }
 
 @property (nonatomic, retain) NSMutableArray    *dataArraysForRoutesScreen;
-@property (nonatomic, retain) NSArray           *routes;
-@property (nonatomic, retain) NSArray           *stopsDisplayed;
+@property (nonatomic, retain) NSArray           *stops;
 @property (nonatomic, retain) NSArray           *stopsDB;
 @property (nonatomic, retain) NSDictionary      *lastViewed;
 @property (nonatomic, retain) CLLocation        *myLocation;
@@ -39,8 +37,7 @@
 - (void) initLocation;
 - (BOOL) isCacheStail;
 - (void) purgeCachedData;
-- (void) loadDataForLocation:(CLLocation *)location;
-- (void) loadStopsForLocation:(CLLocation *)location;
+
 - (void) downloadCache:(id <BusProgressDelegate>)delegate;
 
 @end

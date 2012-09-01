@@ -10,28 +10,26 @@
 #import <CoreLocation/CoreLocation.h>
 
 @interface Route : NSObject {
-  NSString *_number;
-  NSString *_longName;
-  NSString *_shortName;
-  NSString *_desc;
-  NSString *_type;
-  NSString *_url;
-  NSString *_iconPath;
+  NSString *_route_id;
+  NSString *_long_name;
+  NSString *_short_name;
+  NSString *_route_desc;
+  NSString *_route_type;
+  NSString *_route_url;
+  NSString *_icon_path;
 }
 
-@property (nonatomic, retain) NSString *number;
-@property (nonatomic, retain) NSString *longName;
-@property (nonatomic, retain) NSString *shortName;
-@property (nonatomic, retain) NSString *desc;
-@property (nonatomic, retain) NSString *type;
-@property (nonatomic, retain) NSString *url;
-@property (nonatomic, retain) NSString *iconPath;
+@property (nonatomic, retain) NSString *route_id;
+@property (nonatomic, retain) NSString *long_name;
+@property (nonatomic, retain) NSString *short_name;
+@property (nonatomic, retain) NSString *route_desc;
+@property (nonatomic, retain) NSString *route_type;
+@property (nonatomic, retain) NSString *route_url;
+@property (nonatomic, retain) NSString *icon_path;
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
+
 + (void) routesFromPlist:(void (^) (NSArray *records))block;
 + (void) routesFromPlist:(CLLocation *)location block:(void (^) (NSArray *records))block;
-+ (void)routesWithURLString:(NSString *)urlString parameters:(NSDictionary *)parameters block:(void (^) (NSArray *records))block;
-+ (void)routesWithNearbyStops:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^) (NSDictionary *data))block;
-+ (void) getRoute:(NSString *)route_id block:(void (^)(NSArray *records))block;
 
 @end

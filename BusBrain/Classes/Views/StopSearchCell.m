@@ -20,9 +20,9 @@
 @synthesize stopName             = _stopName;
 
 - (void) setStop:(Stop*) stop {
-  [[self stopName] setText: [stop name]];
-  [[self routeNumber] setText: [[stop route] shortName]];
-  [[self routeDirection] setText: [stop desc]];
+  [[self stopName] setText: [stop stop_name]];
+  [[self routeNumber] setText: [[stop route] route_id]];
+  [[self routeDirection] setText: [stop stop_desc]];
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier

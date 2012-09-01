@@ -61,9 +61,9 @@
   [string setFont:[BusLooknFeel getDetailSmallFont] range:[relativeString rangeOfString:@"s"]];
 
   [[self relativeTime] setAttributedText: string];
-  [[self stopName] setText: [stop name]];
-  [[self routeNumber] setText: [[stop route] shortName]];
-  [[self routeDirection] setText: [stop desc]];
+  [[self stopName] setText: [stop stop_name]];
+  [[self routeNumber] setText: [[stop route] route_id]];
+  [[self routeDirection] setText: [stop stop_desc]];
 
 }
 

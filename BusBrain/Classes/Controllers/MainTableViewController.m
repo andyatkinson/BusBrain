@@ -22,9 +22,8 @@ NSString * const kLastSectionID   = @"LAST";
 
 @implementation MainTableViewController
 
-@synthesize dataArraysForRoutesScreen = _dataArraysForRoutesScreen; 
-@synthesize routes                    = _routes; 
-@synthesize stopsDisplayed            = _stopsDisplayed; 
+@synthesize dataArraysForRoutesScreen = _dataArraysForRoutesScreen;
+@synthesize stops                     = _stops;
 @synthesize stopsDB                   = _stopsDB; 
 @synthesize lastViewed                = _lastViewed; 
 @synthesize locationManager           = _locationManager; 
@@ -52,7 +51,7 @@ NSString * const kLastSectionID   = @"LAST";
 }
 
 - (void) loadData {
-  [self loadDataForLocation:[self myLocation]];
+  //[self loadDataForLocation:[self myLocation]];
 }
 
 - (void) hideHUD {
@@ -62,54 +61,33 @@ NSString * const kLastSectionID   = @"LAST";
 }
 
 - (void) loadStopsForLocation:(CLLocation *)location {
+  NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
   
-  [Stop nearbyStops:location block:^(NSArray *stopData) {
-    [self setStopsDisplayed:stopData];
+  [Stop loadNearbyStops:@"bus/v1/stops/nearby" near:location parameters:params block:^(NSDictionary *data) {
     
-    NSEnumerator *e = [[self stopsDisplayed] objectEnumerator];
-    Stop *stop;
-    while (stop = [e nextObject]) {
-     [stop loadNextStopTime];
+    if (data == NULL || ![data isKindOfClass:[NSDictionary class]]) {
+      UIView *container = [[[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,400)] autorelease];
+      container.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_app.png"]];
+      UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20,5,self.view.frame.size.width, 50)];
+      label.backgroundColor = [UIColor clearColor];
+      label.textAlignment = UITextAlignmentLeft;
+      label.textColor = [UIColor whiteColor];
+      label.text = @"Error loading data. Please email support.";
+      label.font = [UIFont boldSystemFontOfSize:14.0];
+      [container addSubview:label];
+      self.view = container;
+
+      
+    } else {
+      
+      self.stops = [data objectForKey:@"stops"];
+      [self.tableView reloadData];
+      [self.tableView reloadRowsAtIndexPaths:[self.tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
+
     }
-
-    [[self tableView] reloadData];
-    [[self tableView] reloadRowsAtIndexPaths:[[self tableView] indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationFade];
-
-    [self setFetchCount: [self fetchCount] - 1];
-    [self hideHUD];
-
-    [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:[self tableView]];
-
-   }];
-
+  }];
 }
 
-- (void) loadLastViewedStop {
-  NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
-  NSString *last_route_id = [settings stringForKey: @"last_route_id"];
-  NSString *last_stop_id  = [settings stringForKey: @"last_stop_id"];
-  
-  if (last_route_id != NULL && last_stop_id != NULL) {
-    [Stop getStops:last_route_id stop_id:last_stop_id  block:^(NSArray *data) {
-      
-      if ( [data count] > 0 ){
-        Stop *stop = [data objectAtIndex:0];
-        
-        [stop loadRoute:last_route_id];
-        
-        [[self lastViewed] setValue:stop forKey:@"stop"];
-      }
-      
-      [self setFetchCount: [self fetchCount] - 1];
-      [self hideHUD];
-      
-    }];
-  } else {
-    [self setFetchCount: [self fetchCount] - 1];
-    [self hideHUD];
-  }
-  
-}
 
 - (void) repaintTable {
     if([self dataRefreshRequested]){
@@ -125,7 +103,7 @@ NSString * const kLastSectionID   = @"LAST";
 
   [self setFetchCount: 2];
   [self loadStopsForLocation:location];
-  [self loadLastViewedStop];
+  //[self loadLastViewedStop];
 
 }
 
@@ -177,7 +155,7 @@ NSString * const kLastSectionID   = @"LAST";
   [self cacheStopDB:delegate];
   
   Stop *s1 = [[Stop alloc] initWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:@"Loading...", @"stop_desc", nil]];
-  [self setStopsDisplayed:[NSArray arrayWithObjects:s1, nil]];
+  [self setStops:[NSArray arrayWithObjects:s1, nil]];
 
   
   NSDictionary *lastStopIDDict = [NSDictionary dictionaryWithObject:kLastSectionID forKey:@"id"];
@@ -188,7 +166,7 @@ NSString * const kLastSectionID   = @"LAST";
   [[self dataArraysForRoutesScreen] addObject:stopsDict];
   [[self dataArraysForRoutesScreen] addObject:lastStopIDDict];
   
-  [self setLastViewed:[[NSMutableDictionary alloc] init]];
+  //[self setLastViewed:[[NSMutableDictionary alloc] init]];
 
 }
 
@@ -363,7 +341,7 @@ NSString * const kLastSectionID   = @"LAST";
     }
 
   } else if ([id isEqualToString:kStopSectionID]) {
-    return [[self stopsDisplayed] count];
+    return [[self stops] count];
   } else {
     return 0;
   }
@@ -416,7 +394,7 @@ NSString * const kLastSectionID   = @"LAST";
 
   } else if ( [id isEqualToString:kStopSectionID] )  {
 
-    Stop *stop = (Stop *)[[self stopsDisplayed] objectAtIndex:[indexPath row]];
+    Stop *stop = (Stop *)[[self stops] objectAtIndex:[indexPath row]];
     
       static NSString *CellIdentifier = @"StopCell";
       StopMainCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -450,16 +428,16 @@ NSString * const kLastSectionID   = @"LAST";
     Stop *stop = (Stop *)[[self lastViewed] valueForKey:@"stop"];
     StopTimesTableViewController *target = [[StopTimesTableViewController alloc] init];
     [target setSelectedStop:stop];
-    [target setSelectedRoute:[stop route]];
+    //[target setSelectedRoute:[stop route]];
     
     [[self navigationController] pushViewController:target animated:YES];
 
   } else if ( [id isEqualToString:kStopSectionID] )  {
 
-    Stop *stop = (Stop *)[[self stopsDisplayed] objectAtIndex:[indexPath row]];
+    Stop *stop = (Stop *)[[self stops] objectAtIndex:[indexPath row]];
     StopTimesTableViewController *target = [[StopTimesTableViewController alloc] init];
     [target setSelectedStop:stop];
-    [target setSelectedRoute:[stop route]];
+    //[target setSelectedRoute:[stop route]];
 
     [[self navigationController] pushViewController:target animated:YES];
   }
@@ -492,8 +470,7 @@ NSString * const kLastSectionID   = @"LAST";
 - (void) dealloc {
 
   [_stopsDB dealloc];
-  [_stopsDisplayed dealloc];
-  [_routes dealloc];
+  [_stops dealloc];
   [_lastViewed dealloc];
   [_myLocation dealloc];
   [_dataArraysForRoutesScreen dealloc];

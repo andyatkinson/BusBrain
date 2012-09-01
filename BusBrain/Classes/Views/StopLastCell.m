@@ -58,10 +58,10 @@
   [string setFont:[BusLooknFeel getDetailSmallFont] range:[relativeString rangeOfString:@"s"]];
 
   [[self relativeTime] setAttributedText: string];
-  [[self stopName] setText: [stop name]];
+  [[self stopName] setText: [stop stop_name]];
   
-  [[self routeNumber] setText: [[stop route] shortName]];
-  [[self routeName] setText: [[stop route] longName]];
+  [[self routeNumber] setText: [[stop route] route_id]];
+  [[self routeName] setText: [[stop route] long_name]];
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
