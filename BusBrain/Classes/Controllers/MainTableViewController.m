@@ -63,6 +63,7 @@ NSString * const kLastSectionID   = @"LAST";
 - (void) loadStopsForLocation:(CLLocation *)location {
   NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
   
+  NSLog(@"DEBUG - Location: %f, %f", location.coordinate.latitude, location.coordinate.longitude);
   [Stop loadNearbyStops:@"bus/v1/stops/nearby" near:location parameters:params block:^(NSDictionary *data) {
     
     if (data == NULL || ![data isKindOfClass:[NSDictionary class]]) {
@@ -85,6 +86,9 @@ NSString * const kLastSectionID   = @"LAST";
       [self.tableView reloadRowsAtIndexPaths:[self.tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
 
     }
+    
+   [self setFetchCount: [self fetchCount] - 1];
+   [self hideHUD];
   }];
 }
 
@@ -101,7 +105,10 @@ NSString * const kLastSectionID   = @"LAST";
 - (void) loadDataForLocation:(CLLocation *)location {
   [self showHUD];
 
-  [self setFetchCount: 2];
+  //Since we are kicking off multiple requests that could come back in a different order
+  //We need to keep track of it and each caller needs to decreemnt the fetchCount and
+  //call hideHUD
+  [self setFetchCount: 1];
   [self loadStopsForLocation:location];
   //[self loadLastViewedStop];
 
@@ -171,27 +178,36 @@ NSString * const kLastSectionID   = @"LAST";
 }
 
 - (void) initLocation {
+  
   if( [self myLocation] == NULL) {
     CLLocation *mpls = [[CLLocation alloc] initWithLatitude:44.949651 longitude:-93.242223];
-
-    if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized) {
-      [self setMyLocation: mpls];
-      [self loadDataForLocation:[self myLocation]];
+    if ([CLLocationManager locationServicesEnabled]) {
+      [self setLocationManager:[[CLLocationManager alloc] init]];
+      [[self locationManager] setDelegate:self];
+      [[self locationManager] setDistanceFilter:kCLDistanceFilterNone];
+      [[self locationManager] setDesiredAccuracy:kCLLocationAccuracyNearestTenMeters];
+      [[self locationManager] startUpdatingLocation];
+      
     } else {
-      if([CLLocationManager locationServicesEnabled]) {
-        [self setLocationManager:[[CLLocationManager alloc] init]];
-        [[self locationManager] setDelegate:self];
-        [[self locationManager] setDistanceFilter:kCLDistanceFilterNone];
-        [[self locationManager] setDesiredAccuracy:kCLLocationAccuracyNearestTenMeters];
-        [[self locationManager] startUpdatingLocation];
-      } else {
-        [self setMyLocation: mpls];
+      
+      [self setMyLocation:mpls];
+      UIAlertView *alert = [[UIAlertView alloc]
+                            initWithTitle: @"Location Services Unavailable"
+                            message: @"\n\nLocation Services are not available. A pre-set location will be used. Distances will not be accurate."
+                            delegate: nil
+                            cancelButtonTitle:@"OK"
+                            otherButtonTitles:nil];
+      [alert show];
+      [alert release];
+      
+      UIApplication* app = [UIApplication sharedApplication];
+      UIApplicationState state = [app applicationState];
+      if (state == UIApplicationStateActive) {
         [self loadDataForLocation:[self myLocation]];
       }
     }
-  } else {
-    [self loadDataForLocation:[self myLocation]];
   }
+  
 }
 
 - (void) openSearch:(id)sender {
