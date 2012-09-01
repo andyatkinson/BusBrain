@@ -93,7 +93,7 @@
 + (NSArray*) filterStopArray:(NSArray*) stopArray filter:(NSString*) filterString location:(CLLocation *)location {
   NSString *match = [NSString stringWithFormat:@"*%@*", filterString];
   
-  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name like[c] %@ or route.route_id like[c] %@", match, match];
+  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"stop_name like[c] %@ or route.route_id like[c] %@", match, match];
   
   NSMutableArray *resultArray = [NSMutableArray arrayWithArray:stopArray];
   [resultArray filterUsingPredicate:predicate];
