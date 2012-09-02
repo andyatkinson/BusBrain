@@ -51,7 +51,8 @@ NSString * const kLastSectionID   = @"LAST";
 }
 
 - (void) loadData {
-  //[self loadDataForLocation:[self myLocation]];
+  //This code fetches the Next stop times after a pull to refresh, Don't comment it out
+  [self loadDataForLocation:[self myLocation]];
 }
 
 - (void) hideHUD {
