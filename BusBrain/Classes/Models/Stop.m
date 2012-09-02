@@ -38,8 +38,7 @@
   //self.headsign.headsign_key = [attributes valueForKeyPath:@"headsign_key"];
   //self.headsign.headsign_name = [attributes valueForKeyPath:@"headsign_name"];
   
-  self.route = [[Route alloc] init];
-  self.route.route_id = [attributes valueForKeyPath:@"route_id"];
+  [self setRoute: [[Route alloc] initWithAttributes:(NSDictionary*)[attributes objectForKey:@"route"]]];
   
   return self;
 }
