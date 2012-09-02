@@ -62,8 +62,17 @@
 
   [[self relativeTime] setAttributedText: string];
   [[self stopName] setText: [stop stop_name]];
-  [[self routeNumber] setText: [[stop route] route_id]];
-  [[self routeDirection] setText: [stop stop_desc]];
+  
+  if([[stop route] short_name] == nil){
+    [[self routeNumber] setText:@"NA"];
+  } else {
+    [[self routeNumber] setText: [[stop route] short_name]];
+  }
+  if([stop stop_desc] == nil){
+    [[self routeDirection] setText: @"------------"];
+  } else {
+    [[self routeDirection] setText: [stop stop_desc]];
+  }
 
 }
 

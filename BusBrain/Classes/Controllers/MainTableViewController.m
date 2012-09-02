@@ -422,7 +422,7 @@ NSString * const kLastSectionID   = @"LAST";
       }
       
       [cell setStop: stop];
-      
+    
       if ( [cell dataRefreshRequested] ) {
         [stop loadNextStopTime];
         [cell setDataRefreshRequested:false];
