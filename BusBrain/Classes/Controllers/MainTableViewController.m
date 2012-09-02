@@ -62,8 +62,11 @@ NSString * const kLastSectionID   = @"LAST";
 
 - (void) loadStopsForLocation:(CLLocation *)location {
   NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-  
-  NSLog(@"DEBUG - Location: %f, %f", location.coordinate.latitude, location.coordinate.longitude);
+  if (location) {
+		[params setValue:[NSString stringWithFormat:@"%1.7f", location.coordinate.latitude] forKey:@"lat"];
+		[params setValue:[NSString stringWithFormat:@"%1.7f", location.coordinate.longitude] forKey:@"lon"];
+	}
+
   [Stop loadNearbyStops:@"bus/v1/stops/nearby" near:location parameters:params block:^(NSDictionary *data) {
     
     if (data == NULL || ![data isKindOfClass:[NSDictionary class]]) {
