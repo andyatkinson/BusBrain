@@ -40,6 +40,12 @@
   
   [self setRoute: [[Route alloc] initWithAttributes:(NSDictionary*)[attributes objectForKey:@"route"]]];
   
+  //This is a hack to deal with the fact that the API does not return the required stucture
+  NSString* route_id = [attributes valueForKeyPath:@"route_id"];
+  if(route_id != nil){
+    [[self route] setRoute_id:route_id];
+  }
+  
   return self;
 }
 
@@ -54,6 +60,7 @@
 }
 
 - (void) loadNextStopTime {
+  NSLog(@"Load next stop time for Route: %@, Stop, %@", [[self route ] route_id] , [self stop_id] );
   [StopTime stopTimesSimple:[[self route ] route_id]  stop:[self stop_id] near:nil  block:^(NSArray *stops) {
 
       if ([stops count] > 0) {
@@ -118,6 +125,7 @@
   [[TransitAPIClient sharedClient] getPath:urlString parameters:mutableParameters success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
     for (NSDictionary *attributes in [JSON valueForKeyPath:@"stops"]) {
       Stop *stop = [[[Stop alloc] initWithAttributes:attributes] autorelease];
+      
       [stops addObject:stop];
     }
     
