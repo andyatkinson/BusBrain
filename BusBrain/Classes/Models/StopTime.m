@@ -9,7 +9,6 @@
 #import "BusBrainAppDelegate.h"
 #import "StopTime.h"
 #import "TransitAPIClient.h"
-#import "TimeEntry.h"
 #import "NSString+BeetleFight.h"
 
 @implementation StopTime
@@ -20,7 +19,6 @@
 @synthesize pickupType          = _pickupType;
 @synthesize price               = _price;
 @synthesize headsign            = _headsign;
-@synthesize headsignKey         = _headsignKey;
 @synthesize departureTimeHour   = _departureTimeHour;
 @synthesize departureTimeMinute = _departureTimeMinute;
 
@@ -36,7 +34,6 @@
   [self setPickupType: [attributes valueForKeyPath:@"pickup_type"]];
   [self setPrice: [attributes valueForKeyPath:@"price"]];
   [self setHeadsign: [attributes valueForKey:@"headsign"]];
-  [self setHeadsignKey: [attributes valueForKey:@"headsign_key"]];
   [self setDepartureTimeHour: [[self departureTime] hourFromDepartureString]];
   [self setDepartureTimeMinute: [[self departureTime] minuteFromDepartureString]];
 

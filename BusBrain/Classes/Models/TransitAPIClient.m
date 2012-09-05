@@ -9,8 +9,8 @@
 #import "AFJSONRequestOperation.h"
 
 NSString * const kTransitAPIClientID = @"94adbe66804dbf92e7290de08334d5d0";
-//NSString * const kTransitAPIBaseURLString = @"http://api.beetlefight.com";
-NSString * const kTransitAPIBaseURLString = @"http://localhost:3000";
+NSString * const kTransitAPIBaseURLString = @"http://api.beetlefight.com";
+//NSString * const kTransitAPIBaseURLString = @"http://localhost:3000";
 
 @implementation TransitAPIClient
 

@@ -87,6 +87,13 @@ NSString * const kLastSectionID   = @"LAST";
     } else {
       
       self.stops = [data objectForKey:@"stops"];
+      self.lastViewed = [data objectForKey:@"last_viewed"];
+      
+      NSLog(@"stops: %@", self.stops);
+      NSLog(@"last viewed: %@", self.lastViewed);
+      
+      // AA: John- you can delete this, just needed it for testing
+      [self hideHUD];
       
       //This block of code is needed to fetch the next stop time to be displayed
 //      NSEnumerator *e = [self.stops objectEnumerator];
@@ -121,7 +128,10 @@ NSString * const kLastSectionID   = @"LAST";
   //Since we are kicking off multiple requests that could come back in a different order
   //We need to keep track of it and each caller needs to decreemnt the fetchCount and
   //call hideHUD
-  [self setFetchCount: 1];
+  
+  // ANDY: I don't understand this, and am disabling trying to debug multiple requests being sent
+  //[self setFetchCount: 1];
+  
   [self loadStopsForLocation:location];
   //[self loadLastViewedStop];
 
@@ -406,7 +416,7 @@ NSString * const kLastSectionID   = @"LAST";
     Stop *stop = (Stop *)[[self lastViewed] valueForKey:@"stop"];
     [cell setStop: stop];
     if ( [cell dataRefreshRequested] ) {
-      [stop loadNextStopTime];
+      //[stop loadNextStopTime];
       [cell setDataRefreshRequested:false];
     }
     [cell setAccessoryView: [[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];
@@ -428,7 +438,7 @@ NSString * const kLastSectionID   = @"LAST";
       [cell setStop: stop];
     
       if ( [cell dataRefreshRequested] ) {
-        [stop loadNextStopTime];
+        //[stop loadNextStopTime];
         [cell setDataRefreshRequested:false];
       }
       [cell setAccessoryView:[[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];

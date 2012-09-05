@@ -9,8 +9,8 @@
 
 @implementation Headsign
 
-@synthesize headsignKey        = _headsignKey;
-@synthesize headsignPublicName = _headsignPublicName;
+@synthesize headsign_key        = _headsign_key;
+@synthesize headsign_name = _headsign_name;
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
   self = [super init];
@@ -18,15 +18,15 @@
     return nil;
   }
 
-  [self setHeadsignKey: [attributes valueForKeyPath:@"headsign_key"]];
-  [self setHeadsignPublicName: [attributes valueForKeyPath:@"headsign_public_name"]];
+  [self setHeadsign_key: [attributes valueForKeyPath:@"headsign_key"]];
+  [self setHeadsignPublicName: [attributes valueForKeyPath:@"headsign_name"]];
 
   return self;
 }
 
 - (void)dealloc {
-  [_headsignKey dealloc];
-  [_headsignPublicName dealloc];
+  [_headsign_key dealloc];
+  [_headsign_name dealloc];
   
   [super dealloc];
 }

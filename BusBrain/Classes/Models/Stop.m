@@ -34,9 +34,8 @@
   }
   
   self.headsign = [[Headsign alloc] init];
-  // TODO probaby need to send back as headsign_name and not key for BB API
   //self.headsign.headsign_key = [attributes valueForKeyPath:@"headsign_key"];
-  //self.headsign.headsign_name = [attributes valueForKeyPath:@"headsign_name"];
+  self.headsign.headsign_name = [attributes valueForKeyPath:@"headsign_name"];
   
   self.route = [[Route alloc] init];
   self.route.route_id = [attributes valueForKeyPath:@"route_id"];
@@ -137,7 +136,6 @@
     }
     
     [data setObject:stops forKey:@"stops"];
-    
     
     if (block) {
       block([NSDictionary dictionaryWithDictionary:data]);

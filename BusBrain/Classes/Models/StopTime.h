@@ -16,7 +16,6 @@
   NSString *_pickupType;
   NSString *_price;
   NSString *_headsign;
-  NSString *_headsignKey;
   int _departureTimeHour;
   int _departureTimeMinute;
 }
@@ -27,7 +26,6 @@
 @property (nonatomic, retain) NSString *pickupType;
 @property (nonatomic, retain) NSString *price;
 @property (nonatomic, retain) NSString *headsign;
-@property (nonatomic, retain) NSString *headsignKey;
 @property (nonatomic, assign) int departureTimeHour;
 @property (nonatomic, assign) int departureTimeMinute;
 

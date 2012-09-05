@@ -97,7 +97,6 @@
 		A1C637B71569C68A004D06D9 /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6379B1569C68A004D06D9 /* Route.m */; };
 		A1C637B81569C68A004D06D9 /* Stop.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6379D1569C68A004D06D9 /* Stop.m */; };
 		A1C637B91569C68A004D06D9 /* StopTime.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6379F1569C68A004D06D9 /* StopTime.m */; };
-		A1C637BA1569C68A004D06D9 /* TimeEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C637A11569C68A004D06D9 /* TimeEntry.m */; };
 		A1C637BB1569C68A004D06D9 /* TransitAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C637A31569C68A004D06D9 /* TransitAPIClient.m */; };
 		A1C637BC1569C68A004D06D9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A1C637A51569C68A004D06D9 /* InfoPlist.strings */; };
 		A1C637BD1569C68A004D06D9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C637A71569C68A004D06D9 /* main.m */; };
@@ -237,8 +236,6 @@
 		A1C6379D1569C68A004D06D9 /* Stop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stop.m; sourceTree = "<group>"; };
 		A1C6379E1569C68A004D06D9 /* StopTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopTime.h; sourceTree = "<group>"; };
 		A1C6379F1569C68A004D06D9 /* StopTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopTime.m; sourceTree = "<group>"; };
-		A1C637A01569C68A004D06D9 /* TimeEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeEntry.h; sourceTree = "<group>"; };
-		A1C637A11569C68A004D06D9 /* TimeEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeEntry.m; sourceTree = "<group>"; };
 		A1C637A21569C68A004D06D9 /* TransitAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitAPIClient.h; sourceTree = "<group>"; };
 		A1C637A31569C68A004D06D9 /* TransitAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransitAPIClient.m; sourceTree = "<group>"; };
 		A1C637A61569C68A004D06D9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -535,8 +532,6 @@
 				A1C6379D1569C68A004D06D9 /* Stop.m */,
 				A1C6379E1569C68A004D06D9 /* StopTime.h */,
 				A1C6379F1569C68A004D06D9 /* StopTime.m */,
-				A1C637A01569C68A004D06D9 /* TimeEntry.h */,
-				A1C637A11569C68A004D06D9 /* TimeEntry.m */,
 				A1C637A21569C68A004D06D9 /* TransitAPIClient.h */,
 				A1C637A31569C68A004D06D9 /* TransitAPIClient.m */,
 			);
@@ -714,7 +709,6 @@
 				A1C637B71569C68A004D06D9 /* Route.m in Sources */,
 				A1C637B81569C68A004D06D9 /* Stop.m in Sources */,
 				A1C637B91569C68A004D06D9 /* StopTime.m in Sources */,
-				A1C637BA1569C68A004D06D9 /* TimeEntry.m in Sources */,
 				A1C637BB1569C68A004D06D9 /* TransitAPIClient.m in Sources */,
 				A1C637BD1569C68A004D06D9 /* main.m in Sources */,
 				A1C637C01569C6C7004D06D9 /* NSString+BeetleFight.m in Sources */,

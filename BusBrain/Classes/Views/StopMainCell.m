@@ -7,8 +7,6 @@
 
 #import "BusLooknFeel.h"
 #import "StopMainCell.h"
-#import "Stop.h"
-#import "StopTime.h"
 #import "OHAttributedLabel.h"
 #import "NSAttributedString+Attributes.h"
 #import "NSString+BeetleFight.h"
@@ -16,7 +14,6 @@
 @implementation StopMainCell
 
 @synthesize routeNumber          = _routeNumber;
-@synthesize routeDirection       = _routeDirection;
 @synthesize relativeTime         = _relativeTime;
 @synthesize stopName             = _stopName;
 
@@ -68,11 +65,6 @@
   } else {
     [[self routeNumber] setText: [[stop route] short_name]];
   }
-  if([stop stop_desc] == nil){
-    [[self routeDirection] setText: @"------------"];
-  } else {
-    [[self routeDirection] setText: [stop stop_desc]];
-  }
 
 }
 
@@ -96,19 +88,13 @@
                                               selectedColor:[BusLooknFeel getStopTitleColor] 
                                                        font:[BusLooknFeel getStopTitleFont]]];
     
-    [self setRouteDirection: [self newLabelWithPrimaryColor:[BusLooknFeel getRouteDirectionColor] 
-                                              selectedColor:[BusLooknFeel getRouteDirectionColor] 
-                                                       font:[BusLooknFeel getRouteDirectionFont]]];
-    
     [[self routeNumber] setTextAlignment:UITextAlignmentCenter];
 
     [contentView addSubview:[self relativeTime]];
     [contentView addSubview:[self routeNumber]];
-    [contentView addSubview:[self routeDirection]];
     [contentView addSubview:[self stopName]];
 
     [[self routeNumber] release];
-    [[self routeDirection] release];
     [[self relativeTime] release];
     [[self stopName] release];
     
@@ -129,7 +115,6 @@
   CGFloat boundsX = contentRect.origin.x;
 
   [[self routeNumber]    setFrame: CGRectMake(boundsX +  20, 15, 30,  30)];
-  [[self routeDirection] setFrame: CGRectMake(boundsX +  10, 32, 60,  20)];
   [[self stopName]       setFrame: CGRectMake(boundsX +  75, 20, 180, 50)];
   [[self relativeTime]   setFrame: CGRectMake(boundsX + 255, 18, 35,  30)];
 
@@ -143,7 +128,6 @@
 
 - (void)dealloc {
   [_routeNumber dealloc];
-  [_routeDirection dealloc];
   [_stopName dealloc];
   [_relativeTime dealloc];
   
