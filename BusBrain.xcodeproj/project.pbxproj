@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5216AEAB15F6CF39005DF9B2 /* DefaultStopsDB.json in Resources */ = {isa = PBXBuildFile; fileRef = 5216AEA815F6CF39005DF9B2 /* DefaultStopsDB.json */; };
+		5216AEAC15F6CF39005DF9B2 /* NearbyStops.json in Resources */ = {isa = PBXBuildFile; fileRef = 5216AEA915F6CF39005DF9B2 /* NearbyStops.json */; };
+		5216AEAD15F6CF39005DF9B2 /* Routes.json in Resources */ = {isa = PBXBuildFile; fileRef = 5216AEAA15F6CF39005DF9B2 /* Routes.json */; };
 		5222D42A15D4936D007B9ABE /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5222D42915D4936D007B9ABE /* Icon-Small@2x.png */; };
 		5222D42C15D49379007B9ABE /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5222D42B15D49379007B9ABE /* Icon@2x.png */; };
 		522CF47A157403AA006B1F04 /* BusBrainAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF4791574032F006B1F04 /* BusBrainAppDelegate.m */; };
@@ -67,8 +70,6 @@
 		522CF53E15740F21006B1F04 /* icon_clock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 522CF50A15740F21006B1F04 /* icon_clock@2x.png */; };
 		522CF54115740F21006B1F04 /* icon_news.png in Resources */ = {isa = PBXBuildFile; fileRef = 522CF50D15740F21006B1F04 /* icon_news.png */; };
 		522CF54215740F21006B1F04 /* icon_news@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 522CF50E15740F21006B1F04 /* icon_news@2x.png */; };
-		522CF54E157410B7006B1F04 /* Routes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 522CF54D157410B7006B1F04 /* Routes.plist */; };
-		522CF5561574175C006B1F04 /* DefaultStopsDB.plist in Resources */ = {isa = PBXBuildFile; fileRef = 522CF5551574175C006B1F04 /* DefaultStopsDB.plist */; };
 		522CF57715745F63006B1F04 /* NSAttributedString+Attributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF57415745F44006B1F04 /* NSAttributedString+Attributes.m */; };
 		522CF57815745F63006B1F04 /* OHAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF57615745F44006B1F04 /* OHAttributedLabel.m */; };
 		522CF5C115763FEE006B1F04 /* routes.png in Resources */ = {isa = PBXBuildFile; fileRef = 522CF5C015763FEE006B1F04 /* routes.png */; };
@@ -78,7 +79,6 @@
 		5275A195158E64590095B382 /* BusLooknFeel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5275A194158E64060095B382 /* BusLooknFeel.m */; };
 		5282A38D1593FE7400B258CB /* SpashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5282A38B1593FDD900B258CB /* SpashViewController.m */; };
 		52C374DC157A93F600B61A47 /* StopLastCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52C374DA157A93E200B61A47 /* StopLastCell.m */; };
-		52DBE6A4158184D400C42C03 /* NearbyStops.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52DBE6A3158184D400C42C03 /* NearbyStops.plist */; };
 		52E627F21586CE4C00ACF885 /* StopSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E627F01586CE4000ACF885 /* StopSearchCell.m */; };
 		52E627F515881A9F00ACF885 /* SearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E627F3158819B400ACF885 /* SearchTableViewController.m */; };
 		A15BFA751569C5E8004651B9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15BFA741569C5E8004651B9 /* UIKit.framework */; };
@@ -109,6 +109,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5216AEA815F6CF39005DF9B2 /* DefaultStopsDB.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = DefaultStopsDB.json; path = Data/DefaultStopsDB.json; sourceTree = "<group>"; };
+		5216AEA915F6CF39005DF9B2 /* NearbyStops.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = NearbyStops.json; path = Data/NearbyStops.json; sourceTree = "<group>"; };
+		5216AEAA15F6CF39005DF9B2 /* Routes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Routes.json; path = Data/Routes.json; sourceTree = "<group>"; };
 		5222D42915D4936D007B9ABE /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		5222D42B15D49379007B9ABE /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		522CF4781574032F006B1F04 /* BusBrainAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BusBrainAppDelegate.h; sourceTree = "<group>"; };
@@ -180,8 +183,6 @@
 		522CF50A15740F21006B1F04 /* icon_clock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_clock@2x.png"; sourceTree = "<group>"; };
 		522CF50D15740F21006B1F04 /* icon_news.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_news.png; sourceTree = "<group>"; };
 		522CF50E15740F21006B1F04 /* icon_news@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_news@2x.png"; sourceTree = "<group>"; };
-		522CF54D157410B7006B1F04 /* Routes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Routes.plist; path = Data/Routes.plist; sourceTree = "<group>"; };
-		522CF5551574175C006B1F04 /* DefaultStopsDB.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = DefaultStopsDB.plist; path = Data/DefaultStopsDB.plist; sourceTree = "<group>"; };
 		522CF57315745F44006B1F04 /* NSAttributedString+Attributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSAttributedString+Attributes.h"; path = "OHAttributedLabel/NSAttributedString+Attributes.h"; sourceTree = "<group>"; };
 		522CF57415745F44006B1F04 /* NSAttributedString+Attributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSAttributedString+Attributes.m"; path = "OHAttributedLabel/NSAttributedString+Attributes.m"; sourceTree = "<group>"; };
 		522CF57515745F44006B1F04 /* OHAttributedLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OHAttributedLabel.h; path = OHAttributedLabel/OHAttributedLabel.h; sourceTree = "<group>"; };
@@ -200,7 +201,6 @@
 		5282A38C1593FDDA00B258CB /* SpashViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpashViewController.h; sourceTree = "<group>"; };
 		52C374D9157A93E200B61A47 /* StopLastCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StopLastCell.h; sourceTree = "<group>"; };
 		52C374DA157A93E200B61A47 /* StopLastCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopLastCell.m; sourceTree = "<group>"; };
-		52DBE6A3158184D400C42C03 /* NearbyStops.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = NearbyStops.plist; path = Data/NearbyStops.plist; sourceTree = "<group>"; };
 		52E627EF1586CE4000ACF885 /* StopSearchCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StopSearchCell.h; sourceTree = "<group>"; };
 		52E627F01586CE4000ACF885 /* StopSearchCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopSearchCell.m; sourceTree = "<group>"; };
 		52E627F3158819B400ACF885 /* SearchTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewController.m; sourceTree = "<group>"; };
@@ -330,9 +330,9 @@
 		522CF54C15741097006B1F04 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				52DBE6A3158184D400C42C03 /* NearbyStops.plist */,
-				522CF5551574175C006B1F04 /* DefaultStopsDB.plist */,
-				522CF54D157410B7006B1F04 /* Routes.plist */,
+				5216AEA815F6CF39005DF9B2 /* DefaultStopsDB.json */,
+				5216AEA915F6CF39005DF9B2 /* NearbyStops.json */,
+				5216AEAA15F6CF39005DF9B2 /* Routes.json */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -673,12 +673,12 @@
 				522CF53E15740F21006B1F04 /* icon_clock@2x.png in Resources */,
 				522CF54115740F21006B1F04 /* icon_news.png in Resources */,
 				522CF54215740F21006B1F04 /* icon_news@2x.png in Resources */,
-				522CF54E157410B7006B1F04 /* Routes.plist in Resources */,
-				522CF5561574175C006B1F04 /* DefaultStopsDB.plist in Resources */,
 				522CF5C115763FEE006B1F04 /* routes.png in Resources */,
-				52DBE6A4158184D400C42C03 /* NearbyStops.plist in Resources */,
 				5222D42A15D4936D007B9ABE /* Icon-Small@2x.png in Resources */,
 				5222D42C15D49379007B9ABE /* Icon@2x.png in Resources */,
+				5216AEAB15F6CF39005DF9B2 /* DefaultStopsDB.json in Resources */,
+				5216AEAC15F6CF39005DF9B2 /* NearbyStops.json in Resources */,
+				5216AEAD15F6CF39005DF9B2 /* Routes.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

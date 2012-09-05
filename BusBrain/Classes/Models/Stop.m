@@ -77,19 +77,30 @@
   NSString *documentsDirectory = [NSHomeDirectory() 
                                   stringByAppendingPathComponent:@"Documents"];
   NSString *filepath = [documentsDirectory 
-                            stringByAppendingPathComponent:@"DownloadStopsXXX.plist"];
+                            stringByAppendingPathComponent:@"DownloadStopsXXX.json"];
   
   if(! [[NSFileManager defaultManager] fileExistsAtPath:filepath]){
-    filepath = [[NSBundle mainBundle] pathForResource:@"DefaultStopsDB" ofType:@"plist"];
+    filepath = [[NSBundle mainBundle] pathForResource:@"DefaultStopsDB" ofType:@"json"];
   }
   
-  NSArray *stopDictArray = [[NSArray alloc] initWithContentsOfFile:filepath];
-  
+  NSData* jsonData = [NSData dataWithContentsOfFile:filepath];
   NSMutableArray *mutableRecords = [NSMutableArray array];
-  for (NSDictionary *attributes in stopDictArray) {
-    Stop *stop = [[[Stop alloc] initWithAttributes:attributes] autorelease];
-    [mutableRecords addObject:stop];
+  
+  if(jsonData == nil){
+    NSLog(@"No Data?");
+  } else {
+    NSError* error;
+    NSDictionary* jsonDictionary = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                         options:kNilOptions
+                                                           error:&error];
+    NSArray* stopDictArray = [jsonDictionary objectForKey:@"stops"];
+
+    for (NSDictionary *attributes in stopDictArray) {
+      Stop *stop = [[[Stop alloc] initWithAttributes:attributes] autorelease];
+      [mutableRecords addObject:stop];
+    }
   }
+  
   
   if (block) {
     block ([NSArray arrayWithArray:mutableRecords]);

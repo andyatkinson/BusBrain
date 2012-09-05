@@ -42,15 +42,27 @@
   return self;
 }
 
-+ (void) routesFromPlist:(void (^)(NSArray *records))block {
-  NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Routes" ofType:@"plist"];
-  NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:filepath];
++ (void) routesFromFile:(void (^)(NSArray *records))block {
+  NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Routes" ofType:@"json"];
+  
 
+
+  NSData* jsonData = [NSData dataWithContentsOfFile:filepath];
   NSMutableArray *mutableRecords = [NSMutableArray array];
-  for (NSDictionary *attributes in [[NSArray alloc] initWithArray :[dict objectForKey:@"routes"]]) {
-    if([mutableRecords count] < 5) {
-      Route *route = [[[Route alloc] initWithAttributes:attributes] autorelease];
-      [mutableRecords addObject:route];
+  
+  if(jsonData == nil){
+    NSLog(@"No Data?");
+  } else {
+    NSError* error;
+    NSDictionary* jsonDictionary = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                   options:kNilOptions
+                                                                     error:&error];
+
+    for (NSDictionary *attributes in [[NSArray alloc] initWithArray :[jsonDictionary objectForKey:@"routes"]]) {
+      if([mutableRecords count] < 5) {
+        Route *route = [[[Route alloc] initWithAttributes:attributes] autorelease];
+        [mutableRecords addObject:route];
+      }
     }
   }
 
@@ -59,8 +71,8 @@
   }
 }
 
-+ (void) routesFromPlist:(CLLocation *)location block:(void (^)(NSArray *records))block {
-  [Route routesFromPlist:^(NSArray *routeData) {
++ (void) routesFromFile:(CLLocation *)location block:(void (^)(NSArray *records))block {
+  [Route routesFromFile:^(NSArray *routeData) {
      if (block) {
        block ([NSArray arrayWithArray:routeData]);
      }

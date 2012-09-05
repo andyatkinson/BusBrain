@@ -251,37 +251,28 @@ NSString * const kLastSectionID   = @"LAST";
                                     path:@"/bus/v1/stops"  
                                     parameters:nil]; 
   
+  NSString *documentsDirectory = [NSHomeDirectory()
+                                  stringByAppendingPathComponent:@"Documents"];
+  NSString *downloadPath = [documentsDirectory
+                            stringByAppendingPathComponent:@"Download.json"];
+  NSLog(@"Download to: %@", downloadPath);
+
   AFHTTPRequestOperation *operation = [[TransitAPIClient sharedClient] HTTPRequestOperationWithRequest:afRequest 
                          success:^(AFHTTPRequestOperation *operation, id JSON) {
-                           NSMutableArray *stopRecords = [NSMutableArray array];
-                           NSMutableArray *dictRecords  = [NSMutableArray array];
-                           for (NSDictionary *attributes in [JSON valueForKeyPath:@"stops"]) {
-                             Stop *stop = [[[Stop alloc] initWithAttributes:attributes] autorelease];
-                             [stopRecords addObject:stop];
-                             [dictRecords addObject:attributes];
-                           }
+
 #ifdef DEBUG_BB
   NSLog(@"Cache Download Complete");
 #endif
                            NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
                            [settings setInteger:[[NSDate date] timeIntervalSince1970] forKey:@"lastCacheStamp"];
                            
-                           //[self setStopsDB:stopRecords];
                            [delegate dismiss];
                            
                            NSError* error = nil;
                            NSFileManager *fileMgr = [NSFileManager defaultManager];
-                           NSString *documentsDirectory = [NSHomeDirectory() 
-                                                           stringByAppendingPathComponent:@"Documents"];
-                           NSString *downloadPath = [documentsDirectory 
-                                                 stringByAppendingPathComponent:@"Download.plist"];
-                           
-                           if(![dictRecords writeToFile:downloadPath atomically:NO]) {
-                             NSLog(@"Array wasn't saved properly");
-                           };
                            
                            NSString *copyPath = [documentsDirectory 
-                                                     stringByAppendingPathComponent:@"DownloadStops.plist"];
+                                                     stringByAppendingPathComponent:@"DownloadStops.json"];
                            if ([fileMgr removeItemAtPath:copyPath error:&error] != YES) {
                              NSLog(@"Unable to delete file: %@", [error localizedDescription]);
                            }
@@ -303,6 +294,9 @@ NSString * const kLastSectionID   = @"LAST";
     float progress = ((float)((int)totalBytesRead) / (float)((int)totalBytesExpectedToRead));
     [delegate setProgress:progress];
   }];
+  
+  
+  [operation setOutputStream: [NSOutputStream outputStreamToFileAtPath:downloadPath append:NO]];
   
   [[TransitAPIClient sharedClient] enqueueHTTPRequestOperation:operation];
   
