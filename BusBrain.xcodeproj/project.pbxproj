@@ -7,9 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5216AEAB15F6CF39005DF9B2 /* DefaultStopsDB.json in Resources */ = {isa = PBXBuildFile; fileRef = 5216AEA815F6CF39005DF9B2 /* DefaultStopsDB.json */; };
-		5216AEAC15F6CF39005DF9B2 /* NearbyStops.json in Resources */ = {isa = PBXBuildFile; fileRef = 5216AEA915F6CF39005DF9B2 /* NearbyStops.json */; };
-		5216AEAD15F6CF39005DF9B2 /* Routes.json in Resources */ = {isa = PBXBuildFile; fileRef = 5216AEAA15F6CF39005DF9B2 /* Routes.json */; };
+		5216AEB015F6DA7C005DF9B2 /* search_objects_api_json_dump.json in Resources */ = {isa = PBXBuildFile; fileRef = 5216AEAF15F6DA7C005DF9B2 /* search_objects_api_json_dump.json */; };
 		5222D42A15D4936D007B9ABE /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5222D42915D4936D007B9ABE /* Icon-Small@2x.png */; };
 		5222D42C15D49379007B9ABE /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5222D42B15D49379007B9ABE /* Icon@2x.png */; };
 		522CF47A157403AA006B1F04 /* BusBrainAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF4791574032F006B1F04 /* BusBrainAppDelegate.m */; };
@@ -109,9 +107,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5216AEA815F6CF39005DF9B2 /* DefaultStopsDB.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = DefaultStopsDB.json; path = Data/DefaultStopsDB.json; sourceTree = "<group>"; };
-		5216AEA915F6CF39005DF9B2 /* NearbyStops.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = NearbyStops.json; path = Data/NearbyStops.json; sourceTree = "<group>"; };
-		5216AEAA15F6CF39005DF9B2 /* Routes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Routes.json; path = Data/Routes.json; sourceTree = "<group>"; };
+		5216AEAF15F6DA7C005DF9B2 /* search_objects_api_json_dump.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = search_objects_api_json_dump.json; path = Data/search_objects_api_json_dump.json; sourceTree = "<group>"; };
 		5222D42915D4936D007B9ABE /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		5222D42B15D49379007B9ABE /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		522CF4781574032F006B1F04 /* BusBrainAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BusBrainAppDelegate.h; sourceTree = "<group>"; };
@@ -330,9 +326,7 @@
 		522CF54C15741097006B1F04 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				5216AEA815F6CF39005DF9B2 /* DefaultStopsDB.json */,
-				5216AEA915F6CF39005DF9B2 /* NearbyStops.json */,
-				5216AEAA15F6CF39005DF9B2 /* Routes.json */,
+				5216AEAF15F6DA7C005DF9B2 /* search_objects_api_json_dump.json */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -676,9 +670,7 @@
 				522CF5C115763FEE006B1F04 /* routes.png in Resources */,
 				5222D42A15D4936D007B9ABE /* Icon-Small@2x.png in Resources */,
 				5222D42C15D49379007B9ABE /* Icon@2x.png in Resources */,
-				5216AEAB15F6CF39005DF9B2 /* DefaultStopsDB.json in Resources */,
-				5216AEAC15F6CF39005DF9B2 /* NearbyStops.json in Resources */,
-				5216AEAD15F6CF39005DF9B2 /* Routes.json in Resources */,
+				5216AEB015F6DA7C005DF9B2 /* search_objects_api_json_dump.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

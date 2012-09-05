@@ -25,6 +25,9 @@
   self.stop_name = [attributes valueForKeyPath:@"stop_name"];
   self.stop_id = [attributes valueForKeyPath:@"stop_id"];
   self.stop_desc = [attributes valueForKeyPath:@"stop_desc"];
+  if(self.stop_desc == nil){
+    self.stop_desc = @"------------";
+  }
   self.stop_lat = [attributes valueForKeyPath:@"stop_lat"];
   self.stop_lon = [attributes valueForKeyPath:@"stop_lon"];
   self.location = [[CLLocation alloc] initWithLatitude:self.stop_lat.floatValue longitude:self.stop_lon.floatValue];
@@ -44,6 +47,7 @@
   NSString* route_id = [attributes valueForKeyPath:@"route_id"];
   if(route_id != nil){
     [[self route] setRoute_id:route_id];
+    [[self route] setShort_name:@"NA"];
   }
   
   return self;
@@ -80,7 +84,7 @@
                             stringByAppendingPathComponent:@"DownloadStopsXXX.json"];
   
   if(! [[NSFileManager defaultManager] fileExistsAtPath:filepath]){
-    filepath = [[NSBundle mainBundle] pathForResource:@"DefaultStopsDB" ofType:@"json"];
+    filepath = [[NSBundle mainBundle] pathForResource:@"search_objects_api_json_dump" ofType:@"json"];
   }
   
   NSData* jsonData = [NSData dataWithContentsOfFile:filepath];
@@ -93,7 +97,7 @@
     NSDictionary* jsonDictionary = [NSJSONSerialization JSONObjectWithData:jsonData
                                                          options:kNilOptions
                                                            error:&error];
-    NSArray* stopDictArray = [jsonDictionary objectForKey:@"stops"];
+    NSArray* stopDictArray = [jsonDictionary objectForKey:@"search_objects"];
 
     for (NSDictionary *attributes in stopDictArray) {
       Stop *stop = [[[Stop alloc] initWithAttributes:attributes] autorelease];

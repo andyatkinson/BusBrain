@@ -14,12 +14,12 @@
 @implementation Route
 
 @synthesize route_id    = _route_id;
-@synthesize long_name  = _long_name;
-@synthesize short_name = _short_name;
-@synthesize route_desc      = _route_desc;
-@synthesize route_type      = _route_type;
-@synthesize route_url       = _route_url;
-@synthesize icon_path  = _icon_path;
+@synthesize long_name   = _long_name;
+@synthesize short_name  = _short_name;
+@synthesize route_desc  = _route_desc;
+@synthesize route_type  = _route_type;
+@synthesize route_url   = _route_url;
+@synthesize icon_path   = _icon_path;
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
   self = [super init];
