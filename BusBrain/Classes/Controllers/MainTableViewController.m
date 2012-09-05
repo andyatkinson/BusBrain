@@ -89,11 +89,11 @@ NSString * const kLastSectionID   = @"LAST";
       self.stops = [data objectForKey:@"stops"];
       
       //This block of code is needed to fetch the next stop time to be displayed
-      NSEnumerator *e = [self.stops objectEnumerator];
-      Stop *stop;
-      while (stop = [e nextObject]) {
-        [stop loadNextStopTime];
-      }
+//      NSEnumerator *e = [self.stops objectEnumerator];
+//      Stop *stop;
+//      while (stop = [e nextObject]) {
+//        [stop loadNextStopTime];
+//      }
       
       [self.tableView reloadData];
       [self.tableView reloadRowsAtIndexPaths:[self.tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];

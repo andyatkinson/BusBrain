@@ -14,7 +14,7 @@
 
 @implementation Stop
 
-@synthesize stop_id, stop_name, stop_street, stop_lat, stop_lon, stop_desc, location, nextStopTime, headsign, icon_path, route, refLocation, distanceFromLocation;
+@synthesize stop_id, stop_name, stop_street, stop_lat, stop_lon, location, nextStopTime, headsign, icon_path, route, refLocation, distanceFromLocation;
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
   self = [super init];
@@ -24,10 +24,6 @@
   
   self.stop_name = [attributes valueForKeyPath:@"stop_name"];
   self.stop_id = [attributes valueForKeyPath:@"stop_id"];
-  self.stop_desc = [attributes valueForKeyPath:@"stop_desc"];
-  if(self.stop_desc == nil){
-    self.stop_desc = @"------------";
-  }
   self.stop_lat = [attributes valueForKeyPath:@"stop_lat"];
   self.stop_lon = [attributes valueForKeyPath:@"stop_lon"];
   self.location = [[CLLocation alloc] initWithLatitude:self.stop_lat.floatValue longitude:self.stop_lon.floatValue];
@@ -38,17 +34,13 @@
   }
   
   self.headsign = [[Headsign alloc] init];
+  // TODO probaby need to send back as headsign_name and not key for BB API
   //self.headsign.headsign_key = [attributes valueForKeyPath:@"headsign_key"];
   //self.headsign.headsign_name = [attributes valueForKeyPath:@"headsign_name"];
   
-  [self setRoute: [[Route alloc] initWithAttributes:(NSDictionary*)[attributes objectForKey:@"route"]]];
-  
-  //This is a hack to deal with the fact that the API does not return the required stucture
-  NSString* route_id = [attributes valueForKeyPath:@"route_id"];
-  if(route_id != nil){
-    [[self route] setRoute_id:route_id];
-    [[self route] setShort_name:@"NA"];
-  }
+  self.route = [[Route alloc] init];
+  self.route.route_id = [attributes valueForKeyPath:@"route_id"];
+  self.route.route_short_name = [attributes valueForKeyPath:@"route_short_name"];
   
   return self;
 }
