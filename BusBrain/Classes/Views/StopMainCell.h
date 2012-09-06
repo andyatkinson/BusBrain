@@ -14,7 +14,7 @@
 @interface StopMainCell : BusTableCell {
   
   /* ANDY: I suggest having a "route" property and a "stop" property. stop_time won't be do-able for 1.0.
-   route can be initialized by the API call to have route.route_id and route.route_short_name set.
+   route can be initialized by the API call to have route.route_id and route.short_name set.
    a "headsign" property may be necessary as well */
   
   OHAttributedLabel *_routeNumber;

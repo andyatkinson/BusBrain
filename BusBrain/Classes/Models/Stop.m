@@ -34,12 +34,11 @@
   }
   
   self.headsign = [[Headsign alloc] init];
-  //self.headsign.headsign_key = [attributes valueForKeyPath:@"headsign_key"];
   self.headsign.headsign_name = [attributes valueForKeyPath:@"headsign_name"];
   
   self.route = [[Route alloc] init];
   self.route.route_id = [attributes valueForKeyPath:@"route_id"];
-  self.route.route_short_name = [attributes valueForKeyPath:@"route_short_name"];
+  self.route.short_name = [attributes valueForKeyPath:@"route_short_name"];
   
   return self;
 }
@@ -72,7 +71,7 @@
   NSString *documentsDirectory = [NSHomeDirectory() 
                                   stringByAppendingPathComponent:@"Documents"];
   NSString *filepath = [documentsDirectory 
-                            stringByAppendingPathComponent:@"DownloadStopsXXX.json"];
+                            stringByAppendingPathComponent:@"DownloadStops.json"];
   
   if(! [[NSFileManager defaultManager] fileExistsAtPath:filepath]){
     filepath = [[NSBundle mainBundle] pathForResource:@"search_objects_api_json_dump" ofType:@"json"];
@@ -129,28 +128,40 @@
   NSMutableArray *stops = [NSMutableArray array];
   
   [[TransitAPIClient sharedClient] getPath:urlString parameters:mutableParameters success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
+    
+    //Get Nearby Stops off response
     for (NSDictionary *attributes in [JSON valueForKeyPath:@"stops"]) {
       Stop *stop = [[[Stop alloc] initWithAttributes:attributes] autorelease];
       
       [stops addObject:stop];
     }
-    
     [data setObject:stops forKey:@"stops"];
     
+    
+    //Get Last Viewed Stop off response
     NSMutableDictionary *lastViewed = [[NSMutableDictionary alloc] init];
     NSDictionary *parsedDict = [JSON valueForKeyPath:@"last_viewed"];
-    
-    if ([parsedDict valueForKey:@"next_departure"]) {
-      [lastViewed setValue:[parsedDict valueForKey:@"next_departure"] forKey:@"next_departure"];
-    }
     if ([parsedDict valueForKey:@"stop"]) {
       NSDictionary *stopAttributes = [parsedDict valueForKeyPath:@"stop"];
       Stop *stop = [[[Stop alloc] initWithAttributes:stopAttributes] autorelease];
+      
+      
+      if ( [parsedDict valueForKey:@"next_departure"] != (id)[NSNull null] ) {
+        NSMutableDictionary *timeAttributes = [[NSMutableDictionary alloc] init];
+        [timeAttributes setValue:@"NA" forKey:@"price"];
+        [timeAttributes setValue:[parsedDict valueForKey:@"next_departure"] forKey:@"departure_time"];
+        StopTime *stop_time = [[[StopTime alloc] initWithAttributes:timeAttributes] autorelease];
+        [stop setNextStopTime:stop_time];
+      } else {
+        [stop setNextStopTime:nil];
+      }
+      
       [lastViewed setValue:stop forKey:@"stop"];
     }
-    
     [data setObject:lastViewed forKey:@"last_viewed"];
     
+    
+    //Setup return
     if (block) {
       block([NSDictionary dictionaryWithDictionary:data]);
     }

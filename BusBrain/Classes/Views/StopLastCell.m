@@ -60,8 +60,8 @@
   [[self relativeTime] setAttributedText: string];
   [[self stopName] setText: [stop stop_name]];
   
-  [[self routeNumber] setText: [[stop route] route_id]];
-  [[self routeName] setText: [[stop route] long_name]];
+  [[self routeNumber] setText: [[stop route] short_name]];
+  [[self routeName] setText: [[stop headsign] headsign_name]];
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {

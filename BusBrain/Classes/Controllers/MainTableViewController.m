@@ -75,13 +75,16 @@ NSString * const kLastSectionID   = @"LAST";
   if (last_viewed_stop_id != NULL) {
     [params setValue:last_viewed_stop_id forKey:@"last_viewed_stop_id"];
   } else {
-    // TODO - only for testing. when last_viewed_stop_id is set elsewhere. this else{} condition can be deleted
-    // I suggest using the implementation in TB to set it.
     [params setValue:@"1000" forKey:@"last_viewed_stop_id"];
-    // TODO get hour and minute from device, and send as params to do time calculation from (impl in TB)
-    [params setValue:@"08" forKey:@"hour"];
-    [params setValue:@"16" forKey:@"minute"];
   }
+  
+  //Get hour and minute from device, and send as params to do time calculation
+  NSDate *now = [NSDate date];
+  NSCalendar *calendar = [NSCalendar currentCalendar];
+  NSDateComponents *components = [calendar components:NSHourCalendarUnit|NSMinuteCalendarUnit fromDate:now];
+  [params setValue:[NSString stringWithFormat:@"%d", [components hour]] forKey:@"hour"];
+  [params setValue:[NSString stringWithFormat:@"%d", [components minute]] forKey:@"minute"];
+  
 
   [Stop loadNearbyStops:@"bus/v1/stops/nearby" near:location parameters:params block:^(NSDictionary *data) {
     
@@ -102,19 +105,6 @@ NSString * const kLastSectionID   = @"LAST";
       
       self.stops = [data objectForKey:@"stops"];
       self.lastViewed = [data objectForKey:@"last_viewed"];
-      
-      NSLog(@"stops: %@", self.stops);
-      NSLog(@"last viewed: %@", self.lastViewed);
-      
-      // AA: John- you can delete this, just needed it for testing
-      [self hideHUD];
-      
-      //This block of code is needed to fetch the next stop time to be displayed
-//      NSEnumerator *e = [self.stops objectEnumerator];
-//      Stop *stop;
-//      while (stop = [e nextObject]) {
-//        [stop loadNextStopTime];
-//      }
       
       [self.tableView reloadData];
       [self.tableView reloadRowsAtIndexPaths:[self.tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
@@ -139,15 +129,13 @@ NSString * const kLastSectionID   = @"LAST";
 - (void) loadDataForLocation:(CLLocation *)location {
   [self showHUD];
 
-  //Since we are kicking off multiple requests that could come back in a different order
+  //Since we are WERE kicking off multiple requests that could come back in a different order
   //We need to keep track of it and each caller needs to decreemnt the fetchCount and
   //call hideHUD
   
-  // ANDY: I don't understand this, and am disabling trying to debug multiple requests being sent
-  //[self setFetchCount: 1];
+  [self setFetchCount: 1];
   
   [self loadStopsForLocation:location];
-  //[self loadLastViewedStop];
 
 }
 
@@ -272,7 +260,7 @@ NSString * const kLastSectionID   = @"LAST";
   
   NSMutableURLRequest *afRequest = [[TransitAPIClient sharedClient]      
                                     requestWithMethod:@"GET"
-                                    path:@"/bus/v1/stops"  
+                                    path:@"/bus/v1/stops/search.json"
                                     parameters:nil]; 
   
   NSString *documentsDirectory = [NSHomeDirectory()
@@ -284,9 +272,6 @@ NSString * const kLastSectionID   = @"LAST";
   AFHTTPRequestOperation *operation = [[TransitAPIClient sharedClient] HTTPRequestOperationWithRequest:afRequest 
                          success:^(AFHTTPRequestOperation *operation, id JSON) {
 
-#ifdef DEBUG_BB
-  NSLog(@"Cache Download Complete");
-#endif
                            NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
                            [settings setInteger:[[NSDate date] timeIntervalSince1970] forKey:@"lastCacheStamp"];
                            
@@ -308,6 +293,12 @@ NSString * const kLastSectionID   = @"LAST";
                              NSLog(@"Error description-%@ \n", [error localizedDescription]);
                              NSLog(@"Error reason-%@", [error localizedFailureReason]);
                            }
+                           
+                           //Load new cache into memory
+                           [Stop loadStopsDB:^(NSArray *db) {
+                             [self setStopsDB:db];
+                             [self setCacheLoaded:true];
+                           }];
                            
                          } 
                          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -429,8 +420,8 @@ NSString * const kLastSectionID   = @"LAST";
 
     Stop *stop = (Stop *)[[self lastViewed] valueForKey:@"stop"];
     [cell setStop: stop];
+    
     if ( [cell dataRefreshRequested] ) {
-      //[stop loadNextStopTime];
       [cell setDataRefreshRequested:false];
     }
     [cell setAccessoryView: [[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];
@@ -444,15 +435,15 @@ NSString * const kLastSectionID   = @"LAST";
     Stop *stop = (Stop *)[[self stops] objectAtIndex:[indexPath row]];
     
       static NSString *CellIdentifier = @"StopCell";
-      StopMainCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+      //StopMainCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+      StopLastCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
       if (cell == nil) {
-        cell = [[[StopMainCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[StopLastCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
       }
       
       [cell setStop: stop];
     
       if ( [cell dataRefreshRequested] ) {
-        //[stop loadNextStopTime];
         [cell setDataRefreshRequested:false];
       }
       [cell setAccessoryView:[[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];

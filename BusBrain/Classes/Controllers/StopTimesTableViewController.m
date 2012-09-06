@@ -18,7 +18,6 @@
 @synthesize data          = _data;
 @synthesize stopTimes     = _stopTimes;
 @synthesize selectedStop  = _selectedStop;
-@synthesize selectedRoute = _selectedRoute;
 @synthesize refreshTimer  = _refreshTimer;
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -80,7 +79,7 @@
 
     [self showHUD];
     
-    [StopTime stopTimesSimple:[[self selectedRoute] route_id]
+    [StopTime stopTimesSimple:[[[self selectedStop] route] route_id]
                          stop:[[self selectedStop] stop_id]
                          near:nil  
                         block:^(NSArray *stops) {
@@ -97,8 +96,7 @@
        [[self tableView] reloadData];
 
        NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
-       [settings setObject:[[self selectedStop] stop_id] forKey:@"last_stop_id"];
-       [settings setObject:[[self selectedRoute] route_id] forKey:@"last_route_id"];
+       [settings setObject:[[self selectedStop] stop_id] forKey:@"last_viewed_stop_id"];
        [settings synchronize];
 
        [[self tableView] reloadRowsAtIndexPaths:[[self tableView] indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationFade];
@@ -242,7 +240,6 @@
 
 - (void)dealloc {
   [_data dealloc];
-  [_selectedRoute dealloc];
   [_selectedStop dealloc];
   [_stopTimes dealloc];
   [_bigCell dealloc];

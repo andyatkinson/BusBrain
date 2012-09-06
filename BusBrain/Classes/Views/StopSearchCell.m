@@ -8,6 +8,7 @@
 #import "BusLooknFeel.h"
 #import "StopSearchCell.h"
 #import "Stop.h"
+#import "Headsign.h"
 #import "StopTime.h"
 #import "OHAttributedLabel.h"
 #import "NSAttributedString+Attributes.h"
@@ -22,7 +23,7 @@
 - (void) setStop:(Stop*) stop {
   [[self stopName] setText: [stop stop_name]];
   [[self routeNumber] setText: [[stop route] short_name]];
-  [[self routeDirection] setText: [stop stop_desc]];
+  [[self routeDirection] setText: [[stop headsign] headsign_name] ];
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier

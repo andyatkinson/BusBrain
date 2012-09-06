@@ -24,7 +24,6 @@
 @property (nonatomic, retain) NSMutableArray *data;
 @property (nonatomic, retain) NSArray *stopTimes;
 @property (nonatomic, retain) Stop *selectedStop;
-@property (nonatomic, retain) Route *selectedRoute;
 @property (nonatomic, retain) NSTimer *refreshTimer;
 
 - (void)loadStopTimes;

@@ -11,7 +11,6 @@
 
 @interface Route : NSObject {
   NSString *_route_id;
-  NSString *_route_short_name;
   NSString *_long_name;
   NSString *_short_name;
   NSString *_route_desc;
@@ -21,7 +20,6 @@
 }
 
 @property (nonatomic, retain) NSString *route_id;
-@property (nonatomic, retain) NSString *route_short_name;
 @property (nonatomic, retain) NSString *long_name;
 @property (nonatomic, retain) NSString *short_name;
 @property (nonatomic, retain) NSString *route_desc;

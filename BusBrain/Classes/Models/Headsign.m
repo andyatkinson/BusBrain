@@ -19,7 +19,7 @@
   }
 
   [self setHeadsign_key: [attributes valueForKeyPath:@"headsign_key"]];
-  [self setHeadsignPublicName: [attributes valueForKeyPath:@"headsign_name"]];
+  [self setHeadsign_name: [attributes valueForKeyPath:@"headsign_name"]];
 
   return self;
 }

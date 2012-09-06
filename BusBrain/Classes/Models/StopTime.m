@@ -86,11 +86,7 @@
                    near:(CLLocation *)location 
                   block:(void (^)(NSArray *records))block {
   
-  NSString *urlString = [NSString stringWithFormat:@"train/v1/routes/%@/stops/%@/stop_times", route_id, stop_id];
-
-#ifdef DEBUG_BB
-  NSLog(@"DEBUG: %@", urlString);
-#endif
+  NSString *urlString = [NSString stringWithFormat:@"train/v1/routes/%@/stops/%@/stop_times.json", route_id, stop_id];
 
   NSDate *now = [NSDate date];
   NSCalendar *calendar = [NSCalendar currentCalendar];
