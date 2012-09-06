@@ -63,11 +63,25 @@ NSString * const kLastSectionID   = @"LAST";
 
 
 - (void) loadStopsForLocation:(CLLocation *)location {
+  
   NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
   if (location) {
 		[params setValue:[NSString stringWithFormat:@"%1.7f", location.coordinate.latitude] forKey:@"lat"];
 		[params setValue:[NSString stringWithFormat:@"%1.7f", location.coordinate.longitude] forKey:@"lon"];
 	}
+  
+  NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+  NSString *last_viewed_stop_id = [settings stringForKey: @"last_viewed_stop_id"];
+  if (last_viewed_stop_id != NULL) {
+    [params setValue:last_viewed_stop_id forKey:@"last_viewed_stop_id"];
+  } else {
+    // TODO - only for testing. when last_viewed_stop_id is set elsewhere. this else{} condition can be deleted
+    // I suggest using the implementation in TB to set it.
+    [params setValue:@"1000" forKey:@"last_viewed_stop_id"];
+    // TODO get hour and minute from device, and send as params to do time calculation from (impl in TB)
+    [params setValue:@"08" forKey:@"hour"];
+    [params setValue:@"16" forKey:@"minute"];
+  }
 
   [Stop loadNearbyStops:@"bus/v1/stops/nearby" near:location parameters:params block:^(NSDictionary *data) {
     

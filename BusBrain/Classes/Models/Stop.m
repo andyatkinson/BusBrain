@@ -137,6 +137,20 @@
     
     [data setObject:stops forKey:@"stops"];
     
+    NSMutableDictionary *lastViewed = [[NSMutableDictionary alloc] init];
+    NSDictionary *parsedDict = [JSON valueForKeyPath:@"last_viewed"];
+    
+    if ([parsedDict valueForKey:@"next_departure"]) {
+      [lastViewed setValue:[parsedDict valueForKey:@"next_departure"] forKey:@"next_departure"];
+    }
+    if ([parsedDict valueForKey:@"stop"]) {
+      NSDictionary *stopAttributes = [parsedDict valueForKeyPath:@"stop"];
+      Stop *stop = [[[Stop alloc] initWithAttributes:stopAttributes] autorelease];
+      [lastViewed setValue:stop forKey:@"stop"];
+    }
+    
+    [data setObject:lastViewed forKey:@"last_viewed"];
+    
     if (block) {
       block([NSDictionary dictionaryWithDictionary:data]);
     }
