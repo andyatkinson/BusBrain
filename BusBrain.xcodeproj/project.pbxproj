@@ -79,6 +79,8 @@
 		52C374DC157A93F600B61A47 /* StopLastCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52C374DA157A93E200B61A47 /* StopLastCell.m */; };
 		52E627F21586CE4C00ACF885 /* StopSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E627F01586CE4000ACF885 /* StopSearchCell.m */; };
 		52E627F515881A9F00ACF885 /* SearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E627F3158819B400ACF885 /* SearchTableViewController.m */; };
+		A14DC56F15F98D5700DAF8CB /* icon_info.png in Resources */ = {isa = PBXBuildFile; fileRef = A14DC56D15F98D5700DAF8CB /* icon_info.png */; };
+		A14DC57015F98D5700DAF8CB /* icon_info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A14DC56E15F98D5700DAF8CB /* icon_info@2x.png */; };
 		A15BFA751569C5E8004651B9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15BFA741569C5E8004651B9 /* UIKit.framework */; };
 		A15BFA771569C5E8004651B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15BFA761569C5E8004651B9 /* Foundation.framework */; };
 		A15BFA791569C5E8004651B9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15BFA781569C5E8004651B9 /* CoreGraphics.framework */; };
@@ -200,6 +202,8 @@
 		52E627F01586CE4000ACF885 /* StopSearchCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopSearchCell.m; sourceTree = "<group>"; };
 		52E627F3158819B400ACF885 /* SearchTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewController.m; sourceTree = "<group>"; };
 		52E627F4158819B400ACF885 /* SearchTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchTableViewController.h; sourceTree = "<group>"; };
+		A14DC56D15F98D5700DAF8CB /* icon_info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_info.png; path = ../Classes/icon_info.png; sourceTree = "<group>"; };
+		A14DC56E15F98D5700DAF8CB /* icon_info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_info@2x.png"; path = "../Classes/icon_info@2x.png"; sourceTree = "<group>"; };
 		A15BFA701569C5E8004651B9 /* BusBrain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BusBrain.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A15BFA741569C5E8004651B9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A15BFA761569C5E8004651B9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -413,6 +417,8 @@
 		A1C637781569C68A004D06D9 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				A14DC56D15F98D5700DAF8CB /* icon_info.png */,
+				A14DC56E15F98D5700DAF8CB /* icon_info@2x.png */,
 				522CF4E315740F21006B1F04 /* 11-clock.png */,
 				522CF4E415740F21006B1F04 /* 11-clock@2x.png */,
 				522CF4E715740F21006B1F04 /* 90-lifebuoy.png */,
@@ -666,6 +672,8 @@
 				5222D42A15D4936D007B9ABE /* Icon-Small@2x.png in Resources */,
 				5222D42C15D49379007B9ABE /* Icon@2x.png in Resources */,
 				5216AEB015F6DA7C005DF9B2 /* search_objects_api_json_dump.json in Resources */,
+				A14DC56F15F98D5700DAF8CB /* icon_info.png in Resources */,
+				A14DC57015F98D5700DAF8CB /* icon_info@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
