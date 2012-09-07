@@ -51,7 +51,7 @@
   UINavigationController *infoController = [[[UINavigationController alloc] initWithRootViewController:infoTableViewController] autorelease];
   infoController.navigationBar.barStyle = UIBarStyleDefault;
   infoController.title = @"Info";
-  infoController.tabBarItem.image = [UIImage imageNamed:@"90-lifebuoy.png"];
+  infoController.tabBarItem.image = [UIImage imageNamed:@"icon_info.png"];
   [infoTableViewController release];
 
   tabBarController.viewControllers = [NSArray arrayWithObjects:routesController, infoController, nil];
