@@ -150,7 +150,21 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  return 46;
+  
+  int rowsInSection = [self numberOfRowsInSection:indexPath.section];
+  if(rowsInSection == 1){
+    return 46;
+  } else {
+      if (indexPath.row == 0) {
+        return 46;
+      } else if (indexPath.row == rowsInSection - 1) {
+        return 46;
+      } else {
+        return 43;
+      }
+  }
+  
+  return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
