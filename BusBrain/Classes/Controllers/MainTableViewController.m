@@ -86,7 +86,7 @@ NSString * const kLastSectionID   = @"LAST";
   [params setValue:[NSString stringWithFormat:@"%d", [components minute]] forKey:@"minute"];
   
 
-  [Stop loadNearbyStops:@"bus/v1/stops/nearby" near:location parameters:params block:^(NSDictionary *data) {
+  [Stop loadNearbyStops:@"bus/v1/stops/nearby.json" near:location parameters:params block:^(NSDictionary *data) {
     
     if (data == NULL || ![data isKindOfClass:[NSDictionary class]]) {
       UIView *container = [[[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,400)] autorelease];
@@ -155,7 +155,7 @@ NSString * const kLastSectionID   = @"LAST";
   if(components.day > 0 || components.hour > 20){
     return true;
   } else {
-    return false;
+    return true;
   }
 
 }

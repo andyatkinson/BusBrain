@@ -35,7 +35,7 @@
 
   SpashViewController *splash = nil;
   if([mainTableViewController isCacheStail]){
-    splash = [[SpashViewController alloc] init];
+    //splash = [[SpashViewController alloc] init];
   }
   [mainTableViewController initData:splash];
   [mainTableViewController initLocation];
