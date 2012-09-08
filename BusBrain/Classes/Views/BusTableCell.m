@@ -19,6 +19,12 @@
   [super setSelected:selected animated:animated];
 }
 
+- (void) initSelectionStyle {
+  UIView *selectHighlightView = [[UIView alloc] init];
+  [selectHighlightView setBackgroundColor:[UIColor blackColor]];
+  [self setSelectedBackgroundView: selectHighlightView];
+}
+
 - (OHAttributedLabel *)newLabelWithPrimaryColor:(UIColor *) primaryColor 
                                   selectedColor:(UIColor *) selectedColor 
                                        fontSize:(CGFloat) fontSize 

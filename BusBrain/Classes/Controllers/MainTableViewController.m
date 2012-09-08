@@ -404,6 +404,16 @@ NSString * const kLastSectionID   = @"LAST";
   return NULL;
 }
 
+/*
+-(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  StopLastCell *cell = (StopLastCell *)[tableView cellForRowAtIndexPath:indexPath];
+  [[cell stopName] setHighlightedTextColor:[UIColor blueColor]];
+  [cell setSelectedBackgroundView: [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header_bar_default.png"]]];
+  NSLog(@"XXX");
+  return indexPath;
+}
+*/
+
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)thisTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   
@@ -426,7 +436,7 @@ NSString * const kLastSectionID   = @"LAST";
     }
     [cell setAccessoryView: [[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-    
+
     return cell;
 
 
@@ -448,7 +458,7 @@ NSString * const kLastSectionID   = @"LAST";
       }
       [cell setAccessoryView:[[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];
       [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-    
+
       return cell;
     
   }

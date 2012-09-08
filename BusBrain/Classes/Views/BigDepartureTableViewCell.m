@@ -88,6 +88,8 @@
 - (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
   if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
     UIView *contentView = [self contentView];
+    
+    [self setSelectionStyle:UITableViewCellSelectionStyleNone];
 
     UIImage *img = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"bg_timer" ofType:@"png"]];
 

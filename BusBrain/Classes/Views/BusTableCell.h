@@ -16,6 +16,7 @@
 
 @property (nonatomic) BOOL dataRefreshRequested;
 
+- (void) initSelectionStyle;
 - (OHAttributedLabel *)newLabelWithPrimaryColor:(UIColor *)primaryColor 
                                   selectedColor:(UIColor *)selectedColor 
                                        fontSize:(CGFloat)fontSize 
