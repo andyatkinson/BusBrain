@@ -30,43 +30,16 @@
 
 #pragma mark - View lifecycle
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-  UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0,0,self.tableView.frame.size.width,29)] autorelease];
-
-  UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 200, 20)];
-  headerLabel.textAlignment = UITextAlignmentLeft;
-
-  // FIXME, how do I get this from the delegate method instead?
-  if (section == 0) {
-    headerLabel.text = @"General Information";
-  } else if (section == 1) {
-    headerLabel.text = @"Support";
-  } else if (section == 2) {
-    headerLabel.text = @"Metro Transit";
-  }
-
-  headerLabel.font = [UIFont boldSystemFontOfSize:14.0];
-  headerLabel.textColor = [UIColor grayColor];
-  headerLabel.backgroundColor = [UIColor clearColor];
-  [headerView addSubview:headerLabel];
-
-  [headerView addSubview:headerLabel];
-
-  [headerLabel release];
-
-  return headerView;
-}
-
 - (void)viewDidLoad {
 
   self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
-
+  
   [super viewDidLoad];
-
+  
   self.tableView.delegate = self;
   self.tableView.dataSource = self;
-
-
+  
+  
   self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
   self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_app.png"]];
 
@@ -122,8 +95,33 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (UIView *)tableView:(UITableView *)tv viewForHeaderInSection:(NSInteger)section {
+  UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0,0,self.tableView.frame.size.width,29)] autorelease];
+  
+  UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 200, 20)];
+  headerLabel.textAlignment = UITextAlignmentLeft;
+  headerLabel.text = [self tableView:tv titleForHeaderInSection:section];
+  headerLabel.font = [UIFont boldSystemFontOfSize:14.0];
+  headerLabel.textColor = [UIColor grayColor];
+  headerLabel.backgroundColor = [UIColor clearColor];
+  [headerView addSubview:headerLabel];
+  [headerLabel release];
+  
+  return headerView;
+}
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+	if (section == 0) {
+    return @"General Information";
+  } else if (section == 1) {
+    return @"Support";
+  } else if (section == 2) {
+    return @"Metro Transit";
+  }
+  return NULL;
+}
+
+-(int) numberOfRowsInSection:(NSInteger)section {
   if (section == 0) {
     return 0;
   } else if (section == 1) {
@@ -134,44 +132,63 @@
     // should not reach here
     return 0;
   }
-
 }
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+  return [self numberOfRowsInSection:section];
 
-  if (section == 0) {
-    return @"General Information";
-  } else if (section == 1) {
-    return @"Support";
-  } else if (section == 2) {
-    return @"Metro Transit";
-  }
-  return NULL;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-  return 3;   // [self.dataArrays count]
+  if ([self.dataArrays count] > 0) {
+    return [self.dataArrays count];
+  } else {
+    return 0;
+  }
 }
 
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+  return 46;
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
   static NSString *CellIdentifier = @"Cell";
-
   UITableViewCell *cell = [tv dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
     cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    cell.backgroundColor = [UIColor clearColor];
+    cell.textLabel.textColor = [UIColor whiteColor];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    cell.textLabel.shadowColor = [UIColor blackColor];
+    cell.textLabel.shadowOffset = CGSizeMake(0,-1);
+    
   }
-
-
+  
+  int rowsInSection = [self numberOfRowsInSection:indexPath.section];
+  if(rowsInSection == 1){
+    cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"info_cell_single.png"]
+                                                              resizableImageWithCapInsets:UIEdgeInsetsZero]];
+  } else {
+    cell.accessoryView = [[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]];
+    if (indexPath.row == 0) {
+      cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"info_cell_top.png"]
+                                                                resizableImageWithCapInsets:UIEdgeInsetsZero]];
+    } else if (indexPath.row == rowsInSection - 1) {
+      cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"info_cell_bottom.png"]
+                                                                resizableImageWithCapInsets:UIEdgeInsetsZero]];
+    } else {
+      cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"info_cell_middle.png"]
+                                                                resizableImageWithCapInsets:UIEdgeInsetsZero]];
+    }
+  }
+  
   cell.textLabel.text = [[self.dataArrays objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-
-
   return cell;
 }
-
-
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
