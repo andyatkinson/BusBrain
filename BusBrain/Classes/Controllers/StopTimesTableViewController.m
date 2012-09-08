@@ -91,9 +91,19 @@
          [[self bigCell] setStopTime:stop_time];
 
          [self setupRefresh];
+         [[self tableView] reloadData];
+       } else {
+         UIView *container = [[[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,400)] autorelease];
+         container.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_app.png"]];
+         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20,5,self.view.frame.size.width, 50)];
+         label.backgroundColor = [UIColor clearColor];
+         label.textAlignment = UITextAlignmentLeft;
+         label.textColor = [UIColor whiteColor];
+         label.text = @"No upcoming departures. Check later.";
+         label.font = [UIFont boldSystemFontOfSize:14.0];
+         [container addSubview:label];
+         self.view = container;
        }
-
-       [[self tableView] reloadData];
 
        NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
        [settings setObject:[[self selectedStop] stop_id] forKey:@"last_viewed_stop_id"];
