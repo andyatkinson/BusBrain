@@ -229,7 +229,7 @@
         StopTime *stop_time = (StopTime *)[[self stopTimes] objectAtIndex:[indexPath row]];
         [[self bigCell] setStopTime:stop_time];
         [[[self bigCell] funnySaying] setText: [FunnyPhrase rand]];
-        [[[self bigCell] description] setText: @"Next estimated train departure:"];
+        [[[self bigCell] description] setText: @"Next estimated bus departure:"];
 
         [[self bigCell] startTimer];
       }
