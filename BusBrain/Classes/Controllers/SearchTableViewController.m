@@ -22,6 +22,13 @@
 @synthesize greyView    = _greyView;
 @synthesize message     = _message;
 
+- (void) viewDidDisappear:(BOOL)animated{
+  UIViewController *currentControler = [[[self main] navigationController] topViewController];
+  if ( [currentControler isKindOfClass:[MainTableViewController class]] ) {
+    [(MainTableViewController*) currentControler loadData];
+  }
+}
+
 - (void)cancelSearch:(UITapGestureRecognizer *)recognizer {
   //CGPoint location = [recognizer locationInView:[recognizer.view superview]];
   

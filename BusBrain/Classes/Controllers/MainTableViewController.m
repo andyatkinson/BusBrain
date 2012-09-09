@@ -231,6 +231,7 @@ NSString * const kLastSectionID   = @"LAST";
   SearchTableViewController *target = [[SearchTableViewController alloc] init];
   [target setStopsDB:[self stopsDB]];
   [target setMyLocation:[self myLocation]];
+  [target setMain:self];
    
   [[self navigationController] pushViewController:target animated:YES];
 }
