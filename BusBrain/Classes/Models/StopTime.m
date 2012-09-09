@@ -36,6 +36,11 @@
   [self setHeadsign: [attributes valueForKey:@"headsign"]];
   [self setDepartureTimeHour: [[self departureTime] hourFromDepartureString]];
   [self setDepartureTimeMinute: [[self departureTime] minuteFromDepartureString]];
+  
+  if([self departureTimeHour] >= 24){
+    int hour = [self departureTimeHour] - 24;
+    [self setDepartureTime:[NSString stringWithFormat:@"%i:%i:00", hour, [self departureTimeMinute]] ];
+  }
 
   return self;
 }
