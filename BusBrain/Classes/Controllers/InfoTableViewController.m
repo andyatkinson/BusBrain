@@ -46,13 +46,11 @@
   //Initialize the array.
   dataArrays = [[NSMutableArray alloc] init];
 
-  NSArray *general = [NSArray arrayWithObjects:@"Hiawatha Light Rail Line", @"Northstar Commuter Line", nil];
-  NSArray *support = [NSArray arrayWithObjects:@"Contact Us", @"Feedback", @"Credits", nil];
-  NSArray *metroTransit = [NSArray arrayWithObjects:@"Call", @"Feedback", nil];
+  NSArray *metroTransit = [NSArray arrayWithObjects:@"Call Metro Transit", nil];
+  NSArray *support = [NSArray arrayWithObjects:@"Email the team", nil];
 
-  [self.dataArrays addObject:general];
-  [self.dataArrays addObject:support];
   [self.dataArrays addObject:metroTransit];
+  [self.dataArrays addObject:support];
 
   //Set the title
   self.navigationItem.title = @"Information";
@@ -112,22 +110,18 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	if (section == 0) {
-    return @"General Information";
-  } else if (section == 1) {
-    return @"Support";
-  } else if (section == 2) {
     return @"Metro Transit";
+  } else if (section == 1) {
+    return @"Application Support";
   }
   return NULL;
 }
 
 -(int) numberOfRowsInSection:(NSInteger)section {
   if (section == 0) {
-    return 0;
+    return 1;
   } else if (section == 1) {
-    return 3;
-  } else if (section == 2) {
-    return 2;
+    return 1;
   } else {
     // should not reach here
     return 0;
@@ -175,7 +169,10 @@
     cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     cell.backgroundColor = [UIColor clearColor];
     cell.textLabel.textColor = [UIColor whiteColor];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    UIView *selectHighlightView = [[UIView alloc] init];
+    [selectHighlightView setBackgroundColor:[UIColor blackColor]];
+    [cell setSelectedBackgroundView: selectHighlightView];
     
     cell.textLabel.shadowColor = [UIColor blackColor];
     cell.textLabel.shadowOffset = CGSizeMake(0,-1);
@@ -204,14 +201,42 @@
   return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
   if (indexPath.section == 0) {
     if (indexPath.row == 0) {
-
-
+      // call metro transit
+      [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://612-373-3333"]];
     }
+  } else if (indexPath.section == 1) {
+    
+    if (indexPath.row == 0) {
+      [self composeEmail:@"beetlefight@gmail.com"];
+    }
+  }
+}
 
+- (void)composeEmail:(NSString *)emailAddr {
+  
+  if ([MFMailComposeViewController canSendMail]) {
+    NSArray *recipients = [[NSArray alloc] initWithObjects:emailAddr, nil];
+    
+    NSString *emailBody = @"<br/><br/>Download Bus Brain for iOS and follow <a href='http://twitter.com/trainbrainapp'>@trainbrainapp</a> on twitter";
+    
+    MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
+    mailViewController.mailComposeDelegate = self;
+    [mailViewController setToRecipients:recipients];
+    [mailViewController setSubject:@"Message from bus brain"];
+    [mailViewController setMessageBody:emailBody isHTML:YES];
+    [[mailViewController navigationBar] setTintColor:[UIColor blackColor]];
+    
+    [self presentModalViewController:mailViewController animated:YES];
+    [mailViewController release];
+    [recipients release];
+    [emailBody release];
+    
+  } else {
+    // pop an UIAlertView?
+    NSLog(@"can't send email");
   }
 }
 

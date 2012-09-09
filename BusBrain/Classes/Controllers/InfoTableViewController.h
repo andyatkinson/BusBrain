@@ -6,8 +6,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
 
-@interface InfoTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource> {
+@interface InfoTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate> {
   NSMutableArray *dataArrays;
   UITableView *tableView;
 }
