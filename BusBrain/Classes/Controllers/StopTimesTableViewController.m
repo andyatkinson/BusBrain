@@ -5,6 +5,7 @@
 //  Copyright (c) 2012 Beetle Fight. All rights reserved.
 //
 
+#import "MainTableViewController.h"
 #import "StopTimesTableViewController.h"
 #import "BigDepartureTableViewCell.h"
 #import "StopTimeCell.h"
@@ -149,8 +150,14 @@
   [self setView: [self tableView]];
 }
 
-- (void)viewDidUnload
-{
+- (void) viewDidDisappear:(BOOL)animated{
+  UIViewController *currentControler = [[[self main] navigationController] topViewController];
+  if ( [currentControler isKindOfClass:[MainTableViewController class]] ) {
+    [(MainTableViewController*) currentControler loadData];
+  }
+}
+
+- (void)viewDidUnload {
   [super viewDidUnload];
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;

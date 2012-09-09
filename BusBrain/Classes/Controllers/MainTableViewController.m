@@ -470,6 +470,7 @@ NSString * const kLastSectionID   = @"LAST";
     if([[self stops] count] > 0){
       Stop *stop = (Stop *)[[self stops] objectAtIndex:[indexPath row]];
       StopTimesTableViewController *target = [[StopTimesTableViewController alloc] init];
+      [target setMain:self];
       [target setSelectedStop:stop];
       
       [[self navigationController] pushViewController:target animated:YES];
