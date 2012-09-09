@@ -80,6 +80,7 @@
 		522CF57715745F63006B1F04 /* NSAttributedString+Attributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF57415745F44006B1F04 /* NSAttributedString+Attributes.m */; };
 		522CF57815745F63006B1F04 /* OHAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF57615745F44006B1F04 /* OHAttributedLabel.m */; };
 		522CF5C115763FEE006B1F04 /* routes.png in Resources */ = {isa = PBXBuildFile; fileRef = 522CF5C015763FEE006B1F04 /* routes.png */; };
+		524D8D0C15FC165B00280258 /* NoStops.m in Sources */ = {isa = PBXBuildFile; fileRef = 524D8D0B15FC165B00280258 /* NoStops.m */; };
 		526223EF157784B700816859 /* StopMainCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 526223EE157783B100816859 /* StopMainCell.m */; };
 		52685701158D0D07000A99BB /* BusTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 526856FC158D0B75000A99BB /* BusTableCell.m */; };
 		5275A17D158D15190095B382 /* BusTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 5275A17A158D14980095B382 /* BusTable.m */; };
@@ -206,6 +207,8 @@
 		522CF57615745F44006B1F04 /* OHAttributedLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = OHAttributedLabel.m; path = OHAttributedLabel/OHAttributedLabel.m; sourceTree = "<group>"; };
 		522CF5C015763FEE006B1F04 /* routes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = routes.png; path = Mockups/routes.png; sourceTree = SOURCE_ROOT; };
 		5248745F159D33DA00DADD72 /* MBProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		524D8D0A15FC165B00280258 /* NoStops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoStops.h; sourceTree = "<group>"; };
+		524D8D0B15FC165B00280258 /* NoStops.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoStops.m; sourceTree = "<group>"; };
 		526223ED157783B100816859 /* StopMainCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StopMainCell.h; sourceTree = "<group>"; };
 		526223EE157783B100816859 /* StopMainCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopMainCell.m; sourceTree = "<group>"; };
 		526856FB158D0B74000A99BB /* BusTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BusTableCell.h; sourceTree = "<group>"; };
@@ -592,6 +595,8 @@
 				522CF47C1574040B006B1F04 /* BigDepartureTableViewCell.m */,
 				522CF4891574040B006B1F04 /* StopTimeCell.h */,
 				522CF48A1574040B006B1F04 /* StopTimeCell.m */,
+				524D8D0A15FC165B00280258 /* NoStops.h */,
+				524D8D0B15FC165B00280258 /* NoStops.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -765,6 +770,7 @@
 				522CF4AA157404F1006B1F04 /* SVSegmentedThumb.m in Sources */,
 				522CF4C31574060E006B1F04 /* EGORefreshTableHeaderView.m in Sources */,
 				5216AF6E15FB8673005DF9B2 /* InfoDetailViewController.m in Sources */,
+				524D8D0C15FC165B00280258 /* NoStops.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

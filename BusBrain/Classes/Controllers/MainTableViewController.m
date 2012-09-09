@@ -11,6 +11,7 @@
 #import "Stop.h"
 #import "StopMainCell.h"
 #import "StopLastCell.h"
+#import "NoStops.h"
 #import "StopTimesTableViewController.h"
 #import "NSString+BeetleFight.h"
 
@@ -379,7 +380,11 @@ NSString * const kLastSectionID   = @"LAST";
     }
 
   } else if ([id isEqualToString:kStopSectionID]) {
-    return [[self stops] count];
+    if([[self stops] count] > 0){
+      return [[self stops] count];
+    } else {
+      return 1;
+    }
   } else {
     return 0;
   }
@@ -403,16 +408,6 @@ NSString * const kLastSectionID   = @"LAST";
   
   return NULL;
 }
-
-/*
--(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  StopLastCell *cell = (StopLastCell *)[tableView cellForRowAtIndexPath:indexPath];
-  [[cell stopName] setHighlightedTextColor:[UIColor blueColor]];
-  [cell setSelectedBackgroundView: [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header_bar_default.png"]]];
-  NSLog(@"XXX");
-  return indexPath;
-}
-*/
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)thisTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -441,25 +436,35 @@ NSString * const kLastSectionID   = @"LAST";
 
 
   } else if ( [id isEqualToString:kStopSectionID] )  {
-
-    Stop *stop = (Stop *)[[self stops] objectAtIndex:[indexPath row]];
-    
-      static NSString *CellIdentifier = @"StopCell";
-      //StopMainCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-      StopLastCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-      if (cell == nil) {
-        cell = [[[StopLastCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-      }
       
-      [cell setStop: stop];
-    
-      if ( [cell dataRefreshRequested] ) {
-        [cell setDataRefreshRequested:false];
+     if([[self stops] count] > 0){
+        static NSString *CellIdentifier = @"StopCell";
+        //StopMainCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        StopLastCell* cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+          cell = [[[StopLastCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        }
+      
+        Stop *stop = (Stop *)[[self stops] objectAtIndex:[indexPath row]];
+        [cell setStop: stop];
+        
+        if ( [cell dataRefreshRequested] ) {
+          [cell setDataRefreshRequested:false];
+        }
+      
+        [cell setAccessoryView:[[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];
+        [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+        return cell;
+      
+      } else {
+        static NSString *CellIdentifier = @"NoStops";
+        NoStops* cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+          cell = [[[NoStops alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        }
+        [[cell message] setText:@"No stops within 25 miles."];
+        return cell;
       }
-      [cell setAccessoryView:[[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];
-      [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-
-      return cell;
     
   }
 
@@ -476,18 +481,18 @@ NSString * const kLastSectionID   = @"LAST";
     Stop *stop = (Stop *)[[self lastViewed] valueForKey:@"stop"];
     StopTimesTableViewController *target = [[StopTimesTableViewController alloc] init];
     [target setSelectedStop:stop];
-    //[target setSelectedRoute:[stop route]];
     
     [[self navigationController] pushViewController:target animated:YES];
 
   } else if ( [id isEqualToString:kStopSectionID] )  {
-
-    Stop *stop = (Stop *)[[self stops] objectAtIndex:[indexPath row]];
-    StopTimesTableViewController *target = [[StopTimesTableViewController alloc] init];
-    [target setSelectedStop:stop];
-    //[target setSelectedRoute:[stop route]];
-
-    [[self navigationController] pushViewController:target animated:YES];
+    
+    if([[self stops] count] > 0){
+      Stop *stop = (Stop *)[[self stops] objectAtIndex:[indexPath row]];
+      StopTimesTableViewController *target = [[StopTimesTableViewController alloc] init];
+      [target setSelectedStop:stop];
+      
+      [[self navigationController] pushViewController:target animated:YES];
+    }
   }
 
 }
