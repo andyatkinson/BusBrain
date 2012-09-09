@@ -107,7 +107,7 @@
 }
 
 + (UIColor *) getTimerZeroColor {
-  return [UIColor colorWithRed:1 green:0 blue:0 alpha:1];
+  return [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
 }
 
 + (UIColor *) getTimerShadowColor {
