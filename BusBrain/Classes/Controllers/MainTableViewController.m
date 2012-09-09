@@ -35,6 +35,7 @@ NSString * const kLastSectionID   = @"LAST";
 @synthesize cacheLoaded               = _cacheLoaded;
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+  
   [self loadDataForLocation:newLocation];
   [self setMyLocation: newLocation];
   [[self locationManager] stopUpdatingLocation];
@@ -52,8 +53,8 @@ NSString * const kLastSectionID   = @"LAST";
 }
 
 - (void) loadData {
-  //This code fetches the Next stop times after a pull to refresh, Don't comment it out
-  [self loadDataForLocation:[self myLocation]];
+  [self setMyLocation:nil];
+  [self initLocation];
 }
 
 - (void) hideHUD {
@@ -198,8 +199,6 @@ NSString * const kLastSectionID   = @"LAST";
 
   [[self dataArraysForRoutesScreen] addObject:stopsDict];
   [[self dataArraysForRoutesScreen] addObject:lastStopIDDict];
-  
-  //[self setLastViewed:[[NSMutableDictionary alloc] init]];
 
 }
 
@@ -242,18 +241,6 @@ NSString * const kLastSectionID   = @"LAST";
   [target setMyLocation:[self myLocation]];
    
   [[self navigationController] pushViewController:target animated:YES];
-  
-  /*
-  [UIView beginAnimations:@"View Flip" context:nil];
-  [UIView setAnimationDuration:0.70];
-  [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-  
-  [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromRight forView:self.navigationController.view cache:NO];
-
-  [self.navigationController pushViewController:target animated:YES];
-  [UIView commitAnimations];
-   */
-  
 }
 
 - (void) downloadCache:(id <BusProgressDelegate>)delegate {
@@ -507,7 +494,6 @@ NSString * const kLastSectionID   = @"LAST";
 #pragma mark UIScrollViewDelegate Methods
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-  //[_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
   [_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
 }
 
