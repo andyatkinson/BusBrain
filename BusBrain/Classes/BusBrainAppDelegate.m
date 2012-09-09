@@ -10,6 +10,7 @@
 #import "StopTimesTableViewController.h"
 #import "InfoTableViewController.h"
 #import "SpashViewController.h"
+#import "BusLooknFeel.h"
 
 @implementation BusBrainAppDelegate
 
@@ -42,6 +43,11 @@
   
   
   UINavigationController *routesController = [[[UINavigationController alloc] initWithRootViewController:mainTableViewController] autorelease];
+  
+  NSMutableDictionary *titleBarAttributes = [NSMutableDictionary dictionaryWithDictionary: [[UINavigationBar appearance] titleTextAttributes]];
+  [titleBarAttributes setValue:[BusLooknFeel getNavigationTitleFont] forKey:UITextAttributeFont];
+  [[UINavigationBar appearance] setTitleTextAttributes:titleBarAttributes];
+  
   routesController.navigationBar.barStyle = UIBarStyleDefault;
   routesController.tabBarItem.title = @"Departures";
   routesController.tabBarItem.image = [UIImage imageNamed:@"11-clock.png"];

@@ -16,7 +16,7 @@
 
 //-----------------------------------------
 + (UIFont *) getNavigationTitleFont {
-  return [UIFont boldSystemFontOfSize:16.0];
+  return [UIFont boldSystemFontOfSize:18.0];
 }
 
 + (UIColor *) getNavigationTitleColor {
