@@ -169,10 +169,15 @@
     cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     cell.backgroundColor = [UIColor clearColor];
     cell.textLabel.textColor = [UIColor whiteColor];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
+    /* this doesn't preserve the rounded corners of the grouped tableviewcell style
+     - If it can be clicked and set to black and preserve the rounded corners, then feel free to kill the selectionStyle above
+     
     UIView *selectHighlightView = [[UIView alloc] init];
-    [selectHighlightView setBackgroundColor:[UIColor blackColor]];
+    [selectHighlightView setBackgroundColor:[UIColor ]];
     [cell setSelectedBackgroundView: selectHighlightView];
+     */
     
     cell.textLabel.shadowColor = [UIColor blackColor];
     cell.textLabel.shadowOffset = CGSizeMake(0,-1);
@@ -220,7 +225,7 @@
   if ([MFMailComposeViewController canSendMail]) {
     NSArray *recipients = [[NSArray alloc] initWithObjects:emailAddr, nil];
     
-    NSString *emailBody = @"<br/><br/>Download Bus Brain for iOS and follow <a href='http://twitter.com/trainbrainapp'>@trainbrainapp</a> on twitter";
+    NSString *emailBody = @"<br/><br/>Download Train Brain for iOS and follow <a href='http://twitter.com/trainbrainapp'>@trainbrainapp</a> on twitter";
     
     MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
     mailViewController.mailComposeDelegate = self;
@@ -238,6 +243,11 @@
     // pop an UIAlertView?
     NSLog(@"can't send email");
   }
+}
+
+-(void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+  [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)dealloc {
