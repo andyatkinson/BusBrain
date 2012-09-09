@@ -36,7 +36,7 @@
 
   [[self relativeTime] setAttributedText: string];
   [[self scheduleTime] setText: [[stopTime departureTime] hourMinuteFormatted]];
-  [[self price] setText: [stopTime price]];
+  [[self price] setText: @""];
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -62,6 +62,8 @@
                                               selectedColor:[BusLooknFeel getUpcomingSubTitleColor] 
                                                        font:[BusLooknFeel getUpcomingSubTitleFont]]];
 
+    [[self scheduleTime] setTextAlignment:UITextAlignmentRight];
+    
     [contentView addSubview:[self icon]];
     [contentView addSubview:[self relativeTime]];
     [contentView addSubview:[self scheduleTime]];
@@ -95,8 +97,10 @@
   */
   [[self icon]         setFrame: CGRectMake(boundsX +  10, 18, 20,  20)];
   [[self relativeTime] setFrame: CGRectMake(boundsX +  40, 10, 200, 50)];
-  [[self scheduleTime] setFrame: CGRectMake(boundsX + 185, 23, 80,  50)];
-  [[self price]        setFrame: CGRectMake(boundsX + 270, 23, 50,  50)];
+  
+  [[self price]        setFrame: CGRectMake(boundsX + 160, 23, 80,  50)];
+  [[self scheduleTime] setFrame: CGRectMake(boundsX + 230, 23, 75,  50)];
+  
 
 }
 

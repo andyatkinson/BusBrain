@@ -32,7 +32,7 @@
   NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
   [dateFormatter setDateFormat:@"hh:mm a"];
   [[self formattedTime] setText: [dateFormatter stringFromDate:[[self stopTime] getStopDate]]];
-  [[self price] setText: [stopTime price]];
+  [[self price] setText: @""];
 
 }
 
@@ -242,8 +242,8 @@
   CGFloat boundsX = contentRect.origin.x;
   [[self funnySaying]   setFrame: CGRectMake(boundsX +  20,  98, 200,  20)];
   [[self description]   setFrame: CGRectMake(boundsX +  20, 115, 200,  20)];
-  [[self formattedTime] setFrame: CGRectMake(boundsX + 250,  95,  80,  20)];
-  [[self price]         setFrame: CGRectMake(boundsX + 250, 115,  80,  20)];
+  [[self formattedTime] setFrame: CGRectMake(boundsX + 250, 108,  80,  20)];
+  //[[self price]         setFrame: CGRectMake(boundsX + 250, 115,  80,  20)];
 }
 
 #pragma mark -
