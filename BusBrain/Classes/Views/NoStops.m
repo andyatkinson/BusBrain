@@ -51,7 +51,7 @@
   CGRect contentRect = [[self contentView] bounds];
   CGFloat boundsX = contentRect.origin.x;
   
-  [[self message]  setFrame: CGRectMake(boundsX +  10, 15, 200,  30)];
+  [[self message]  setFrame: CGRectMake(boundsX +  10, 15, 300,  30)];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

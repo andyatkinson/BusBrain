@@ -89,21 +89,13 @@ NSString * const kLastSectionID   = @"LAST";
   
 
   [Stop loadNearbyStops:@"bus/v1/stops/nearby.json" near:location parameters:params block:^(NSDictionary *data) {
-    
     if (data == NULL || ![data isKindOfClass:[NSDictionary class]]) {
-      UIView *container = [[[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,400)] autorelease];
-      container.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_app.png"]];
-      UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20,5,self.view.frame.size.width, 50)];
-      label.backgroundColor = [UIColor clearColor];
-      label.textAlignment = UITextAlignmentLeft;
-      label.textColor = [UIColor whiteColor];
-      label.text = @"Error loading data. Please email support.";
-      label.font = [UIFont boldSystemFontOfSize:14.0];
-      [container addSubview:label];
-      self.view = container;
-
+      self.stops = [[NSArray alloc] init];
+      [self setErrorMessage:@"Error loading data. Email support."];
+      [self.tableView reloadData];
       
     } else {
+      [self setErrorMessage:@"No stops within 25 miles."];
       
       self.stops = [data objectForKey:@"stops"];
       self.lastViewed = [data objectForKey:@"last_viewed"];
@@ -451,7 +443,7 @@ NSString * const kLastSectionID   = @"LAST";
         if (cell == nil) {
           cell = [[[NoStops alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
         }
-        [[cell message] setText:@"No stops within 25 miles."];
+        [[cell message] setText:[self errorMessage]];
         return cell;
       }
     

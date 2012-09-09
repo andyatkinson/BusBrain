@@ -16,6 +16,7 @@
   NSArray           *_stopsDB;
   NSDictionary      *_lastViewed;
   NSTimer           *_refreshTimer;
+  NSString          *_errorMessage;
   
   int  _fetchCount;
   BOOL _dataRefreshRequested;
@@ -29,6 +30,7 @@
 @property (nonatomic, retain) CLLocation        *myLocation;
 @property (nonatomic, retain) CLLocationManager *locationManager;
 @property (nonatomic, retain) NSTimer           *refreshTimer;
+@property (nonatomic, retain) NSString          *errorMessage;
 @property (nonatomic)         int               fetchCount;
 @property (nonatomic)         BOOL              dataRefreshRequested;
 @property (nonatomic)         BOOL              cacheLoaded;
