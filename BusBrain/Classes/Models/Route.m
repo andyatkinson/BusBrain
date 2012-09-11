@@ -79,16 +79,4 @@
    }];
 }
 
-- (void)dealloc {
-  [_route_id dealloc];
-  [_long_name dealloc];
-  [_short_name dealloc];
-  [_route_desc dealloc];
-  [_route_type dealloc];
-  [_route_url dealloc];
-  [_icon_path dealloc];
-  
-  [super dealloc];
-}
-
 @end

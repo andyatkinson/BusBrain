@@ -26,7 +26,7 @@
   self.stop_id = [attributes valueForKeyPath:@"stop_id"];
   self.stop_lat = [attributes valueForKeyPath:@"stop_lat"];
   self.stop_lon = [attributes valueForKeyPath:@"stop_lon"];
-  self.location = [[CLLocation alloc] initWithLatitude:self.stop_lat.floatValue longitude:self.stop_lon.floatValue];
+  self.location = [[[CLLocation alloc] initWithLatitude:self.stop_lat.floatValue longitude:self.stop_lon.floatValue] autorelease];
   
   NSString *family = [attributes valueForKeyPath:@"route_family"];
   if ([family length] > 0) {
@@ -199,20 +199,6 @@
    }];
 }
 
-
-- (void)dealloc {
-  [stop_id dealloc];
-  //[stop_name dealloc];
-  [stop_street dealloc];
-  [stop_lat dealloc];
-  [stop_lon dealloc];
-  [location dealloc];
-  [icon_path dealloc];
-  //[headsign dealloc];
-  //[route dealloc];
-  
-  [super dealloc];
-}
 
 
 @end
