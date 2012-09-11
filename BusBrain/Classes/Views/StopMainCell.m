@@ -46,8 +46,8 @@
     [self setDataRefreshRequested:false];
   }
 
-  NSMutableAttributedString * string = [[NSMutableAttributedString alloc]
-                                        initWithString:relativeString];
+  NSMutableAttributedString * string = [[[NSMutableAttributedString alloc]
+                                        initWithString:relativeString] autorelease];
 
   [string setTextColor:[[self relativeTime] textColor]];
   [string setFont:[[self relativeTime] font]];
@@ -73,7 +73,7 @@
   if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
     [self initSelectionStyle];
     
-    UIView *contentView = [self contentView];
+    UIView *contentView = [[self contentView] autorelease];
 
     UIImage *bgImg = [[UIImage imageNamed:@"bg_cell.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
     [self setBackgroundView: [[UIImageView alloc] initWithImage:bgImg]];

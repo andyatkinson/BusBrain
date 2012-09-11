@@ -20,7 +20,7 @@
 }
 
 - (void) initSelectionStyle {
-  UIView *selectHighlightView = [[UIView alloc] init];
+  UIView *selectHighlightView = [[[UIView alloc] init] autorelease];
   [selectHighlightView setBackgroundColor:[UIColor blackColor]];
   [self setSelectedBackgroundView: selectHighlightView];
 }

@@ -26,17 +26,17 @@
   self.stop_id = [attributes valueForKeyPath:@"stop_id"];
   self.stop_lat = [attributes valueForKeyPath:@"stop_lat"];
   self.stop_lon = [attributes valueForKeyPath:@"stop_lon"];
-  self.location = [[CLLocation alloc] initWithLatitude:self.stop_lat.floatValue longitude:self.stop_lon.floatValue];
+  self.location = [[[CLLocation alloc] initWithLatitude:self.stop_lat.floatValue longitude:self.stop_lon.floatValue] autorelease];
   
   NSString *family = [attributes valueForKeyPath:@"route_family"];
   if ([family length] > 0) {
     self.icon_path = [NSString stringWithFormat: @"icon_%@.png", family];
   }
   
-  self.headsign = [[Headsign alloc] init];
+  self.headsign = [[[Headsign alloc] init] autorelease];
   self.headsign.headsign_name = [attributes valueForKeyPath:@"headsign_name"];
   
-  self.route = [[Route alloc] init];
+  self.route = [[[Route alloc] init] autorelease];
   self.route.route_id = [attributes valueForKeyPath:@"route_id"];
   self.route.short_name = [attributes valueForKeyPath:@"route_short_name"];
   
@@ -139,7 +139,7 @@
     
     
     //Get Last Viewed Stop off response
-    NSMutableDictionary *lastViewed = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *lastViewed = [[[NSMutableDictionary alloc] init] autorelease];
     NSDictionary *parsedDict = [JSON valueForKeyPath:@"last_viewed"];
     if ([parsedDict valueForKey:@"stop"]) {
       NSDictionary *stopAttributes = [parsedDict valueForKeyPath:@"stop"];
@@ -147,7 +147,7 @@
       
       
       if ( [parsedDict valueForKey:@"next_departure"] != (id)[NSNull null] ) {
-        NSMutableDictionary *timeAttributes = [[NSMutableDictionary alloc] init];
+        NSMutableDictionary *timeAttributes = [[[NSMutableDictionary alloc] init] autorelease];
         [timeAttributes setValue:@"NA" forKey:@"price"];
         [timeAttributes setValue:[parsedDict valueForKey:@"next_departure"] forKey:@"departure_time"];
         StopTime *stop_time = [[[StopTime alloc] initWithAttributes:timeAttributes] autorelease];

@@ -58,7 +58,7 @@
                                                                    options:kNilOptions
                                                                      error:&error];
 
-    for (NSDictionary *attributes in [[NSArray alloc] initWithArray :[jsonDictionary objectForKey:@"routes"]]) {
+    for (NSDictionary *attributes in [[[NSArray alloc] initWithArray :[jsonDictionary objectForKey:@"routes"]] autorelease]) {
       if([mutableRecords count] < 5) {
         Route *route = [[[Route alloc] initWithAttributes:attributes] autorelease];
         [mutableRecords addObject:route];

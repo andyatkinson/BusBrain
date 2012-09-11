@@ -22,14 +22,13 @@
 }
 
 - (void) viewDidLoad {
-  UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 460)];
+  UIView *bgView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 460)] autorelease];
   [bgView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_app.png"]]];
   
    [self.view addSubview:bgView];
   
   [self setHud: [MBProgressHUD showHUDAddedTo:self.view animated:YES]];
   [[self hud] setMode: MBProgressHUDModeAnnularDeterminate];
-  //[[self hud] setMode: MBProgressHUDModeDeterminate];
   [[self hud] setLabelText: @"Loading"];
   
 }
