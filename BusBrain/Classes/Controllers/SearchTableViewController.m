@@ -29,6 +29,14 @@
   }
 }
 
+- (void)downloadCache:(UITapGestureRecognizer *)recognizer {
+  [[self main] initData:nil];
+  [[self main] initLocation];
+  
+  [[self navigationController] popViewControllerAnimated:YES];
+  [[self navigationItem] setHidesBackButton: NO];
+}
+
 - (void)cancelSearch:(UITapGestureRecognizer *)recognizer {
   //CGPoint location = [recognizer locationInView:[recognizer.view superview]];
   
@@ -187,19 +195,25 @@
   [[self message] setTextColor:[UIColor grayColor]];
   [[self message] setFont:[UIFont boldSystemFontOfSize:13.0]];
   
-  [[self message] setText:@"Enter your search term to display stops"];
+  if([[self stopsDB] count] > 0){
+    [[self message] setText:@"Enter your search term to display stops"];
+    UITapGestureRecognizer *singleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(cancelSearch:)];
+    [[self greyView] addGestureRecognizer:singleFingerTap];
+    [search becomeFirstResponder];
+  } else {
+    [[self message] setText:@"Search DB is corrupt, tap to download"];
+    UITapGestureRecognizer *singleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(downloadCache:)];
+    [[self greyView] addGestureRecognizer:singleFingerTap];
+    [[self searchBar] resignFirstResponder];
+  }
+  
   [[self greyView] addSubview:[self message]];
-  
-  UITapGestureRecognizer *singleFingerTap =
-  [[UITapGestureRecognizer alloc] initWithTarget:self
-                                          action:@selector(cancelSearch:)];
-  [[self greyView] addGestureRecognizer:singleFingerTap];
-  
-  
   [[self view] addSubview:[self greyView]];
-  
-  
-  [search becomeFirstResponder];
+
 }
 
 - (void)viewDidAppear {

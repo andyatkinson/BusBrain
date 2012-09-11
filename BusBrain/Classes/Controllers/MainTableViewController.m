@@ -163,11 +163,7 @@ NSString * const kLastSectionID   = @"LAST";
 
 -(void) cacheStopDB:(id <BusProgressDelegate>)delegate {
   [self setCacheLoaded:false];
-
-  //Kick off download of new cache
-  if([self isCacheStail]){
-    [self downloadCache:delegate];
-  }
+  [self downloadCache:delegate];
   
   //Load existing cache
   [Stop loadStopsDB:^(NSArray *db) {
@@ -250,7 +246,6 @@ NSString * const kLastSectionID   = @"LAST";
                                   stringByAppendingPathComponent:@"Documents"];
   NSString *downloadPath = [documentsDirectory
                             stringByAppendingPathComponent:@"Download.json"];
-  NSLog(@"Download to: %@", downloadPath);
 
   AFHTTPRequestOperation *operation = [[TransitAPIClient sharedClient] HTTPRequestOperationWithRequest:afRequest 
                          success:^(AFHTTPRequestOperation *operation, id JSON) {
