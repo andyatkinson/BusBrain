@@ -133,5 +133,15 @@
   return mutableRecords;
 }
 
+- (void)dealloc {
+  [_departureTime dealloc];
+  [_arrivalTime dealloc];
+  [_dropOffType dealloc];
+  [_pickupType dealloc];
+  [_price dealloc];
+  [_headsign dealloc];
+  
+  [super dealloc];
+}
 
 @end

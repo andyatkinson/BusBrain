@@ -84,8 +84,8 @@ NSString * const kLastSectionID   = @"LAST";
   NSDate *now = [NSDate date];
   NSCalendar *calendar = [NSCalendar currentCalendar];
   NSDateComponents *components = [calendar components:NSHourCalendarUnit|NSMinuteCalendarUnit fromDate:now];
-  [params setValue:[NSString stringWithFormat:@"%d", [components hour]] forKey:@"hour"];
-  [params setValue:[NSString stringWithFormat:@"%d", [components minute]] forKey:@"minute"];
+  [params setValue:[[NSString stringWithFormat:@"%d", [components hour]] autorelease] forKey:@"hour"];
+  [params setValue:[[NSString stringWithFormat:@"%d", [components minute]] autorelease] forKey:@"minute"];
   
 
   [Stop loadNearbyStops:@"bus/v1/stops/nearby.json" near:location parameters:params block:^(NSDictionary *data) {
