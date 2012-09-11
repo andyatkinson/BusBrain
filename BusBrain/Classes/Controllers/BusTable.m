@@ -47,7 +47,7 @@
 
   UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0,0,[[self tableView] frame].size.width,30)] autorelease];
 
-  UILabel *headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10,0,[headerView frame].size.width, [headerView frame].size.height)] autorelease];
+  UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(10,0,[headerView frame].size.width, [headerView frame].size.height)];
   [headerLabel setText: [self tableView:tv titleForHeaderInSection:section]];
   [headerLabel setTextAlignment: UITextAlignmentLeft];
   

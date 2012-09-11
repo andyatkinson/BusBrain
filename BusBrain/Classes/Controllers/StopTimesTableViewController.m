@@ -96,7 +96,7 @@
        } else {
          UIView *container = [[[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,400)] autorelease];
          container.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_app.png"]];
-         UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(20,5,self.view.frame.size.width, 50)] autorelease];
+         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20,5,self.view.frame.size.width, 50)];
          label.backgroundColor = [UIColor clearColor];
          label.textAlignment = UITextAlignmentLeft;
          label.textColor = [UIColor whiteColor];
@@ -129,16 +129,16 @@
   [[self navigationItem] setBackBarButtonItem: backBarButton];
   [backBarButton release];
 
-  [self setTableView:[[[UITableView alloc] initWithFrame:CGRectMake(22, 207, 270, 233)] autorelease]];
+  [self setTableView:[[UITableView alloc] initWithFrame:CGRectMake(22, 207, 270, 233)]];
 
   [super viewDidLoad];
 
   [[self tableView] setDataSource: self];
   [[self tableView] setDelegate: self];
 
-  [self setData: [[[NSMutableArray alloc] init] autorelease]];
+  [self setData: [[NSMutableArray alloc] init]];
 
-  [self setStopTimes: [[[NSArray alloc] init] autorelease]];
+  [self setStopTimes: [[NSArray alloc] init]];
   [self loadStopTimes];
 
   [[self tableView] setSeparatorStyle: UITableViewCellSeparatorStyleNone];
@@ -218,13 +218,13 @@
 {
 
   static NSString *CellIdentifier = @"Cell";
-  UITableViewCell *cell = [[[UITableViewCell alloc] init] autorelease];
+  UITableViewCell *cell = [[UITableViewCell alloc] init];
 
   if ([[self stopTimes] count] > 0) {
     if ([indexPath section] == 0) {
 
       if ([self bigCell] == NULL) {
-        [self setBigCell:[[[BigDepartureTableViewCell alloc] init] autorelease]];
+        [self setBigCell:[[BigDepartureTableViewCell alloc] init]];
 
         StopTime *stop_time = (StopTime *)[[self stopTimes] objectAtIndex:[indexPath row]];
         [[self bigCell] setStopTime:stop_time];

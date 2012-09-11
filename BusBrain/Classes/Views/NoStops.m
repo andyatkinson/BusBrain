@@ -24,7 +24,7 @@
     
     [self initSelectionStyle];
     
-    UIView *contentView = [[self contentView] autorelease];
+    UIView *contentView = [self contentView];
     
     UIImage *bgImg = [[UIImage imageNamed:@"bg_cell.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
     [self setBackgroundView: [[UIImageView alloc] initWithImage:bgImg]];

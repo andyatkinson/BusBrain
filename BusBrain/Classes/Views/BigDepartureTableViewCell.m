@@ -29,7 +29,7 @@
 - (void) setStopTime: (StopTime*) stopTime {
   _stopTime = stopTime;
 
-  NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
   [dateFormatter setDateFormat:@"hh:mm a"];
   [[self formattedTime] setText: [dateFormatter stringFromDate:[[self stopTime] getStopDate]]];
   [[self price] setText: @""];

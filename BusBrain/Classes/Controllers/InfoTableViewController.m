@@ -32,7 +32,7 @@
 
 - (void)viewDidLoad {
 
-  self.tableView = [[[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped] autorelease];
+  self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
   
   [super viewDidLoad];
   
@@ -186,19 +186,19 @@
   
   int rowsInSection = [self numberOfRowsInSection:indexPath.section];
   if(rowsInSection == 1){
-    cell.backgroundView = [[[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"info_cell_single.png"]
-                                                              resizableImageWithCapInsets:UIEdgeInsetsZero]] autorelease];
+    cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"info_cell_single.png"]
+                                                              resizableImageWithCapInsets:UIEdgeInsetsZero]];
   } else {
-    cell.accessoryView = [[[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]] autorelease];
+    cell.accessoryView = [[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]];
     if (indexPath.row == 0) {
-      cell.backgroundView = [[[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"info_cell_top.png"]
-                                                                resizableImageWithCapInsets:UIEdgeInsetsZero]] autorelease];
+      cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"info_cell_top.png"]
+                                                                resizableImageWithCapInsets:UIEdgeInsetsZero]];
     } else if (indexPath.row == rowsInSection - 1) {
-      cell.backgroundView = [[[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"info_cell_bottom.png"]
-                                                                resizableImageWithCapInsets:UIEdgeInsetsZero]] autorelease];
+      cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"info_cell_bottom.png"]
+                                                                resizableImageWithCapInsets:UIEdgeInsetsZero]];
     } else {
-      cell.backgroundView = [[[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"info_cell_middle.png"]
-                                                                resizableImageWithCapInsets:UIEdgeInsetsZero]] autorelease];
+      cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"info_cell_middle.png"]
+                                                                resizableImageWithCapInsets:UIEdgeInsetsZero]];
     }
   }
   
