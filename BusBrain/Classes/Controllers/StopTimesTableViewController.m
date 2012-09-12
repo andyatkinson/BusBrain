@@ -248,6 +248,7 @@
       StopTime *stop_time = (StopTime *)[[self stopTimes] objectAtIndex:[indexPath row]];
       [[cell icon] setImage: [UIImage imageNamed:@"icon_clock.png"]];
       [cell setStopTime:stop_time];
+      [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 
       return cell;
 
