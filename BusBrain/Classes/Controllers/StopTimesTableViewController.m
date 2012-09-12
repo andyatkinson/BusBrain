@@ -106,6 +106,11 @@
          self.view = container;
        }
 
+                          
+       NSMutableDictionary *lastViewed = [[NSMutableDictionary alloc] init];
+       [lastViewed setValue:[self selectedStop] forKey:@"stop"];
+       [[self main] setLastViewed:lastViewed];
+                          
        NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
        [settings setObject:[[self selectedStop] stop_id] forKey:@"last_viewed_stop_id"];
        [settings synchronize];
@@ -151,10 +156,7 @@
 }
 
 - (void) viewDidDisappear:(BOOL)animated{
-  UIViewController *currentControler = [[[self main] navigationController] topViewController];
-  if ( [currentControler isKindOfClass:[MainTableViewController class]] ) {
-    [(MainTableViewController*) currentControler loadData];
-  }
+  [[[self main] tableView] reloadData];
 }
 
 - (void)viewDidUnload {

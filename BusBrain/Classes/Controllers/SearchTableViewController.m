@@ -23,10 +23,7 @@
 @synthesize message     = _message;
 
 - (void) viewDidDisappear:(BOOL)animated{
-  UIViewController *currentControler = [[[self main] navigationController] topViewController];
-  if ( [currentControler isKindOfClass:[MainTableViewController class]] ) {
-    [(MainTableViewController*) currentControler loadData];
-  }
+  [[[self main] tableView] reloadData];
 }
 
 - (void)downloadCache:(UITapGestureRecognizer *)recognizer {
@@ -271,6 +268,7 @@
     Stop *stop = (Stop *)[[self searchArray] objectAtIndex:[indexPath row]];
     StopTimesTableViewController *target = [[StopTimesTableViewController alloc] init];
     [target setSelectedStop:stop];
+    [target setMain:[self main]];
 
     [[self navigationController] pushViewController:target animated:YES];
 }
