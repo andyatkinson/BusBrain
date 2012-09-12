@@ -71,7 +71,7 @@
   NSString *documentsDirectory = [NSHomeDirectory() 
                                   stringByAppendingPathComponent:@"Documents"];
   NSString *filepath = [documentsDirectory 
-                            stringByAppendingPathComponent:@"DownloadStops.json"];
+                            stringByAppendingPathComponent:@"CacheStops.json"];
   
   if(! [[NSFileManager defaultManager] fileExistsAtPath:filepath]){
     filepath = [[NSBundle mainBundle] pathForResource:@"search_objects_api_json_dump" ofType:@"json"];

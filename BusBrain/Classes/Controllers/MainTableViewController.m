@@ -245,7 +245,7 @@ NSString * const kLastSectionID   = @"LAST";
   NSString *documentsDirectory = [NSHomeDirectory()
                                   stringByAppendingPathComponent:@"Documents"];
   NSString *downloadPath = [documentsDirectory
-                            stringByAppendingPathComponent:@"Download.json"];
+                            stringByAppendingPathComponent:@"CurrentDownload.json"];
 
   AFHTTPRequestOperation *operation = [[TransitAPIClient sharedClient] HTTPRequestOperationWithRequest:afRequest 
                          success:^(AFHTTPRequestOperation *operation, id JSON) {
@@ -258,14 +258,32 @@ NSString * const kLastSectionID   = @"LAST";
                            NSError* error = nil;
                            NSFileManager *fileMgr = [NSFileManager defaultManager];
                            
-                           NSString *copyPath = [documentsDirectory 
-                                                     stringByAppendingPathComponent:@"DownloadStops.json"];
-                           if ([fileMgr removeItemAtPath:copyPath error:&error] != YES) {
+                           NSString *dbPath = [documentsDirectory
+                                                     stringByAppendingPathComponent:@"CacheStops.json"];
+                           NSString *backupPath = [documentsDirectory
+                                               stringByAppendingPathComponent:@"BackupStops.json"];
+                           
+                           
+                           //Backup last good cache
+                           if ([fileMgr removeItemAtPath:backupPath error:&error] != YES) {
+                             NSLog(@"Unable to delete file: %@", [error localizedDescription]);
+                           }
+                           if(![fileMgr copyItemAtPath:downloadPath
+                                                toPath:dbPath
+                                                 error:&error]){
+                             NSLog(@"Failed to Copy");
+                             NSLog(@"Error description-%@ \n", [error localizedDescription]);
+                             NSLog(@"Error reason-%@", [error localizedFailureReason]);
+                           }
+                           
+                           //Remove cache file
+                           if ([fileMgr removeItemAtPath:dbPath error:&error] != YES) {
                              NSLog(@"Unable to delete file: %@", [error localizedDescription]);
                            }
                            
+                           //Replace cache with what was downloaded
                            if(![fileMgr copyItemAtPath:downloadPath 
-                                                toPath:copyPath
+                                                toPath:dbPath
                                                  error:&error]){
                              NSLog(@"Failed to Copy");
                              NSLog(@"Error description-%@ \n", [error localizedDescription]);
@@ -274,8 +292,30 @@ NSString * const kLastSectionID   = @"LAST";
                            
                            //Load new cache into memory
                            [Stop loadStopsDB:^(NSArray *db) {
-                             [self setStopsDB:db];
-                             [self setCacheLoaded:true];
+                             
+                             if([db count] > 0 ){
+                               [self setStopsDB:db];
+                               [self setCacheLoaded:true];
+                             } else {
+                               NSLog(@"Purge corrupt download");
+                               NSError* error = nil;
+                               
+                               //Restore the backup into place
+                               if ([fileMgr removeItemAtPath:dbPath error:&error] != YES) {
+                                 NSLog(@"Unable to delete file: %@", [error localizedDescription]);
+                               }
+                               
+                               //Replace cache with what was downloaded
+                               if(![fileMgr copyItemAtPath:backupPath
+                                                    toPath:dbPath
+                                                     error:&error]){
+                                 NSLog(@"Failed to Copy");
+                                 NSLog(@"Error description-%@ \n", [error localizedDescription]);
+                                 NSLog(@"Error reason-%@", [error localizedFailureReason]);
+                               }
+
+                             }
+                             
                            }];
                            
                          } 
