@@ -266,26 +266,26 @@ NSString * const kLastSectionID   = @"LAST";
                            
                            //Backup last good cache
                            if ([fileMgr removeItemAtPath:backupPath error:&error] != YES) {
-                             NSLog(@"Unable to delete file: %@", [error localizedDescription]);
+                             NSLog(@"Unable to delete file (%@): %@", backupPath, [error localizedDescription]);
                            }
                            if(![fileMgr copyItemAtPath:downloadPath
-                                                toPath:dbPath
+                                                toPath:backupPath
                                                  error:&error]){
-                             NSLog(@"Failed to Copy");
+                             NSLog(@"Failed to Copy %@ -> %@", downloadPath, backupPath);
                              NSLog(@"Error description-%@ \n", [error localizedDescription]);
                              NSLog(@"Error reason-%@", [error localizedFailureReason]);
                            }
                            
                            //Remove cache file
                            if ([fileMgr removeItemAtPath:dbPath error:&error] != YES) {
-                             NSLog(@"Unable to delete file: %@", [error localizedDescription]);
+                             NSLog(@"Unable to delete file (%@): %@", dbPath, [error localizedDescription]);
                            }
                            
                            //Replace cache with what was downloaded
                            if(![fileMgr copyItemAtPath:downloadPath 
                                                 toPath:dbPath
                                                  error:&error]){
-                             NSLog(@"Failed to Copy");
+                             NSLog(@"Failed to Copy %@ -> %@", downloadPath, dbPath);
                              NSLog(@"Error description-%@ \n", [error localizedDescription]);
                              NSLog(@"Error reason-%@", [error localizedFailureReason]);
                            }
@@ -302,14 +302,14 @@ NSString * const kLastSectionID   = @"LAST";
                                
                                //Restore the backup into place
                                if ([fileMgr removeItemAtPath:dbPath error:&error] != YES) {
-                                 NSLog(@"Unable to delete file: %@", [error localizedDescription]);
+                                 NSLog(@"Unable to delete file (%@): %@",dbPath, [error localizedDescription]);
                                }
                                
                                //Replace cache with what was downloaded
                                if(![fileMgr copyItemAtPath:backupPath
                                                     toPath:dbPath
                                                      error:&error]){
-                                 NSLog(@"Failed to Copy");
+                                 NSLog(@"Failed to Copy %@ -> %@", backupPath, dbPath);
                                  NSLog(@"Error description-%@ \n", [error localizedDescription]);
                                  NSLog(@"Error reason-%@", [error localizedFailureReason]);
                                }
