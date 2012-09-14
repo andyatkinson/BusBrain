@@ -87,6 +87,7 @@
 		5275A195158E64590095B382 /* BusLooknFeel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5275A194158E64060095B382 /* BusLooknFeel.m */; };
 		5282A38D1593FE7400B258CB /* SpashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5282A38B1593FDD900B258CB /* SpashViewController.m */; };
 		5290EA4E15FC120B00FFE0E7 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5290EA4D15FC120B00FFE0E7 /* MessageUI.framework */; };
+		52AEC5BD1602D604004C548E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 52AEC5BC1602D604004C548E /* Default-568h@2x.png */; };
 		52C374DC157A93F600B61A47 /* StopLastCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52C374DA157A93E200B61A47 /* StopLastCell.m */; };
 		52E627F21586CE4C00ACF885 /* StopSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E627F01586CE4000ACF885 /* StopSearchCell.m */; };
 		52E627F515881A9F00ACF885 /* SearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E627F3158819B400ACF885 /* SearchTableViewController.m */; };
@@ -220,6 +221,7 @@
 		5282A38B1593FDD900B258CB /* SpashViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpashViewController.m; sourceTree = "<group>"; };
 		5282A38C1593FDDA00B258CB /* SpashViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpashViewController.h; sourceTree = "<group>"; };
 		5290EA4D15FC120B00FFE0E7 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		52AEC5BC1602D604004C548E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		52C374D9157A93E200B61A47 /* StopLastCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StopLastCell.h; sourceTree = "<group>"; };
 		52C374DA157A93E200B61A47 /* StopLastCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopLastCell.m; sourceTree = "<group>"; };
 		52E627EF1586CE4000ACF885 /* StopSearchCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StopSearchCell.h; sourceTree = "<group>"; };
@@ -392,6 +394,7 @@
 		A15BFA651569C5E8004651B9 = {
 			isa = PBXGroup;
 			children = (
+				52AEC5BC1602D604004C548E /* Default-568h@2x.png */,
 				5222D42B15D49379007B9ABE /* Icon@2x.png */,
 				5222D42915D4936D007B9ABE /* Icon-Small@2x.png */,
 				A1C637771569C68A004D06D9 /* BusBrain */,
@@ -720,6 +723,7 @@
 				520DA84A15FB88B8008A5463 /* info_cell_single@2x.png in Resources */,
 				520DA84B15FB88B8008A5463 /* info_cell_top.png in Resources */,
 				520DA84C15FB88B8008A5463 /* info_cell_top@2x.png in Resources */,
+				52AEC5BD1602D604004C548E /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
