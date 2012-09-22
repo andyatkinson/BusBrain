@@ -21,6 +21,7 @@
   int  _fetchCount;
   BOOL _dataRefreshRequested;
   BOOL _cacheLoaded;
+  BOOL _surpressHUD;
 }
 
 @property (nonatomic, retain) NSMutableArray    *dataArraysForRoutesScreen;
@@ -34,12 +35,12 @@
 @property (nonatomic)         int               fetchCount;
 @property (nonatomic)         BOOL              dataRefreshRequested;
 @property (nonatomic)         BOOL              cacheLoaded;
+@property (nonatomic)         BOOL              surpressHUD;
 
 - (void) initData:(id <BusProgressDelegate>)delegate;
 - (void) initLocation;
 - (BOOL) isCacheStail;
 - (void) purgeCachedData;
-
 - (void) downloadCache:(id <BusProgressDelegate>)delegate;
 
 @end

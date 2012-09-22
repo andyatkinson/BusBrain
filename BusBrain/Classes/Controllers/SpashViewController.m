@@ -22,7 +22,11 @@
 }
 
 - (void) viewDidLoad {
-  UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 460)];
+  CGRect screenRect = [[UIScreen mainScreen] bounds];
+  CGFloat screenWidth = screenRect.size.width;
+  CGFloat screenHeight = screenRect.size.height;
+  
+  UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
   [bgView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_app.png"]]];
   
    [self.view addSubview:bgView];

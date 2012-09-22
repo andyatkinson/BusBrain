@@ -36,7 +36,8 @@
 
   SpashViewController *splash = nil;
   if([mainTableViewController isCacheStail]){
-    //splash = [[SpashViewController alloc] init];
+    splash = [[SpashViewController alloc] init];
+    [mainTableViewController setSurpressHUD:YES];
   }
   [mainTableViewController initData:splash];
   [mainTableViewController initLocation];

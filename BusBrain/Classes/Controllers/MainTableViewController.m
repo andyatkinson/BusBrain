@@ -33,9 +33,9 @@ NSString * const kLastSectionID   = @"LAST";
 @synthesize dataRefreshRequested      = _dataRefreshRequested;
 @synthesize fetchCount                = _fetchCount;
 @synthesize cacheLoaded               = _cacheLoaded;
+@synthesize surpressHUD               = _surpressHUD;
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-  
   [self loadDataForLocation:newLocation];
   [self setMyLocation: newLocation];
   [[self locationManager] stopUpdatingLocation];
@@ -121,7 +121,10 @@ NSString * const kLastSectionID   = @"LAST";
 }
 
 - (void) loadDataForLocation:(CLLocation *)location {
-  [self showHUD];
+  
+  if(! [self surpressHUD]){
+    [self showHUD];
+  }
 
   //Since we are WERE kicking off multiple requests that could come back in a different order
   //We need to keep track of it and each caller needs to decreemnt the fetchCount and
@@ -315,6 +318,8 @@ NSString * const kLastSectionID   = @"LAST";
                                }
 
                              }
+                             
+                             [self setSurpressHUD:NO];
                              
                            }];
                            
