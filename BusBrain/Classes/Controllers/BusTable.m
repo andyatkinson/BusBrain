@@ -83,7 +83,7 @@
   }
   
   //  update the last update date
-  [_refreshHeaderView refreshLastUpdatedDate];
+  [[self refreshHeaderView] refreshLastUpdatedDate];
 }
 
 - (void) loadData {

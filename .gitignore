@@ -9,4 +9,5 @@ build/
 *.mode2v3
 xcuserdata
 *.xcuserstate
-TrainBrain.xcodeproj*
+BusBrain.xcodeproj/project.xcworkspace*
+BusBrain.xcodeproj/xcuserdata*
