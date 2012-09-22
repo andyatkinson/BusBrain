@@ -101,10 +101,30 @@
   }
 }
 
-+ (NSArray*) filterStopArray:(NSArray*) stopArray filter:(NSString*) filterString location:(CLLocation *)location {
++ (NSArray*) filterStopArrayByName:(NSArray*) stopArray filter:(NSString*) filterString location:(CLLocation *)location {
   NSString *match = [NSString stringWithFormat:@"*%@*", filterString];
   
-  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"stop_name like[c] %@ or route.route_id like[c] %@", match, match];
+  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"stop_name like[c] %@", match];
+  
+  NSMutableArray *resultArray = [NSMutableArray arrayWithArray:stopArray];
+  [resultArray filterUsingPredicate:predicate];
+  
+  NSEnumerator *e = [resultArray objectEnumerator];
+  Stop *stop;
+  while (stop = [e nextObject]) {
+    [stop setRefLocation:location];
+  }
+  
+  NSArray *sortedArray;
+  sortedArray = [resultArray sortedArrayUsingSelector:@selector(compareLocation:)];
+  
+  return sortedArray;
+}
+
++ (NSArray*) filterStopArrayByNumber:(NSArray*) stopArray filter:(NSString*) filterString location:(CLLocation *)location {
+  NSString *match = [NSString stringWithFormat:@"%@", filterString];
+  
+  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"route.short_name == %@", match];
   
   NSMutableArray *resultArray = [NSMutableArray arrayWithArray:stopArray];
   [resultArray filterUsingPredicate:predicate];

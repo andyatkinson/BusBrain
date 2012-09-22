@@ -91,20 +91,21 @@
       if(_pendingSearches == 1){
         [self showHUD];
         
-        NSArray *resultArray;
-        if ([searchText length] < 2) {
-          resultArray = [Stop filterStopArray:[self searchArray] filter:searchText location:[self myLocation]];
+        NSArray *resultStopArray = [Stop filterStopArrayByNumber:[self stopsDB] filter:searchText location:[self myLocation]];
+        if([resultStopArray count] == 0){
+          NSArray *resultStringArray;
+          if ([searchText length] < 2) {
+            resultStringArray = [Stop filterStopArrayByName:[self searchArray] filter:searchText location:[self myLocation]];
+          } else {
+            resultStringArray = [Stop filterStopArrayByName:[self stopsDB] filter:searchText location:[self myLocation]];
+          }
+          [self setSearchArray: resultStringArray];
         } else {
-          resultArray = [Stop filterStopArray:[self stopsDB] filter:searchText location:[self myLocation]];
+          [self setSearchArray: resultStopArray];
         }
         
         dispatch_async( dispatch_get_main_queue(), ^{
-          // Add code here to update the UI/send notifications based on the
-          // results of the background processing
-          [self setSearchArray: resultArray];
-          
           [[self tableView] reloadData];
-          
           [[self greyView] setHidden:YES];
           [[self HUD] hide:YES];
           
