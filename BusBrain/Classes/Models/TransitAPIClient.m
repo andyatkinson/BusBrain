@@ -40,7 +40,7 @@ NSString * const kTransitAPIBaseURLString = @"http://api.beetlefight.com";
   [self setDefaultHeader:@"X-Transit-API-Key" value:kTransitAPIClientID];
 
   // X-UDID HTTP Header
-  [self setDefaultHeader:@"X-UDID" value:[[UIDevice currentDevice] uniqueIdentifier]];
+  [self setDefaultHeader:@"X-UDID" value:[NSUUID UUID]];
 
   return self;
 }

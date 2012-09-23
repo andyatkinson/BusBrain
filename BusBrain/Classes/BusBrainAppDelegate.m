@@ -12,6 +12,9 @@
 #import "SpashViewController.h"
 #import "BusLooknFeel.h"
 
+#import "GANTracker.h"
+static const NSInteger kGANDispatchPeriodSec = 10;
+
 @implementation BusBrainAppDelegate
 
 @synthesize window, mainTableViewController, infoViewController, infoTableViewController, tabBarController;
@@ -23,8 +26,43 @@
   }
 }
 
+- (void) initAnalytics {
+  
+  NSLog(@"Hit Google");
+  [[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-34997631-1"
+                                         dispatchPeriod:kGANDispatchPeriodSec
+                                               delegate:nil];
+  
+  NSError *error;
+  if (![[GANTracker sharedTracker] setCustomVariableAtIndex:1
+                                                       name:@"iPhone1"
+                                                      value:@"iv1"
+                                                  withError:&error]) {
+    NSLog(@"ERROR 1");
+    // Handle error here
+  }
+  
+  if (![[GANTracker sharedTracker] trackEvent:@"my_category"
+                                       action:@"my_action"
+                                        label:@"my_label"
+                                        value:-1
+                                    withError:&error]) {
+    NSLog(@"ERROR 2");
+    // Handle error here
+  }
+  
+  if (![[GANTracker sharedTracker] trackPageview:@"/app_entry_point"
+                                       withError:&error]) {
+    NSLog(@"ERROR 3");
+    // Handle error here
+  }
+  
+  NSLog(@"Done Google");
+  
+}
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
-
+  [self initAnalytics];
+  
   // Create image for navigation background - portrait
   UIImage *navigationBarImage = [UIImage imageNamed:@"bg_header.png"];
   [[UINavigationBar appearance] setBackgroundImage:navigationBarImage forBarMetrics:UIBarMetricsDefault];

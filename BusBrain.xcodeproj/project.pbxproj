@@ -91,6 +91,9 @@
 		52C374DC157A93F600B61A47 /* StopLastCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52C374DA157A93E200B61A47 /* StopLastCell.m */; };
 		52E627F21586CE4C00ACF885 /* StopSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E627F01586CE4000ACF885 /* StopSearchCell.m */; };
 		52E627F515881A9F00ACF885 /* SearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E627F3158819B400ACF885 /* SearchTableViewController.m */; };
+		52EA1594160E858A009516ED /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EA1593160E858A009516ED /* libGoogleAnalytics.a */; };
+		52EA1597160E85AA009516ED /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EA1596160E85AA009516ED /* CFNetwork.framework */; };
+		52EA1599160E8602009516ED /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EA1598160E8602009516ED /* libsqlite3.0.dylib */; };
 		A14DC56F15F98D5700DAF8CB /* icon_info.png in Resources */ = {isa = PBXBuildFile; fileRef = A14DC56D15F98D5700DAF8CB /* icon_info.png */; };
 		A14DC57015F98D5700DAF8CB /* icon_info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A14DC56E15F98D5700DAF8CB /* icon_info@2x.png */; };
 		A15BFA751569C5E8004651B9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15BFA741569C5E8004651B9 /* UIKit.framework */; };
@@ -228,6 +231,10 @@
 		52E627F01586CE4000ACF885 /* StopSearchCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopSearchCell.m; sourceTree = "<group>"; };
 		52E627F3158819B400ACF885 /* SearchTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewController.m; sourceTree = "<group>"; };
 		52E627F4158819B400ACF885 /* SearchTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchTableViewController.h; sourceTree = "<group>"; };
+		52EA1592160E858A009516ED /* GANTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GANTracker.h; path = Google/GANTracker.h; sourceTree = "<group>"; };
+		52EA1593160E858A009516ED /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAnalytics.a; path = Google/libGoogleAnalytics.a; sourceTree = "<group>"; };
+		52EA1596160E85AA009516ED /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		52EA1598160E8602009516ED /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		A14DC56D15F98D5700DAF8CB /* icon_info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_info.png; path = ../Classes/icon_info.png; sourceTree = "<group>"; };
 		A14DC56E15F98D5700DAF8CB /* icon_info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_info@2x.png"; path = "../Classes/icon_info@2x.png"; sourceTree = "<group>"; };
 		A15BFA701569C5E8004651B9 /* BusBrain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BusBrain.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -282,6 +289,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52EA1599160E8602009516ED /* libsqlite3.0.dylib in Frameworks */,
+				52EA1597160E85AA009516ED /* CFNetwork.framework in Frameworks */,
 				5290EA4E15FC120B00FFE0E7 /* MessageUI.framework in Frameworks */,
 				522CF4D41574069D006B1F04 /* CoreText.framework in Frameworks */,
 				522CF4D21574068F006B1F04 /* QuartzCore.framework in Frameworks */,
@@ -290,6 +299,7 @@
 				A15BFA751569C5E8004651B9 /* UIKit.framework in Frameworks */,
 				A15BFA771569C5E8004651B9 /* Foundation.framework in Frameworks */,
 				A15BFA791569C5E8004651B9 /* CoreGraphics.framework in Frameworks */,
+				52EA1594160E858A009516ED /* libGoogleAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,6 +383,7 @@
 		522CF5BF15763F5E006B1F04 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				52850901160E8513001FEEF4 /* Google */,
 				52487455159D292D00DADD72 /* HUD */,
 				A1C6377C1569C68A004D06D9 /* AFNetworking */,
 				522CF4B1157405E7006B1F04 /* EGOTableViewPullRefresh */,
@@ -389,6 +400,15 @@
 				A1C637961569C68A004D06D9 /* MBProgressHUD.m */,
 			);
 			name = HUD;
+			sourceTree = "<group>";
+		};
+		52850901160E8513001FEEF4 /* Google */ = {
+			isa = PBXGroup;
+			children = (
+				52EA1592160E858A009516ED /* GANTracker.h */,
+				52EA1593160E858A009516ED /* libGoogleAnalytics.a */,
+			);
+			name = Google;
 			sourceTree = "<group>";
 		};
 		A15BFA651569C5E8004651B9 = {
@@ -414,6 +434,8 @@
 		A15BFA731569C5E8004651B9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				52EA1598160E8602009516ED /* libsqlite3.0.dylib */,
+				52EA1596160E85AA009516ED /* CFNetwork.framework */,
 				5290EA4D15FC120B00FFE0E7 /* MessageUI.framework */,
 				522CF4D31574069D006B1F04 /* CoreText.framework */,
 				522CF4D11574068F006B1F04 /* QuartzCore.framework */,
@@ -842,6 +864,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BusBrain/BusBrain-Prefix.pch";
 				INFOPLIST_FILE = "BusBrain/BusBrain-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/BusBrain/Classes/Google\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -854,6 +880,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BusBrain/BusBrain-Prefix.pch";
 				INFOPLIST_FILE = "BusBrain/BusBrain-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/BusBrain/Classes/Google\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
