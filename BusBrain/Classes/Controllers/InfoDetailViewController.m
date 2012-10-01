@@ -7,10 +7,16 @@
 
 #import "InfoDetailViewController.h"
 #import "Info.h"
+#import "BusBrainAppDelegate.h"
 
 @implementation InfoDetailViewController
 
 @synthesize infos, webView, selectedRow;
+
+- (void) viewWillAppear:(BOOL)animated {
+  BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
+  [app saveAnalytics:@"InfoDetailView"];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

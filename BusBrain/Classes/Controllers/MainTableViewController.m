@@ -18,6 +18,8 @@
 #import "TransitAPIClient.h"
 #import "AFJSONRequestOperation.h"
 
+#import "BusBrainAppDelegate.h"
+
 NSString * const kStopSectionID   = @"STOP";
 NSString * const kLastSectionID   = @"LAST";
 
@@ -63,6 +65,10 @@ NSString * const kLastSectionID   = @"LAST";
   }
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+  BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
+  [app saveAnalytics:@"MainTableView"];
+}
 
 - (void) loadStopsForLocation:(CLLocation *)location {
   

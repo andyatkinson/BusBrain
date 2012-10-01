@@ -24,6 +24,7 @@
 @property (nonatomic, retain) UITableViewController *infoTableViewController;
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
 
+- (void) saveAnalytics:(NSString*) pageName;
 
 @end
 

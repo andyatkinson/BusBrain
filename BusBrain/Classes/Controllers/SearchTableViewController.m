@@ -11,7 +11,7 @@
 #import "StopLastCell.h"
 #import "StopTimesTableViewController.h"
 #import "NSString+BeetleFight.h"
-
+#import "BusBrainAppDelegate.h"
 
 @implementation SearchTableViewController
 
@@ -24,6 +24,11 @@
 
 - (void) viewDidDisappear:(BOOL)animated{
   [[[self main] tableView] reloadData];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+  BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
+  [app saveAnalytics:@"SearchTableView"];
 }
 
 - (void)downloadCache:(UITapGestureRecognizer *)recognizer {

@@ -24,44 +24,25 @@ static const NSInteger kGANDispatchPeriodSec = 10;
     [mainTableViewController initData:nil];
     [mainTableViewController initLocation];
   }
+  [self saveAnalytics:@"/app_entry_point"];
 }
 
-- (void) initAnalytics {
-  
-  NSLog(@"Hit Google");
+- (void) saveAnalytics:(NSString*) pageName {
   [[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-34997631-1"
                                          dispatchPeriod:kGANDispatchPeriodSec
                                                delegate:nil];
   
   NSError *error;
-  if (![[GANTracker sharedTracker] setCustomVariableAtIndex:1
-                                                       name:@"iPhone1"
-                                                      value:@"iv1"
-                                                  withError:&error]) {
-    NSLog(@"ERROR 1");
-    // Handle error here
-  }
   
-  if (![[GANTracker sharedTracker] trackEvent:@"my_category"
-                                       action:@"my_action"
-                                        label:@"my_label"
-                                        value:-1
-                                    withError:&error]) {
-    NSLog(@"ERROR 2");
-    // Handle error here
-  }
-  
-  if (![[GANTracker sharedTracker] trackPageview:@"/app_entry_point"
+  if (![[GANTracker sharedTracker] trackPageview:pageName
                                        withError:&error]) {
-    NSLog(@"ERROR 3");
     // Handle error here
   }
-  
-  NSLog(@"Done Google");
   
 }
+
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
-  [self initAnalytics];
+  [self saveAnalytics:@"/app_entry_point"];
   
   // Create image for navigation background - portrait
   UIImage *navigationBarImage = [UIImage imageNamed:@"bg_header.png"];

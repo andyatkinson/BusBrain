@@ -12,6 +12,7 @@
 #import "StopTime.h"
 #import "NSString+BeetleFight.h"
 #import "FunnyPhrase.h"
+#import "BusBrainAppDelegate.h"
 
 @implementation StopTimesTableViewController
 
@@ -20,6 +21,11 @@
 @synthesize stopTimes     = _stopTimes;
 @synthesize selectedStop  = _selectedStop;
 @synthesize refreshTimer  = _refreshTimer;
+
+- (void) viewWillAppear:(BOOL)animated {
+  BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
+  [app saveAnalytics:@"StopTimesTableView"];
+}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {

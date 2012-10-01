@@ -6,6 +6,7 @@
 //
 
 #import "InfoTableViewController.h"
+#import "BusBrainAppDelegate.h"
 
 @implementation InfoTableViewController
 
@@ -26,6 +27,13 @@
   [super didReceiveMemoryWarning];
 
   // Release any cached data, images, etc that aren't in use.
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
+  BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
+  [app saveAnalytics:@"InfoTableView"];
 }
 
 #pragma mark - View lifecycle
@@ -63,11 +71,6 @@
   [super viewDidUnload];
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-  [super viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated
