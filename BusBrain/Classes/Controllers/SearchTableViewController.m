@@ -199,7 +199,7 @@
   [[self message] setFont:[UIFont boldSystemFontOfSize:13.0]];
   
   if([[self stopsDB] count] > 0){
-    [[self message] setText:@"Enter your search term to display stops"];
+    [[self message] setText:@"Search by route number or street name"];
     UITapGestureRecognizer *singleFingerTap =
     [[UITapGestureRecognizer alloc] initWithTarget:self
                                             action:@selector(cancelSearch:)];
