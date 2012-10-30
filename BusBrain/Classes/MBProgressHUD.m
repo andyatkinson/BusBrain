@@ -690,7 +690,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - Lifecycle
 
 - (id)init {
-	return [self initWithFrame:CGRectMake(0.f, 0.f, 37.f, 37.f)];
+	return [self initWithFrame:CGRectMake(0.f, 0.f, 56.f, 56.f)];
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -714,7 +714,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	
 	if (_annular) {
 		// Draw background
-		CGFloat lineWidth = 5.f;
+		CGFloat lineWidth = 4.4f;
 		UIBezierPath *processBackgroundPath = [UIBezierPath bezierPath];
 		processBackgroundPath.lineWidth = lineWidth;
 		processBackgroundPath.lineCapStyle = kCGLineCapRound;

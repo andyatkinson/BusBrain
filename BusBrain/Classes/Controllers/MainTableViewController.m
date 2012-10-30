@@ -158,7 +158,7 @@ NSString * const kLastSectionID   = @"LAST";
   if(components.day > 0 || components.hour > 20){
     return true;
   } else {
-    return false;
+    return true;
   }
 
 }

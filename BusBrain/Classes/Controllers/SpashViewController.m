@@ -27,14 +27,35 @@
   CGFloat screenHeight = screenRect.size.height;
   
   UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
-  [bgView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_app.png"]]];
   
-   [self.view addSubview:bgView];
+  CGRect screenBounds = [[UIScreen mainScreen] bounds];
+  if (screenBounds.size.height == 568) {
+    // code for 4-inch screen
+    [bgView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_splash-568h.png"]]];
+  } else {
+    // code for 3.5-inch screen
+    [bgView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_splash.png"]]];    
+  }
+  
+  
+  [self.view addSubview:bgView];
   
   [self setHud: [MBProgressHUD showHUDAddedTo:self.view animated:YES]];
   [[self hud] setMode: MBProgressHUDModeAnnularDeterminate];
-  //[[self hud] setMode: MBProgressHUDModeDeterminate];
-  [[self hud] setLabelText: @"Loading"];
+  [[self hud] setOpacity:0];
+  [[self hud] setLabelText: @""];
+  
+  if (screenBounds.size.height == 568) {
+    // code for 4-inch screen
+    [[self hud] setYOffset:-64.0];
+    [[self hud] setXOffset:-0.5];
+  } else {
+    // code for 3.5-inch screen
+    [[self hud] setYOffset:-58.0];
+    [[self hud] setXOffset:-0.5];
+  }
+  
+  
   
 }
 
