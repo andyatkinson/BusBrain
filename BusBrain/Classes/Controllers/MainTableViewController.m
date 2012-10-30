@@ -352,14 +352,18 @@ NSString * const kLastSectionID   = @"LAST";
   [super viewDidLoad];
 
   [[self navigationItem] setTitle:kAppName];
+
+  UIButton *searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
+  [searchButton setFrame:CGRectMake(0.0f, 0.0f, 35.0f, 30.0f)];
+  [searchButton addTarget:self action:@selector(openSearch:) forControlEvents:UIControlEventTouchUpInside];
+  [searchButton setImage:[UIImage imageNamed:@"btn_search_norm.png"] forState:UIControlStateNormal];
+  [searchButton setImage:[UIImage imageNamed:@"btn_search_down.png"] forState:UIControlStateHighlighted];
+  [searchButton setImage:[UIImage imageNamed:@"btn_search_down.png"] forState:UIControlStateSelected];
+  UIBarButtonItem *searchButtonItem = [[UIBarButtonItem alloc] initWithCustomView:searchButton];
+  self.navigationItem.rightBarButtonItem = searchButtonItem;
+  [searchButtonItem release];
   
-  UIBarButtonItem *searchButton = [[UIBarButtonItem alloc]
-                                   initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
-                                   target:self
-                                   action:@selector(openSearch:)];
-  [searchButton setTintColor:[UIColor blackColor]];
-   
-  [[self navigationItem] setRightBarButtonItem:searchButton];
+  
  
   [[self tableView] setDelegate:self];
   [[self tableView] setDataSource:self];
