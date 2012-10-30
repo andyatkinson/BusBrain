@@ -11,6 +11,8 @@
 
 @interface SpashViewController : UIViewController <BusProgressDelegate>  {
   MBProgressHUD *_hud;
+  float           _progressCounter;
+  NSTimer       *_t;
 }
 
 @property (nonatomic, retain) MBProgressHUD *hud;

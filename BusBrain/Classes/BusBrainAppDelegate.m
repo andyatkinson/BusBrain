@@ -86,6 +86,7 @@ static const NSInteger kGANDispatchPeriodSec = 10;
   
   self.window.rootViewController = tabBarController;
   if(splash != nil){
+    splash.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [mainTableViewController presentModalViewController:splash animated:NO];
   }
   
