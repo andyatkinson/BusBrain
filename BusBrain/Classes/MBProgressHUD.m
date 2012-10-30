@@ -6,7 +6,6 @@
 
 #import "MBProgressHUD.h"
 
-
 #if __has_feature(objc_arc)
 #define MB_AUTORELEASE(exp) exp
 #define MB_RELEASE(exp) exp
@@ -705,34 +704,53 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 #pragma mark - Drawing
+- (UIImage *)scaleAndRotateImage:(UIImage *)image radians:(float) radians  {
+  
+  CGImageRef imgRef = image.CGImage;
+  
+  CGFloat width = CGImageGetWidth(imgRef);
+  CGFloat height = CGImageGetHeight(imgRef);
+  
+  CGAffineTransform transform = CGAffineTransformIdentity;
+  CGRect bounds = CGRectMake(0, 0, width, height);
+  
+  CGFloat boundHeight;
+  
+  boundHeight = bounds.size.height;
+  bounds.size.height = bounds.size.width;
+  bounds.size.width = boundHeight;
+  transform = CGAffineTransformMakeScale(0.92, 0.92);
+  transform = CGAffineTransformRotate(transform, -radians); //use angle/360 *MPI
+  
+  UIGraphicsBeginImageContext(bounds.size);
+  CGContextRef context = UIGraphicsGetCurrentContext();
+  
+  
+  CGContextTranslateCTM(context, bounds.size.width/2, bounds.size.height/2);
+  CGContextConcatCTM(context, transform);
+  CGContextTranslateCTM(context, -bounds.size.width/2, -bounds.size.height/2);
+  
+  CGContextDrawImage(context, CGRectMake(0, 0, width, height), imgRef);
+  UIImage *imageCopy = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+  
+  return imageCopy;
+  
+}
 
 - (void)drawRect:(CGRect)rect {
 	
-	CGRect allRect = self.bounds;
+	CGRect allRect = CGRectInset(self.bounds, -4.0f, -4.0f);
 	CGRect circleRect = CGRectInset(allRect, 2.0f, 2.0f);
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	
 	if (_annular) {
-		// Draw background
-		CGFloat lineWidth = 4.4f;
-		UIBezierPath *processBackgroundPath = [UIBezierPath bezierPath];
-		processBackgroundPath.lineWidth = lineWidth;
-		processBackgroundPath.lineCapStyle = kCGLineCapRound;
-		CGPoint center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
-		CGFloat radius = (self.bounds.size.width - lineWidth)/2;
-		CGFloat startAngle = - ((float)M_PI / 2); // 90 degrees
-		CGFloat endAngle = (2 * (float)M_PI) + startAngle;
-		[processBackgroundPath addArcWithCenter:center radius:radius startAngle:startAngle endAngle:endAngle clockwise:YES];
-		[[UIColor colorWithRed:1 green:1 blue:1 alpha:0.1] set];
-		[processBackgroundPath stroke];
-		// Draw progress
-		UIBezierPath *processPath = [UIBezierPath bezierPath];
-		processPath.lineCapStyle = kCGLineCapRound;
-		processPath.lineWidth = lineWidth;
-		endAngle = (self.progress * 2 * (float)M_PI) + startAngle;
-		[processPath addArcWithCenter:center radius:radius startAngle:startAngle endAngle:endAngle clockwise:YES];
-		[[UIColor whiteColor] set];
-		[processPath stroke];
+    CGFloat startAngle = - ((float)M_PI / 2); // 90 degrees
+		CGFloat endAngle   = (self.progress * 2 * (float)M_PI) + startAngle;
+
+    UIImage *loaderImage = [UIImage imageNamed:@"loader.png"];
+    CGContextDrawImage(context, allRect, [self scaleAndRotateImage:loaderImage radians:endAngle].CGImage);
+ 		
 	} else {
 		// Draw background
 		CGContextSetRGBStrokeColor(context, 1.0f, 1.0f, 1.0f, 1.0f); // white

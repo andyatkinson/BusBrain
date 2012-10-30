@@ -14,6 +14,7 @@
 @synthesize hud = _hud;
 
 - (void) dismiss {
+  [_t invalidate];
   [self dismissModalViewControllerAnimated:YES];
 }
 
@@ -21,10 +22,21 @@
 	[super viewWillAppear:animated];
 }
 
+- (void) progessSwirl:(NSTimer *)timer {
+  _progressCounter++;
+  
+  if(_progressCounter == 100.0){
+    _progressCounter = 0.0;
+  }
+
+  [[self hud] setProgress:_progressCounter / 100.0];
+}
+
 - (void) viewDidLoad {
   CGRect screenRect = [[UIScreen mainScreen] bounds];
   CGFloat screenWidth = screenRect.size.width;
   CGFloat screenHeight = screenRect.size.height;
+  _progressCounter = 0;
   
   UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
   
@@ -55,12 +67,18 @@
     [[self hud] setXOffset:-0.5];
   }
   
+  [[self hud] setDimBackground:YES];
   
+  _t = [NSTimer scheduledTimerWithTimeInterval:0.025
+                                                target:self
+                                              selector:@selector(progessSwirl:)
+                                              userInfo:nil
+                                               repeats:YES];
   
 }
 
 - (void) setProgress:(float) progress {
-  [[self hud] setProgress:progress];
+  
 }
 
 - (void) dealloc {
