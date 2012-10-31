@@ -412,10 +412,10 @@ NSString * const kLastSectionID   = @"LAST";
     }
 
   } else if ([id isEqualToString:kStopSectionID]) {
-    if([[self stops] count] > 0){
+    if([[self stops] count] > 1){
       return [[self stops] count];
     } else {
-      return 1;
+      return 0;
     }
   } else {
     return 0;
@@ -435,7 +435,12 @@ NSString * const kLastSectionID   = @"LAST";
     }
 
   } else if ([id isEqualToString:kStopSectionID]) {
-    return @"Stops Near You";
+    if([[self stops] count] > 1){
+      return @"Stops Near You";
+    } else {
+      return NULL;
+    }
+    
   }
   
   return NULL;
