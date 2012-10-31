@@ -69,7 +69,7 @@
   
   [[self hud] setDimBackground:YES];
   
-  _t = [NSTimer scheduledTimerWithTimeInterval:0.025
+  _t = [NSTimer scheduledTimerWithTimeInterval:0.012
                                                 target:self
                                               selector:@selector(progessSwirl:)
                                               userInfo:nil
