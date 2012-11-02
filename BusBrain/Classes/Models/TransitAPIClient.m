@@ -40,8 +40,6 @@ NSString * const kTransitAPIBaseURLString = @"http://api.beetlefight.com";
   [self setDefaultHeader:@"X-Transit-API-Key" value:kTransitAPIClientID];
 
   // X-UDID HTTP Header
-  
-  // TODO: John this doesn't build on iOS SDK 5.1. Any idea why? Using code from TB.
   [self setDefaultHeader:@"X-UDID" value:[[[NSUUID alloc] init] UUIDString]];
   
   return self;
