@@ -694,7 +694,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0430;
-				ORGANIZATIONNAME = LivingSocial;
+				ORGANIZATIONNAME = "";
 			};
 			buildConfigurationList = A15BFA6A1569C5E8004651B9 /* Build configuration list for PBXProject "BusBrain" */;
 			compatibilityVersion = "Xcode 3.2";
