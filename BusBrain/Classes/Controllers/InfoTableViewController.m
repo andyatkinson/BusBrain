@@ -12,9 +12,8 @@
 
 @synthesize dataArrays, tableView;
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-  self = [super initWithStyle:style];
+- (id)init {
+  self = [super init];
   if (self) {
 
   }
@@ -39,17 +38,15 @@
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad {
-
-  self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+  self.tableView = [[UITableView alloc] init];
   
   [super viewDidLoad];
   
   self.tableView.delegate = self;
   self.tableView.dataSource = self;
   
-  
   self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-  self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_app.png"]];
+  [[self tableView] setBackgroundColor:[UIColor clearColor]];
 
   //Initialize the array.
   dataArrays = [[NSMutableArray alloc] init];
@@ -63,33 +60,10 @@
   //Set the title
   self.navigationItem.title = @"Information";
 
-  self.view = self.tableView;
+  [self setView:[self tableView]];
 }
 
-- (void)viewDidUnload
-{
-  [super viewDidUnload];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-  [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-  [super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-  [super viewDidDisappear:animated];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   // Return YES for supported orientations
   return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
@@ -145,6 +119,9 @@
   }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+  return 30;
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
   
@@ -173,15 +150,6 @@
     cell.backgroundColor = [UIColor clearColor];
     cell.textLabel.textColor = [UIColor whiteColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    /* this doesn't preserve the rounded corners of the grouped tableviewcell style
-     - If it can be clicked and set to black and preserve the rounded corners, then feel free to kill the selectionStyle above
-     
-    UIView *selectHighlightView = [[UIView alloc] init];
-    [selectHighlightView setBackgroundColor:[UIColor ]];
-    [cell setSelectedBackgroundView: selectHighlightView];
-     */
-    
     cell.textLabel.shadowColor = [UIColor blackColor];
     cell.textLabel.shadowOffset = CGSizeMake(0,-1);
     
@@ -189,8 +157,8 @@
   
   int rowsInSection = [self numberOfRowsInSection:indexPath.section];
   if(rowsInSection == 1){
-    cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"info_cell_single.png"]
-                                                              resizableImageWithCapInsets:UIEdgeInsetsZero]];
+    cell.backgroundView = [ [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"info_cell_single.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ]autorelease];
+    
   } else {
     cell.accessoryView = [[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]];
     if (indexPath.row == 0) {
