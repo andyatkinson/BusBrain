@@ -14,14 +14,14 @@
   IBOutlet UIWindow *window;
   MainTableViewController *mainTableViewController;
   UIViewController      *infoViewController;
-  UITableViewController *infoTableViewController;
+  UIViewController      *infoTableViewController;
   UITabBarController    *tabBarController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow     *window;
 @property (nonatomic, retain) MainTableViewController *mainTableViewController;
 @property (nonatomic, retain) UIViewController      *infoViewController;
-@property (nonatomic, retain) UITableViewController *infoTableViewController;
+@property (nonatomic, retain) UIViewController *infoTableViewController;
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
 
 - (void) saveAnalytics:(NSString*) pageName;
