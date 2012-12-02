@@ -19,6 +19,12 @@ static const NSInteger kGANDispatchPeriodSec = 10;
 
 @synthesize window, mainTableViewController, infoViewController, infoTableViewController, tabBarController;
 
+- (NSString*) getDeviceName {
+  NSArray *chunks = [[[UIDevice currentDevice] name] componentsSeparatedByString: @"'"];
+  NSString *deviceName = [[NSString alloc] initWithString:[chunks objectAtIndex:0]];
+  return deviceName;
+}
+
 - (void) applicationWillEnterForeground:(UIApplication *)application {
   if([mainTableViewController isCacheStail]){
     [mainTableViewController initData:nil];
@@ -28,6 +34,12 @@ static const NSInteger kGANDispatchPeriodSec = 10;
 }
 
 - (void) saveAnalytics:(NSString*) pageName {
+  
+  if([[self getDeviceName] isEqualToString:@"iPhone Simulator"]){
+    NSLog(@"Skip GA in Simulator");
+    return;
+  }
+  
   [[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-34997631-1"
                                          dispatchPeriod:kGANDispatchPeriodSec
                                                delegate:nil];
