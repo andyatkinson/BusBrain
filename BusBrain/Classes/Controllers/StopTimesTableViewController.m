@@ -131,14 +131,22 @@
 
 }
 
-- (void)viewDidLoad {
+- (void) backButtonPressed:(id)sender {
+  UINavigationController *navController = self.navigationController;
+  [navController popViewControllerAnimated:YES];
+}
 
-  UIImage *backButton = [[UIImage imageNamed:@"btn.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
-  [[UIBarButtonItem appearance] setBackButtonBackgroundImage:backButton forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+- (void)viewDidLoad {
+  UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+  [backButton setFrame:CGRectMake(0.0f, 0.0f, 35.0f, 30.0f)];
+  [backButton addTarget:self action:@selector(backButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+  [backButton setImage:[UIImage imageNamed:@"btn_back_norm.png"] forState:UIControlStateNormal];
+  [backButton setImage:[UIImage imageNamed:@"btn_back_down.png"] forState:UIControlStateHighlighted];
+  [backButton setImage:[UIImage imageNamed:@"btn_back_down.png"] forState:UIControlStateSelected];
   
-  UIBarButtonItem *backBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:nil action:nil];
-  [[self navigationItem] setBackBarButtonItem: backBarButton];
-  [backBarButton release];
+  UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+  self.navigationItem.leftBarButtonItem = backBarButtonItem;
+  [backBarButtonItem release];
 
   [self setTableView:[[UITableView alloc] initWithFrame:CGRectMake(22, 207, 270, 233)]];
 
