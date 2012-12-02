@@ -19,6 +19,8 @@
 @synthesize bigCell       = _bigCell;
 @synthesize data          = _data;
 @synthesize stopTimes     = _stopTimes;
+@synthesize stopHours     = _stopHours;
+@synthesize stopData      = _stopData;
 @synthesize selectedStop  = _selectedStop;
 @synthesize refreshTimer  = _refreshTimer;
 
@@ -76,7 +78,36 @@
 
 }
 
-- (void)loadStopTimes {
+- (void) processStopTimes {
+  NSEnumerator *e = [[self stopTimes] objectEnumerator];
+  StopTime *thisTime;
+  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+  [dateFormatter setDateFormat:@"h a"];
+  
+  [self setStopHours: [[NSMutableArray alloc] init]];
+  [self setStopData: [[NSMutableDictionary alloc] init]];
+  
+  while (thisTime = (StopTime*) [e nextObject]) {
+    NSString *stopHour = [dateFormatter stringFromDate:[thisTime getStopDate]];
+    
+    
+    //Use this array to keep track of the desired order
+    if(! [[self stopHours] containsObject:stopHour]){
+      [[self stopHours] addObject:stopHour];
+    }
+    
+    //Use the Dictionary to group stops by hour
+    NSMutableArray *stopsForHour = [[self stopData] objectForKey:stopHour];
+    if( stopsForHour == nil){
+      stopsForHour = [[NSMutableArray alloc] init];
+      [[self stopData] setObject:stopsForHour forKey:stopHour];
+    }
+    [stopsForHour addObject:thisTime];
+    
+  }
+}
+
+- (void) loadStopTimes {
   
 
   if ([self selectedStop] == NULL || [[[self selectedStop] route] route_id] == NULL) {
@@ -92,6 +123,7 @@
                         block:^(NSArray *stops) {
                           
        [self setStopTimes: stops];
+       [self processStopTimes];
 
        if ([[self stopTimes] count] > 0) {
          StopTime *stop_time = (StopTime *)[[self stopTimes] objectAtIndex:0];
@@ -184,14 +216,20 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  return 2;
+  return [[[self stopData] allKeys] count] + 1;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
   
-  if(section == 1) {
-    return @"Upcoming Departures";
-  } 
+  if (section == 0) {
+    return nil;
+  } else if (section > 0) {
+    if([[[self stopData] allKeys] count] == 1){
+      return @"Upcoming Departures";
+    } else {
+      return [[self stopHours] objectAtIndex:section - 1];
+    }
+  }
   
   return nil;
 }
@@ -206,27 +244,23 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
   if (section == 0) {
     return 0;
-  } else if (section == 1) {
+  } else if (section > 0) {
     return 28;
   }
-  else {
-    // error case
-    return 0;
-  }
+  
+  return 0;
 }
 
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   if (section == 0) {
     return 1;
-  } else if (section == 1) {
-    return [[self stopTimes] count];
-  } else {
-    // error
-    return 0;
+  } else if (section > 0) {
+    NSString *stopHour = [[self stopHours] objectAtIndex:section - 1];
+    return [(NSMutableArray*)[[self stopData] objectForKey:stopHour] count];
   }
 
+  return 0;
 }
 
 
@@ -252,14 +286,16 @@
       return [self bigCell];
 
 
-    } else if ([indexPath section] == 1) {
+    } else if ([indexPath section] > 0) {
 
       StopTimeCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
       if (cell == nil) {
         cell = [[[StopTimeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
       }
       
-      StopTime *stop_time = (StopTime *)[[self stopTimes] objectAtIndex:[indexPath row]];
+      NSString *stopHour = [[self stopHours] objectAtIndex:[indexPath section] - 1];
+      StopTime *stop_time = (StopTime *)[ (NSMutableArray*)[[self stopData] objectForKey:stopHour] objectAtIndex:[indexPath row]];
+      
       [[cell icon] setImage: [UIImage imageNamed:@"icon_clock.png"]];
       [cell setStopTime:stop_time];
       [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
