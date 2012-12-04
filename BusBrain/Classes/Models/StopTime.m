@@ -95,9 +95,24 @@
 
   NSDate *now = [NSDate date];
   NSCalendar *calendar = [NSCalendar currentCalendar];
-  NSDateComponents *components = [calendar components:NSHourCalendarUnit fromDate:now];
-  int hour = [components hour];
-  NSDictionary *params = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%d", hour] forKey:@"hour"];
+  
+  NSDateComponents *components = [calendar components:NSHourCalendarUnit|NSMinuteCalendarUnit fromDate:now];
+  int hour   = [components hour];
+  int minute = [components minute];
+  
+  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+  [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+  NSString *dateString = [dateFormatter stringFromDate:now];
+  
+  NSDictionary *params = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", hour],
+                                                              [NSString stringWithFormat:@"%d", minute],
+                                                              [NSString stringWithFormat:@"%@", dateString],
+                                                              nil]
+                                                     forKeys:[NSArray arrayWithObjects:@"hour", @"minute", @"date", nil] ];
+  
+  for(NSString* key in [params allKeys]){
+    NSLog(@"DEBUG: %@ = %@", key, [params objectForKey:key]);
+  }
   
   NSDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:params];
 
