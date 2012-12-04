@@ -109,10 +109,11 @@
                                                               [NSString stringWithFormat:@"%@", dateString],
                                                               nil]
                                                      forKeys:[NSArray arrayWithObjects:@"hour", @"minute", @"date", nil] ];
-  
+  /*
   for(NSString* key in [params allKeys]){
     NSLog(@"DEBUG: %@ = %@", key, [params objectForKey:key]);
   }
+  */
   
   NSDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:params];
 
