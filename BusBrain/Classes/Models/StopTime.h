@@ -10,6 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 @interface StopTime : NSObject {
+  NSString *_departureDate;
   NSString *_departureTime;
   NSString *_arrivalTime;
   NSString *_dropOffType;
@@ -18,8 +19,12 @@
   NSString *_headsign;
   int _departureTimeHour;
   int _departureTimeMinute;
+  int _departureTimeYear;
+  int _departureTimeMonth;
+  int _departureTimeDay;
 }
 
+@property (nonatomic, retain) NSString *departureDate;
 @property (nonatomic, retain) NSString *departureTime;
 @property (nonatomic, retain) NSString *arrivalTime;
 @property (nonatomic, retain) NSString *dropOffType;
@@ -28,6 +33,9 @@
 @property (nonatomic, retain) NSString *headsign;
 @property (nonatomic, assign) int departureTimeHour;
 @property (nonatomic, assign) int departureTimeMinute;
+@property (nonatomic, assign) int departureTimeYear;
+@property (nonatomic, assign) int departureTimeMonth;
+@property (nonatomic, assign) int departureTimeDay;
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
 

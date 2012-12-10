@@ -13,5 +13,8 @@
 - (NSString *)hourMinuteFormatted;
 - (int)hourFromDepartureString;
 - (int)minuteFromDepartureString;
+- (int)yearFromDepartureString;
+- (int)monthFromDepartureString;
+- (int)dayFromDepartureString;
 
 @end

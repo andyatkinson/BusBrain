@@ -38,6 +38,7 @@
   
   self.route = [[Route alloc] init];
   self.route.route_id = [attributes valueForKeyPath:@"route_id"];
+  
   self.route.short_name = [attributes valueForKeyPath:@"route_short_name"];
   
   return self;
@@ -76,6 +77,8 @@
   if(! [[NSFileManager defaultManager] fileExistsAtPath:filepath]){
     filepath = [[NSBundle mainBundle] pathForResource:@"search_objects_api_json_dump" ofType:@"json"];
   }
+  
+  NSLog(@"Loading: %@", filepath);
   
   NSData* jsonData = [NSData dataWithContentsOfFile:filepath];
   NSMutableArray *mutableRecords = [NSMutableArray array];
@@ -146,6 +149,13 @@
   
   NSMutableDictionary *data = [NSMutableDictionary dictionary];
   NSMutableArray *stops = [NSMutableArray array];
+  
+  /*
+  NSLog(@"URL: %@", urlString);
+  for(NSString* key in [parameters allKeys]){
+    NSLog(@"DEBUG: %@ = %@", key, [parameters objectForKey:key]);
+  }
+  */
   
   [[TransitAPIClient sharedClient] getPath:urlString parameters:mutableParameters success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
     

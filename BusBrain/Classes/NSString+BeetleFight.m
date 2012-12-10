@@ -36,6 +36,21 @@
   return [NSString stringWithFormat:@"%dh%dm", relativeHour, relativeMinute];
 }
 
+- (int)yearFromDepartureString {
+  NSArray *parts = [self componentsSeparatedByString:@"-"];
+  return (int)[[parts objectAtIndex:0] intValue];
+}
+
+- (int)monthFromDepartureString {
+  NSArray *parts = [self componentsSeparatedByString:@"-"];
+  return (int)[[parts objectAtIndex:1] intValue];
+}
+
+- (int)dayFromDepartureString {
+  NSArray *parts = [self componentsSeparatedByString:@"-"];
+  return (int)[[parts objectAtIndex:2] intValue];
+}
+
 - (int)hourFromDepartureString {
   NSArray *parts = [self componentsSeparatedByString:@":"];
   return (int)[[parts objectAtIndex:0] intValue];

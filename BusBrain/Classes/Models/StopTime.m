@@ -13,6 +13,7 @@
 
 @implementation StopTime
 
+@synthesize departureDate       = _departureDate;
 @synthesize departureTime       = _departureTime;
 @synthesize arrivalTime         = _arrivalTime;
 @synthesize dropOffType         = _dropOffType;
@@ -21,6 +22,9 @@
 @synthesize headsign            = _headsign;
 @synthesize departureTimeHour   = _departureTimeHour;
 @synthesize departureTimeMinute = _departureTimeMinute;
+@synthesize departureTimeYear   = _departureTimeYear;
+@synthesize departureTimeMonth  = _departureTimeMonth;
+@synthesize departureTimeDay    = _departureTimeDay;
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
   self = [super init];
@@ -28,14 +32,19 @@
     return nil;
   }
 
+  [self setDepartureDate: [attributes valueForKeyPath:@"departure_date"]];
   [self setDepartureTime: [attributes valueForKeyPath:@"departure_time"]];
   [self setArrivalTime: [attributes valueForKeyPath:@"arrival_time"]];
   [self setDropOffType: [attributes valueForKeyPath:@"drop_off_type"]];
   [self setPickupType: [attributes valueForKeyPath:@"pickup_type"]];
   [self setPrice: [attributes valueForKeyPath:@"price"]];
   [self setHeadsign: [attributes valueForKey:@"headsign"]];
+  
   [self setDepartureTimeHour: [[self departureTime] hourFromDepartureString]];
   [self setDepartureTimeMinute: [[self departureTime] minuteFromDepartureString]];
+  [self setDepartureTimeYear: [[self departureDate] yearFromDepartureString]];
+  [self setDepartureTimeMonth: [[self departureDate] monthFromDepartureString]];
+  [self setDepartureTimeDay: [[self departureDate] dayFromDepartureString]];
   
   if([self departureTimeHour] >= 24){
     int hour = [self departureTimeHour] - 24;
@@ -48,6 +57,9 @@
 - (NSDate*) getStopDate {
   NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
   NSDateComponents *components = [gregorian components:NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit fromDate:[NSDate date]];
+  [components setYear:[self departureTimeYear]];
+  [components setMonth:[self departureTimeMonth]];
+  [components setDay:[self departureTimeYear]];
   [components setHour:[self departureTimeHour]];
   [components setMinute:[self departureTimeMinute]];
   [components setSecond:0];
@@ -110,6 +122,7 @@
                                                               nil]
                                                      forKeys:[NSArray arrayWithObjects:@"hour", @"minute", @"date", nil] ];
   /*
+  NSLog(@"URL: %@", urlString);
   for(NSString* key in [params allKeys]){
     NSLog(@"DEBUG: %@ = %@", key, [params objectForKey:key]);
   }
@@ -127,6 +140,7 @@
        if([[stop_time getStopDate] compare: [NSDate date]] == NSOrderedDescending) {
          [mutableRecords addObject:stop_time];
        }
+
      }
 
      if (block) {
