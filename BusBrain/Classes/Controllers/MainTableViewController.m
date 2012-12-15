@@ -415,7 +415,7 @@ NSString * const kLastSectionID   = @"LAST";
     if([[self stops] count] > 1){
       return [[self stops] count];
     } else {
-      return 0;
+      return 1;
     }
   } else {
     return 0;
@@ -530,6 +530,9 @@ NSString * const kLastSectionID   = @"LAST";
       [target setSelectedStop:stop];
       
       [[self navigationController] pushViewController:target animated:YES];
+    } else {
+      [self setDataRefreshRequested: true];
+      [self repaintTable];
     }
   }
 
