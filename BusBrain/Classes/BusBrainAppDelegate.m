@@ -6,6 +6,7 @@
 //
 
 #import "BusBrainAppDelegate.h"
+#import "OnboardViewController.h"
 #import "MainTableViewController.h"
 #import "StopTimesTableViewController.h"
 #import "InfoTableViewController.h"
@@ -65,8 +66,18 @@ static const NSInteger kGANDispatchPeriodSec = 10;
   
   mainTableViewController = [[MainTableViewController alloc] init];
 
+  OnboardViewController *onboard = nil;
+  NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+  int onboardingComplete = [settings integerForKey:@"onboardingComplete"];
+  
+  if(!onboardingComplete){
+    onboard = [[OnboardViewController alloc] init];
+    [mainTableViewController setSurpressHUD:YES];
+  }
+  
+  
   SpashViewController *splash = nil;
-  if([mainTableViewController isCacheStail]){
+  if(onboard == nil && [mainTableViewController isCacheStail]){
     splash = [[SpashViewController alloc] init];
     [mainTableViewController setSurpressHUD:YES];
   }
@@ -100,6 +111,10 @@ static const NSInteger kGANDispatchPeriodSec = 10;
   if(splash != nil){
     splash.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [mainTableViewController presentModalViewController:splash animated:NO];
+  }
+  if(onboard != nil){
+    //splash.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [mainTableViewController presentModalViewController:onboard animated:NO];
   }
   
 }

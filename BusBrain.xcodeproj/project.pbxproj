@@ -106,6 +106,10 @@
 		52C374DC157A93F600B61A47 /* StopLastCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52C374DA157A93E200B61A47 /* StopLastCell.m */; };
 		52E627F21586CE4C00ACF885 /* StopSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E627F01586CE4000ACF885 /* StopSearchCell.m */; };
 		52E627F515881A9F00ACF885 /* SearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E627F3158819B400ACF885 /* SearchTableViewController.m */; };
+		52E89440167D27EE0043B492 /* onboard-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E8943D167D27EE0043B492 /* onboard-568h@2x.png */; };
+		52E89441167D27EE0043B492 /* onboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E8943E167D27EE0043B492 /* onboard.png */; };
+		52E89442167D27EE0043B492 /* onboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E8943F167D27EE0043B492 /* onboard@2x.png */; };
+		52E89445167D28250043B492 /* OnboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E89444167D28250043B492 /* OnboardViewController.m */; };
 		52EA1594160E858A009516ED /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EA1593160E858A009516ED /* libGoogleAnalytics.a */; };
 		52EA1597160E85AA009516ED /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EA1596160E85AA009516ED /* CFNetwork.framework */; };
 		52EA1599160E8602009516ED /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EA1598160E8602009516ED /* libsqlite3.0.dylib */; };
@@ -261,6 +265,11 @@
 		52E627F01586CE4000ACF885 /* StopSearchCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopSearchCell.m; sourceTree = "<group>"; };
 		52E627F3158819B400ACF885 /* SearchTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewController.m; sourceTree = "<group>"; };
 		52E627F4158819B400ACF885 /* SearchTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchTableViewController.h; sourceTree = "<group>"; };
+		52E8943D167D27EE0043B492 /* onboard-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onboard-568h@2x.png"; sourceTree = "<group>"; };
+		52E8943E167D27EE0043B492 /* onboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onboard.png; sourceTree = "<group>"; };
+		52E8943F167D27EE0043B492 /* onboard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onboard@2x.png"; sourceTree = "<group>"; };
+		52E89443167D28250043B492 /* OnboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardViewController.h; sourceTree = "<group>"; };
+		52E89444167D28250043B492 /* OnboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnboardViewController.m; sourceTree = "<group>"; };
 		52EA1592160E858A009516ED /* GANTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GANTracker.h; path = Google/GANTracker.h; sourceTree = "<group>"; };
 		52EA1593160E858A009516ED /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAnalytics.a; path = Google/libGoogleAnalytics.a; sourceTree = "<group>"; };
 		52EA1596160E85AA009516ED /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -441,6 +450,16 @@
 			name = Google;
 			sourceTree = "<group>";
 		};
+		52E8943B167D27E10043B492 /* onboard */ = {
+			isa = PBXGroup;
+			children = (
+				52E8943D167D27EE0043B492 /* onboard-568h@2x.png */,
+				52E8943E167D27EE0043B492 /* onboard.png */,
+				52E8943F167D27EE0043B492 /* onboard@2x.png */,
+			);
+			name = onboard;
+			sourceTree = "<group>";
+		};
 		A15BFA651569C5E8004651B9 = {
 			isa = PBXGroup;
 			children = (
@@ -500,6 +519,7 @@
 		A1C637781569C68A004D06D9 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				52E8943B167D27E10043B492 /* onboard */,
 				52589C4E166BB956002A45EB /* btn_back_down@2x.png */,
 				52589C4F166BB956002A45EB /* btn_back_down.png */,
 				52589C50166BB956002A45EB /* btn_back_norm.png */,
@@ -609,6 +629,8 @@
 		A1C637941569C68A004D06D9 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				52E89443167D28250043B492 /* OnboardViewController.h */,
+				52E89444167D28250043B492 /* OnboardViewController.m */,
 				5282A38C1593FDDA00B258CB /* SpashViewController.h */,
 				5282A38B1593FDD900B258CB /* SpashViewController.m */,
 				5275A17B158D14980095B382 /* BusTable.h */,
@@ -806,6 +828,9 @@
 				52589C53166BB956002A45EB /* btn_back_down.png in Resources */,
 				52589C54166BB956002A45EB /* btn_back_norm.png in Resources */,
 				52589C55166BB956002A45EB /* btn_back_norm@2x.png in Resources */,
+				52E89440167D27EE0043B492 /* onboard-568h@2x.png in Resources */,
+				52E89441167D27EE0043B492 /* onboard.png in Resources */,
+				52E89442167D27EE0043B492 /* onboard@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -857,6 +882,7 @@
 				522CF4C31574060E006B1F04 /* EGORefreshTableHeaderView.m in Sources */,
 				5216AF6E15FB8673005DF9B2 /* InfoDetailViewController.m in Sources */,
 				524D8D0C15FC165B00280258 /* NoStops.m in Sources */,
+				52E89445167D28250043B492 /* OnboardViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
