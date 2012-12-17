@@ -53,9 +53,11 @@
 
   NSArray *metroTransit = [NSArray arrayWithObjects:@"Call Metro Transit", nil];
   NSArray *support = [NSArray arrayWithObjects:@"Email the team", nil];
+  NSArray *emailShare = [NSArray arrayWithObjects:@"Tell your friends", nil];
 
   [self.dataArrays addObject:metroTransit];
   [self.dataArrays addObject:support];
+  [self.dataArrays addObject:emailShare];
 
   //Set the title
   self.navigationItem.title = @"Information";
@@ -89,7 +91,9 @@
 	if (section == 0) {
     return @"Metro Transit";
   } else if (section == 1) {
-    return @"Application Support";
+    return @"Get Help";
+  } else if (section == 2) {
+    return @"Share";
   }
   return NULL;
 }
@@ -97,7 +101,7 @@
 -(int) numberOfRowsInSection:(NSInteger)section {
   if (section == 0) {
     return 1;
-  } else if (section == 1) {
+  } else if (section == 1 || section == 2) {
     return 1;
   } else {
     // should not reach here
@@ -126,7 +130,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
   
   int rowsInSection = [self numberOfRowsInSection:indexPath.section];
-  if(rowsInSection == 1){
+  if (rowsInSection == 1){
     return 46;
   } else {
       if (indexPath.row == 0) {
@@ -156,7 +160,7 @@
   }
   
   int rowsInSection = [self numberOfRowsInSection:indexPath.section];
-  if(rowsInSection == 1){
+  if (rowsInSection == 1){
     cell.backgroundView = [ [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"info_cell_single.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ]autorelease];
     
   } else {
@@ -164,7 +168,7 @@
     if (indexPath.row == 0) {
       cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"info_cell_top.png"]
                                                                 resizableImageWithCapInsets:UIEdgeInsetsZero]];
-    } else if (indexPath.row == rowsInSection - 1) {
+    } else if (indexPath.row == 1 || indexPath.row == 2) {
       cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"info_cell_bottom.png"]
                                                                 resizableImageWithCapInsets:UIEdgeInsetsZero]];
     } else {
@@ -184,24 +188,25 @@
       [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://612-373-3333"]];
     }
   } else if (indexPath.section == 1) {
+    NSString *subjectLine = @"Support request from Bus Brain";
+    [self composeEmail:@"beetlefight@gmail.com" emailBody:@"" subjectLine:subjectLine];
+  } else if (indexPath.section == 2) {
     
-    if (indexPath.row == 0) {
-      [self composeEmail:@"beetlefight@gmail.com"];
-    }
+    NSString *subjectLine = @"Check out Bus Brain for iPhone!";
+    NSString *emailBody = @"Bus Brain provides easy iPhone access to the Twin Cities Metro Transit bus schedule. <a href='https://itunes.apple.com/us/app/bus-brain/id560807582?ls=1&mt=8'>Download it on the App Store</a>";
+    [self composeEmail:@"" emailBody:emailBody subjectLine:subjectLine];
   }
 }
 
-- (void)composeEmail:(NSString *)emailAddr {
+- (void)composeEmail:(NSString *)emailAddr emailBody:(NSString *)emailBody subjectLine:(NSString *)subjectLine {
   
   if ([MFMailComposeViewController canSendMail]) {
     NSArray *recipients = [[NSArray alloc] initWithObjects:emailAddr, nil];
     
-    NSString *emailBody = @"<br/><br/>Download Train Brain for iOS and follow <a href='http://twitter.com/trainbrainapp'>@trainbrainapp</a> on twitter";
-    
     MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
     mailViewController.mailComposeDelegate = self;
-    [mailViewController setToRecipients:recipients];
-    [mailViewController setSubject:@"Message from bus brain"];
+    [mailViewController setToRecipients:recipients];    
+    [mailViewController setSubject:subjectLine];
     [mailViewController setMessageBody:emailBody isHTML:YES];
     [[mailViewController navigationBar] setTintColor:[UIColor blackColor]];
     
