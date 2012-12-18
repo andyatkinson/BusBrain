@@ -39,6 +39,8 @@
 
 - (void)viewDidLoad {
   self.tableView = [[UITableView alloc] init];
+  self.tableView.frame = CGRectMake(10, 0, self.view.bounds.size.width - 20, self.view.bounds.size.height);
+  self.tableView.scrollEnabled = NO;
   
   [super viewDidLoad];
   
@@ -62,7 +64,7 @@
   //Set the title
   self.navigationItem.title = @"Information";
 
-  [self setView:[self tableView]];
+  [[self view] addSubview:[self tableView]];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -153,6 +155,7 @@
     cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     cell.backgroundColor = [UIColor clearColor];
     cell.textLabel.textColor = [UIColor whiteColor];
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.shadowColor = [UIColor blackColor];
     cell.textLabel.shadowOffset = CGSizeMake(0,-1);
