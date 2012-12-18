@@ -24,11 +24,14 @@
   NSString *relativeString;
   if (nextStopTime != nil) {
     NSArray  *departureData = [[stop nextStopTime] getTimeTillDeparture];
-    NSNumber *hour    = (NSNumber*) [departureData objectAtIndex:1];
-    NSNumber *minute  = (NSNumber*) [departureData objectAtIndex:2];
-    NSNumber *seconds = (NSNumber*) [departureData objectAtIndex:3];
+    NSNumber *days    = (NSNumber*) [departureData objectAtIndex:1];
+    NSNumber *hour    = (NSNumber*) [departureData objectAtIndex:2];
+    NSNumber *minute  = (NSNumber*) [departureData objectAtIndex:3];
+    NSNumber *seconds = (NSNumber*) [departureData objectAtIndex:4];
 
-    if([hour intValue] > 0){
+    if([days intValue] > 0){
+      relativeString = [NSString stringWithFormat:@"%dd", [days intValue]];
+    } else if([hour intValue] > 0){
       relativeString = [NSString stringWithFormat:@"%dh", [hour intValue]];
     } else if ( [minute intValue] > 0 ) {
       if([seconds intValue] > 30){
@@ -53,6 +56,7 @@
   [string setFont:[[self relativeTime] font]];
   [string setTextAlignment:kCTRightTextAlignment lineBreakMode:0];
 
+  [string setFont:[BusLooknFeel getDetailSmallFont] range:[relativeString rangeOfString:@"d"]];
   [string setFont:[BusLooknFeel getDetailSmallFont] range:[relativeString rangeOfString:@"h"]];
   [string setFont:[BusLooknFeel getDetailSmallFont] range:[relativeString rangeOfString:@"m"]];
   [string setFont:[BusLooknFeel getDetailSmallFont] range:[relativeString rangeOfString:@"s"]];

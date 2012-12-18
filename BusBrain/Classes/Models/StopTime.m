@@ -10,6 +10,7 @@
 #import "StopTime.h"
 #import "TransitAPIClient.h"
 #import "NSString+BeetleFight.h"
+#import "NSDate+BusBrain.h"
 
 @implementation StopTime
 
@@ -57,9 +58,10 @@
 - (NSDate*) getStopDate {
   NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
   NSDateComponents *components = [gregorian components:NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit fromDate:[NSDate date]];
+  
   [components setYear:[self departureTimeYear]];
   [components setMonth:[self departureTimeMonth]];
-  [components setDay:[self departureTimeYear]];
+  [components setDay:[self departureTimeDay]];
   [components setHour:[self departureTimeHour]];
   [components setMinute:[self departureTimeMinute]];
   [components setSecond:0];
@@ -71,7 +73,7 @@
 }
 
 - (NSArray*) getTimeTillDeparture {
-  NSDate *currentDate = [NSDate date];
+  NSDate *currentDate = [NSDate timeRightNow];
   NSDate *stopDate    = [self getStopDate];
 
   NSTimeInterval timeInterval;
@@ -85,12 +87,14 @@
 
   NSCalendar *calendar = [NSCalendar currentCalendar];
   [calendar setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0.0]];
-  NSDateComponents *components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:timerDate];
+  NSDateComponents *components = [calendar components:(NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:timerDate];
+  NSInteger days    = [components day];
   NSInteger hour    = [components hour];
   NSInteger minute  = [components minute];
   NSInteger seconds = [components second];
 
   NSArray *timeArray = [NSArray arrayWithObjects:[NSNumber numberWithInteger:timeInterval],
+                        [NSNumber numberWithInteger:days - 1],
                         [NSNumber numberWithInteger:hour],
                         [NSNumber numberWithInteger:minute],
                         [NSNumber numberWithInteger:seconds],
@@ -105,7 +109,7 @@
   
   NSString *urlString = [NSString stringWithFormat:@"bus/v1/routes/%@/stops/%@/stop_times.json", route_id, stop_id];
 
-  NSDate *now = [NSDate date];
+  NSDate *now = [NSDate timeRightNow];
   NSCalendar *calendar = [NSCalendar currentCalendar];
   
   NSDateComponents *components = [calendar components:NSHourCalendarUnit|NSMinuteCalendarUnit fromDate:now];
@@ -137,7 +141,7 @@
        StopTime *stop_time = [[[StopTime alloc] initWithAttributes:attributes] autorelease];
 
        //Cehck if stop is in the past
-       if([[stop_time getStopDate] compare: [NSDate date]] == NSOrderedDescending) {
+       if([[stop_time getStopDate] compare: [NSDate timeRightNow]] == NSOrderedDescending) {
          [mutableRecords addObject:stop_time];
        }
 

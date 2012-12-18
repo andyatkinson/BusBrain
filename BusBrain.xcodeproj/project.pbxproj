@@ -110,6 +110,7 @@
 		52E89441167D27EE0043B492 /* onboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E8943E167D27EE0043B492 /* onboard.png */; };
 		52E89442167D27EE0043B492 /* onboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E8943F167D27EE0043B492 /* onboard@2x.png */; };
 		52E89445167D28250043B492 /* OnboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E89444167D28250043B492 /* OnboardViewController.m */; };
+		52E8949C1680070D0043B492 /* NSDate+BusBrain.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E8949B1680070C0043B492 /* NSDate+BusBrain.m */; };
 		52EA1594160E858A009516ED /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EA1593160E858A009516ED /* libGoogleAnalytics.a */; };
 		52EA1597160E85AA009516ED /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EA1596160E85AA009516ED /* CFNetwork.framework */; };
 		52EA1599160E8602009516ED /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EA1598160E8602009516ED /* libsqlite3.0.dylib */; };
@@ -270,6 +271,8 @@
 		52E8943F167D27EE0043B492 /* onboard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onboard@2x.png"; sourceTree = "<group>"; };
 		52E89443167D28250043B492 /* OnboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardViewController.h; sourceTree = "<group>"; };
 		52E89444167D28250043B492 /* OnboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnboardViewController.m; sourceTree = "<group>"; };
+		52E8949A1680070C0043B492 /* NSDate+BusBrain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+BusBrain.h"; sourceTree = "<group>"; };
+		52E8949B1680070C0043B492 /* NSDate+BusBrain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+BusBrain.m"; sourceTree = "<group>"; };
 		52EA1592160E858A009516ED /* GANTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GANTracker.h; path = Google/GANTracker.h; sourceTree = "<group>"; };
 		52EA1593160E858A009516ED /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAnalytics.a; path = Google/libGoogleAnalytics.a; sourceTree = "<group>"; };
 		52EA1596160E85AA009516ED /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -586,6 +589,8 @@
 		A1C6377B1569C68A004D06D9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				52E8949A1680070C0043B492 /* NSDate+BusBrain.h */,
+				52E8949B1680070C0043B492 /* NSDate+BusBrain.m */,
 				522CF4781574032F006B1F04 /* BusBrainAppDelegate.h */,
 				522CF4791574032F006B1F04 /* BusBrainAppDelegate.m */,
 				A1C637BE1569C6C7004D06D9 /* NSString+BeetleFight.h */,
@@ -883,6 +888,7 @@
 				5216AF6E15FB8673005DF9B2 /* InfoDetailViewController.m in Sources */,
 				524D8D0C15FC165B00280258 /* NoStops.m in Sources */,
 				52E89445167D28250043B492 /* OnboardViewController.m in Sources */,
+				52E8949C1680070D0043B492 /* NSDate+BusBrain.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

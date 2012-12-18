@@ -13,6 +13,7 @@
 #import "NSString+BeetleFight.h"
 #import "FunnyPhrase.h"
 #import "BusBrainAppDelegate.h"
+#import "NSDate+BusBrain.h"
 
 @implementation StopTimesTableViewController
 
@@ -81,14 +82,29 @@
 - (void) processStopTimes {
   NSEnumerator *e = [[self stopTimes] objectEnumerator];
   StopTime *thisTime;
-  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-  [dateFormatter setDateFormat:@"h a"];
   
   [self setStopHours: [[NSMutableArray alloc] init]];
   [self setStopData: [[NSMutableDictionary alloc] init]];
   
   while (thisTime = (StopTime*) [e nextObject]) {
-    NSString *stopHour = [dateFormatter stringFromDate:[thisTime getStopDate]];
+    NSDate *stopDate = [thisTime getStopDate];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    //[calendar setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0.0]];
+    
+    NSDateComponents *components = [calendar components:(NSDayCalendarUnit) fromDate:stopDate];
+    NSInteger stopDay    = [components day];
+    
+    components = [calendar components:(NSDayCalendarUnit) fromDate:[NSDate timeRightNow]];
+    NSInteger currentDay  = [components day];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    if(currentDay == stopDay){
+      [dateFormatter setDateFormat:@"h a"];
+    } else {
+      [dateFormatter setDateFormat:@"EEEE h a"];
+    }
+    
+    NSString *stopHour = [dateFormatter stringFromDate:stopDate];
     
     
     //Use this array to keep track of the desired order

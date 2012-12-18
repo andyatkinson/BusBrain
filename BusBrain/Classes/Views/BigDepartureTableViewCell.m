@@ -15,9 +15,11 @@
 @synthesize countDownTimer          = _countDownTimer;
 @synthesize countDownStartDate      = _countDownStartDate;
 @synthesize stopTime                = _stopTime;
+@synthesize bigDepartureDays        = _bigDepartureDays;
 @synthesize bigDepartureHour        = _bigDepartureHour;
 @synthesize bigDepartureMinute      = _bigDepartureMinute;
 @synthesize bigDepartureSeconds     = _bigDepartureSeconds;
+@synthesize bigDepartureDaysUnit    = _bigDepartureDaysUnit;
 @synthesize bigDepartureHourUnit    = _bigDepartureHourUnit;
 @synthesize bigDepartureMinuteUnit  = _bigDepartureMinuteUnit;
 @synthesize bigDepartureSecondsUnit = _bigDepartureSecondsUnit;
@@ -55,9 +57,10 @@
 - (void)updateTimer {
   NSArray  *departureData = [[self stopTime] getTimeTillDeparture];
   NSNumber *timeTillDeparture = (NSNumber*) [departureData objectAtIndex:0];
-  NSNumber *hour    = (NSNumber*) [departureData objectAtIndex:1];
-  NSNumber *minute  = (NSNumber*) [departureData objectAtIndex:2];
-  NSNumber *seconds = (NSNumber*) [departureData objectAtIndex:3];
+  NSNumber *days    = (NSNumber*) [departureData objectAtIndex:1];
+  NSNumber *hour    = (NSNumber*) [departureData objectAtIndex:2];
+  NSNumber *minute  = (NSNumber*) [departureData objectAtIndex:3];
+  NSNumber *seconds = (NSNumber*) [departureData objectAtIndex:4];
 
   if([timeTillDeparture intValue] > 0) {
     [self setTimerColor:[BusLooknFeel getTimerColor]];
@@ -65,14 +68,17 @@
     [self setTimerColor:[BusLooknFeel getTimerZeroColor]];
   }
 
+  [[self bigDepartureDays] setText: [NSString stringWithFormat:@"%02d", [days intValue]]];
   [[self bigDepartureHour] setText: [NSString stringWithFormat:@"%02d", [hour intValue]]];
   [[self bigDepartureMinute] setText: [NSString stringWithFormat:@"%02d", [minute intValue]]];
   [[self bigDepartureSeconds] setText: [NSString stringWithFormat:@"%02d", [seconds intValue]]];
 
-  if([hour intValue] == 0) {
-    [self layoutTimer:false];
+  if([days intValue] > 0) {
+    [self layoutTimer:YES showDays:YES];
+  } else if([hour intValue] > 0) {
+    [self layoutTimer:YES showDays:NO];
   } else {
-    [self layoutTimer:true];
+    [self layoutTimer:NO showDays:NO];
   }
 
 }
@@ -97,6 +103,10 @@
     [imgView setUserInteractionEnabled:NO];
     [self setBackgroundView: imgView];
 
+    [self setBigDepartureDays        : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerColor]
+                                                        selectedColor:[BusLooknFeel getTimerColor]
+                                                                 font:[BusLooknFeel getTimerBigFont]]];
+    
     [self setBigDepartureHour        : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerColor] 
                                                         selectedColor:[BusLooknFeel getTimerColor] 
                                                                  font:[BusLooknFeel getTimerBigFont]]];
@@ -109,6 +119,10 @@
                                                         selectedColor:[BusLooknFeel getTimerColor] 
                                                                  font:[BusLooknFeel getTimerBigFont]]];
     
+    
+    [self setBigDepartureDaysUnit    : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerColor]
+                                                        selectedColor:[BusLooknFeel getTimerColor]
+                                                                 font:[BusLooknFeel getTimerSmallFont]]];
     
     [self setBigDepartureHourUnit    : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerColor] 
                                                         selectedColor:[BusLooknFeel getTimerColor] 
@@ -123,9 +137,11 @@
                                                                  font:[BusLooknFeel getTimerSmallFont]]];
     
   
+    [BusLooknFeel addShadow:[self bigDepartureDays]        color:[BusLooknFeel getTimerShadowColor] height:2.0];
     [BusLooknFeel addShadow:[self bigDepartureHour]        color:[BusLooknFeel getTimerShadowColor] height:2.0];
     [BusLooknFeel addShadow:[self bigDepartureMinute]      color:[BusLooknFeel getTimerShadowColor] height:2.0];
     [BusLooknFeel addShadow:[self bigDepartureSeconds]     color:[BusLooknFeel getTimerShadowColor] height:2.0];
+    [BusLooknFeel addShadow:[self bigDepartureDaysUnit]    color:[BusLooknFeel getTimerShadowColor] height:2.0];
     [BusLooknFeel addShadow:[self bigDepartureHourUnit]    color:[BusLooknFeel getTimerShadowColor] height:2.0];
     [BusLooknFeel addShadow:[self bigDepartureMinuteUnit]  color:[BusLooknFeel getTimerShadowColor] height:2.0];
     [BusLooknFeel addShadow:[self bigDepartureSecondsUnit] color:[BusLooknFeel getTimerShadowColor] height:2.0];
@@ -147,9 +163,11 @@
                                               selectedColor:[BusLooknFeel getTimerDetailColor] 
                                                        font:[BusLooknFeel getTimerDetailFont]]];
 
+    [contentView addSubview:[self bigDepartureDays]];
     [contentView addSubview:[self bigDepartureHour]];
     [contentView addSubview:[self bigDepartureMinute]];
     [contentView addSubview:[self bigDepartureSeconds]];
+    [contentView addSubview:[self bigDepartureDaysUnit]];
     [contentView addSubview:[self bigDepartureHourUnit]];
     [contentView addSubview:[self bigDepartureMinuteUnit]];
     [contentView addSubview:[self bigDepartureSecondsUnit]];
@@ -159,6 +177,7 @@
     [contentView addSubview:[self formattedTime]];
     [contentView addSubview:[self price]];
 
+    [[self bigDepartureDays] release];
     [[self bigDepartureHour] release];
     [[self bigDepartureMinute] release];
     [[self bigDepartureSeconds] release];
@@ -169,9 +188,11 @@
 
     [self setTimerColor:[BusLooknFeel getTimerColor]];
 
+    [[self bigDepartureDays]        setText : @"00"];
     [[self bigDepartureHour]        setText : @"00"];
     [[self bigDepartureMinute]      setText : @"00"];
     [[self bigDepartureSeconds]     setText : @"00"];
+    [[self bigDepartureDaysUnit]    setText : @"d"];
     [[self bigDepartureHourUnit]    setText : @"h"];
     [[self bigDepartureMinuteUnit]  setText : @"m"];
     [[self bigDepartureSecondsUnit] setText : @"s"];
@@ -189,6 +210,8 @@
 }
 
 - (void) setTimerColor:(UIColor*) thisColor {
+  [[self bigDepartureDays]        setTextColor:thisColor];
+  [[self bigDepartureDaysUnit]    setTextColor:thisColor];
   [[self bigDepartureHour]        setTextColor:thisColor];
   [[self bigDepartureHourUnit]    setTextColor:thisColor];
   [[self bigDepartureMinute]      setTextColor:thisColor];
@@ -196,6 +219,8 @@
   [[self bigDepartureSeconds]     setTextColor:thisColor];
   [[self bigDepartureSecondsUnit] setTextColor:thisColor];
 
+  [[self bigDepartureDays]        setHighlightedTextColor:thisColor];
+  [[self bigDepartureDaysUnit]    setHighlightedTextColor:thisColor];
   [[self bigDepartureHour]        setHighlightedTextColor:thisColor];
   [[self bigDepartureHourUnit]    setHighlightedTextColor:thisColor];
   [[self bigDepartureMinute]      setHighlightedTextColor:thisColor];
@@ -204,16 +229,41 @@
   [[self bigDepartureSecondsUnit] setHighlightedTextColor:thisColor];
 }
 
-- (void) layoutTimer:(BOOL) showHours {
+- (void) layoutTimer:(BOOL) showHours showDays:(BOOL) showDays{
   CGRect contentRect = [[self contentView] bounds];
   CGFloat boundsX    = contentRect.origin.x;
-
-  if (showHours) {
+  
+  if(showDays || showHours){
+    //Hide Seconds
     [[self bigDepartureSeconds]     setFrame: CGRectMake(boundsX - 100,   0, 300, 100)];
     [[self bigDepartureSecondsUnit] setFrame: CGRectMake(boundsX - 100,  45, 300, 100)];
+  } else {
+    //Show Seconds
+    [[self bigDepartureSeconds]     setFrame: CGRectMake(boundsX + 164,   0, 300, 100)];
+    [[self bigDepartureSecondsUnit] setFrame: CGRectMake(boundsX + 247,  45, 300, 100)];
+  }
+  
+  if(showDays){
+    //Hide Minute
+    [[self bigDepartureMinute]     setFrame: CGRectMake(boundsX - 100,   0, 300, 100)];
+    [[self bigDepartureMinuteUnit] setFrame: CGRectMake(boundsX - 100,  45, 300, 100)];
+  } else {
+    //Hide Day
+    [[self bigDepartureDays]     setFrame: CGRectMake(boundsX - 100,   0, 300, 100)];
+    [[self bigDepartureDaysUnit] setFrame: CGRectMake(boundsX - 100,  45, 300, 100)];
+  }
+  
+  if(showDays){
+    [[self bigDepartureDays]        setFrame: CGRectMake(boundsX +  44,   0, 300, 100)];
+    [[self bigDepartureDaysUnit]    setFrame: CGRectMake(boundsX + 127,  45, 300, 100)];
     
+    [[self bigDepartureHour]      setFrame: CGRectMake(boundsX + 154,   0, 300, 100)];
+    [[self bigDepartureHourUnit]  setFrame: CGRectMake(boundsX + 239,  45, 300, 100)];
+    
+  } else if (showHours) {
     [[self bigDepartureHour]        setFrame: CGRectMake(boundsX +  44,   0, 300, 100)];
     [[self bigDepartureHourUnit]    setFrame: CGRectMake(boundsX + 127,  45, 300, 100)];
+    
     [[self bigDepartureMinute]      setFrame: CGRectMake(boundsX + 154,   0, 300, 100)];
     [[self bigDepartureMinuteUnit]  setFrame: CGRectMake(boundsX + 239,  45, 300, 100)];
   } else {
@@ -222,8 +272,7 @@
     
     [[self bigDepartureMinute]      setFrame: CGRectMake(boundsX +  50,   0, 300, 100)];
     [[self bigDepartureMinuteUnit]  setFrame: CGRectMake(boundsX + 133,  45, 300, 100)];
-    [[self bigDepartureSeconds]     setFrame: CGRectMake(boundsX + 164,   0, 300, 100)];
-    [[self bigDepartureSecondsUnit] setFrame: CGRectMake(boundsX + 247,  45, 300, 100)];
+    
   }
 
 }
@@ -236,7 +285,7 @@
   CGRect contentRect = [[self contentView] bounds];
 
   // In this example we will never be editing, but this illustrates the appropriate pattern
-  [self layoutTimer:false];
+  [self layoutTimer:NO showDays:NO];
 
   // get the X pixel spot
   CGFloat boundsX = contentRect.origin.x;

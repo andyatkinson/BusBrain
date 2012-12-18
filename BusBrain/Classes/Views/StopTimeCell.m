@@ -21,9 +21,17 @@
 
 - (void) setStopTime:(StopTime*) stopTime {
   NSArray  *departureData = [stopTime getTimeTillDeparture];
-  NSNumber *hour    = (NSNumber*) [departureData objectAtIndex:1];
-  NSNumber *minute  = (NSNumber*) [departureData objectAtIndex:2];
-  NSString *relativeString = [NSString stringWithFormat:@"%dh %02dm", [hour intValue], [minute intValue]];
+  NSNumber *days    = (NSNumber*) [departureData objectAtIndex:1];
+  NSNumber *hour    = (NSNumber*) [departureData objectAtIndex:2];
+  NSNumber *minute  = (NSNumber*) [departureData objectAtIndex:3];
+  
+  NSString *relativeString;
+  if([days intValue] > 0){
+    relativeString = [NSString stringWithFormat:@"%dd %dh %02dm", [days intValue], [hour intValue], [minute intValue]];
+  } else {
+    relativeString = [NSString stringWithFormat:@"%dh %02dm", [hour intValue], [minute intValue]];
+  }
+  
 
   NSMutableAttributedString * string = [[NSMutableAttributedString alloc]
                                         initWithString:relativeString];
@@ -31,6 +39,7 @@
   [string setTextColor:[[self relativeTime] textColor]];
   [string setFont: [[self relativeTime] font]];
 
+  [string setFont:[BusLooknFeel getUpcomingTitleSmallFont] range:[relativeString rangeOfString:@"d"]];
   [string setFont:[BusLooknFeel getUpcomingTitleSmallFont] range:[relativeString rangeOfString:@"h"]];
   [string setFont:[BusLooknFeel getUpcomingTitleSmallFont] range:[relativeString rangeOfString:@"m"]];
 

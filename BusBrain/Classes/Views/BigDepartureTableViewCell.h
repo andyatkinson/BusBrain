@@ -10,9 +10,11 @@
 #import "StopTime.h"
 
 @interface BigDepartureTableViewCell : BusTableCell {
+  OHAttributedLabel *_bigDepartureDays;
   OHAttributedLabel *_bigDepartureHour;
   OHAttributedLabel *_bigDepartureMinute;
   OHAttributedLabel *_bigDepartureSeconds;
+  OHAttributedLabel *_bigDepartureDaysUnit;
   OHAttributedLabel *_bigDepartureHourUnit;
   OHAttributedLabel *_bigDepartureMinuteUnit;
   OHAttributedLabel *_bigDepartureSecondsUnit;
@@ -29,9 +31,11 @@
 @property (nonatomic, retain) NSTimer   *countDownTimer;
 @property (nonatomic, retain) NSDate    *countDownStartDate;
 @property (nonatomic, retain) StopTime  *stopTime;
+@property (nonatomic, retain) OHAttributedLabel   *bigDepartureDays;
 @property (nonatomic, retain) OHAttributedLabel   *bigDepartureHour;
 @property (nonatomic, retain) OHAttributedLabel   *bigDepartureMinute;
 @property (nonatomic, retain) OHAttributedLabel   *bigDepartureSeconds;
+@property (nonatomic, retain) OHAttributedLabel   *bigDepartureDaysUnit;
 @property (nonatomic, retain) OHAttributedLabel   *bigDepartureHourUnit;
 @property (nonatomic, retain) OHAttributedLabel   *bigDepartureMinuteUnit;
 @property (nonatomic, retain) OHAttributedLabel   *bigDepartureSecondsUnit;
@@ -45,7 +49,7 @@
 
 - (void) startTimer;
 - (void) setStopTime: (StopTime*) stopTime;
-- (void) layoutTimer:(BOOL) showHours;
+- (void) layoutTimer:(BOOL) showHours showDays:(BOOL) showDays;
 - (void) setTimerColor:(UIColor*) thisColor;
 
 // gets the data from another class

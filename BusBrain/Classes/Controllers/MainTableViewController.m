@@ -19,6 +19,7 @@
 #import "AFJSONRequestOperation.h"
 
 #import "BusBrainAppDelegate.h"
+#import "NSDate+BusBrain.h"
 
 NSString * const kStopSectionID   = @"STOP";
 NSString * const kLastSectionID   = @"LAST";
@@ -87,7 +88,7 @@ NSString * const kLastSectionID   = @"LAST";
   }
   
   //Get hour and minute from device, and send as params to do time calculation
-  NSDate *now = [NSDate date];
+  NSDate *now = [NSDate timeRightNow];
   NSCalendar *calendar = [NSCalendar currentCalendar];
   NSDateComponents *components = [calendar components:NSHourCalendarUnit|NSMinuteCalendarUnit fromDate:now];
   [params setValue:[NSString stringWithFormat:@"%d", [components hour]] forKey:@"hour"];
@@ -147,7 +148,7 @@ NSString * const kLastSectionID   = @"LAST";
 
   int lastCacheStamp = [settings integerForKey:@"lastCacheStamp"];
   NSDate *lastCacheDate = [NSDate dateWithTimeIntervalSince1970:lastCacheStamp];
-  NSDate *now = [NSDate date];
+  NSDate *now = [NSDate timeRightNow];
 
   NSCalendar *calendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
   NSDateComponents *components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit
@@ -260,7 +261,7 @@ NSString * const kLastSectionID   = @"LAST";
                          success:^(AFHTTPRequestOperation *operation, id JSON) {
 
                            NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
-                           [settings setInteger:[[NSDate date] timeIntervalSince1970] forKey:@"lastCacheStamp"];
+                           [settings setInteger:[[NSDate timeRightNow] timeIntervalSince1970] forKey:@"lastCacheStamp"];
                            
                            [delegate dismiss];
                            

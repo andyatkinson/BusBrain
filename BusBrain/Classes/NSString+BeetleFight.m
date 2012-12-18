@@ -6,13 +6,14 @@
 //
 
 #import "NSString+BeetleFight.h"
+#import "NSDate+BusBrain.h"
 
 @implementation NSString (BeetleFight)
 
 // Expects time strings in this format: 00:00:00, e.g. "08:10:00"
 
 - (NSString *)relativeTimeHourAndMinute {
-  NSDate *now = [NSDate date];
+  NSDate *now = [NSDate timeRightNow];
   NSCalendar *calendar = [NSCalendar currentCalendar];
   NSDateComponents *components = [calendar components:NSHourCalendarUnit fromDate:now];
   int currentHour = (int)[components hour];
