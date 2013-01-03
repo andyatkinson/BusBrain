@@ -37,4 +37,20 @@
   return [NSDate date];
   
 }
+
++ (NSString *) dateRightNow {
+
+   NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+   NSDateComponents *components = [gregorian components:NSYearCalendarUnit |
+   NSMonthCalendarUnit |
+   NSDayCalendarUnit |
+   NSHourCalendarUnit |
+   NSMinuteCalendarUnit|
+   NSSecondCalendarUnit
+   fromDate:[NSDate date]];
+   
+   return [NSString stringWithFormat:@"%i-%i-%i", (int)[components year], (int)[components month], (int)[components day]] ;
+  
+}
+
 @end

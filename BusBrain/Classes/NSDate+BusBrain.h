@@ -10,6 +10,7 @@
 
 @interface NSDate (BusBrain)
 
-+ (NSDate *) timeRightNow;
++ (NSDate *)   timeRightNow;
++ (NSString *) dateRightNow;
 
 @end

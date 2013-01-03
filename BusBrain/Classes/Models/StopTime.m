@@ -34,6 +34,10 @@
   }
 
   [self setDepartureDate: [attributes valueForKeyPath:@"departure_date"]];
+  if([self departureDate] == nil){
+    [self setDepartureDate:[NSDate dateRightNow]];
+  }
+  
   [self setDepartureTime: [attributes valueForKeyPath:@"departure_time"]];
   [self setArrivalTime: [attributes valueForKeyPath:@"arrival_time"]];
   [self setDropOffType: [attributes valueForKeyPath:@"drop_off_type"]];
@@ -75,7 +79,7 @@
 - (NSArray*) getTimeTillDeparture {
   NSDate *currentDate = [NSDate timeRightNow];
   NSDate *stopDate    = [self getStopDate];
-
+  
   NSTimeInterval timeInterval;
   if([stopDate compare: currentDate] == NSOrderedDescending) {
     timeInterval = [stopDate timeIntervalSinceDate:currentDate];
