@@ -20,7 +20,7 @@
 		5222D42A15D4936D007B9ABE /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5222D42915D4936D007B9ABE /* Icon-Small@2x.png */; };
 		5222D42C15D49379007B9ABE /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5222D42B15D49379007B9ABE /* Icon@2x.png */; };
 		522CF47A157403AA006B1F04 /* BusBrainAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF4791574032F006B1F04 /* BusBrainAppDelegate.m */; };
-		522CF48B15740422006B1F04 /* BigDepartureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF47C1574040B006B1F04 /* BigDepartureTableViewCell.m */; };
+		522CF48B15740422006B1F04 /* CountDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF47C1574040B006B1F04 /* CountDownView.m */; };
 		522CF49115740422006B1F04 /* StopTimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF48A1574040B006B1F04 /* StopTimeCell.m */; };
 		522CF49F15740485006B1F04 /* InfoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF49515740461006B1F04 /* InfoTableViewController.m */; };
 		522CF4A015740485006B1F04 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF49715740461006B1F04 /* MainTableViewController.m */; };
@@ -158,8 +158,8 @@
 		5222D42B15D49379007B9ABE /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		522CF4781574032F006B1F04 /* BusBrainAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BusBrainAppDelegate.h; sourceTree = "<group>"; };
 		522CF4791574032F006B1F04 /* BusBrainAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BusBrainAppDelegate.m; sourceTree = "<group>"; };
-		522CF47B1574040B006B1F04 /* BigDepartureTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BigDepartureTableViewCell.h; sourceTree = "<group>"; };
-		522CF47C1574040B006B1F04 /* BigDepartureTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BigDepartureTableViewCell.m; sourceTree = "<group>"; };
+		522CF47B1574040B006B1F04 /* CountDownView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CountDownView.h; sourceTree = "<group>"; };
+		522CF47C1574040B006B1F04 /* CountDownView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CountDownView.m; sourceTree = "<group>"; };
 		522CF4891574040B006B1F04 /* StopTimeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StopTimeCell.h; sourceTree = "<group>"; };
 		522CF48A1574040B006B1F04 /* StopTimeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopTimeCell.m; sourceTree = "<group>"; };
 		522CF49415740461006B1F04 /* InfoTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InfoTableViewController.h; sourceTree = "<group>"; };
@@ -682,14 +682,14 @@
 			children = (
 				526856FB158D0B74000A99BB /* BusTableCell.h */,
 				526856FC158D0B75000A99BB /* BusTableCell.m */,
+				522CF47B1574040B006B1F04 /* CountDownView.h */,
+				522CF47C1574040B006B1F04 /* CountDownView.m */,
 				526223ED157783B100816859 /* StopMainCell.h */,
 				526223EE157783B100816859 /* StopMainCell.m */,
 				52E627EF1586CE4000ACF885 /* StopSearchCell.h */,
 				52E627F01586CE4000ACF885 /* StopSearchCell.m */,
 				52C374D9157A93E200B61A47 /* StopLastCell.h */,
 				52C374DA157A93E200B61A47 /* StopLastCell.m */,
-				522CF47B1574040B006B1F04 /* BigDepartureTableViewCell.h */,
-				522CF47C1574040B006B1F04 /* BigDepartureTableViewCell.m */,
 				522CF4891574040B006B1F04 /* StopTimeCell.h */,
 				522CF48A1574040B006B1F04 /* StopTimeCell.m */,
 				524D8D0A15FC165B00280258 /* NoStops.h */,
@@ -861,7 +861,7 @@
 				522CF49F15740485006B1F04 /* InfoTableViewController.m in Sources */,
 				522CF4A015740485006B1F04 /* MainTableViewController.m in Sources */,
 				522CF4A315740485006B1F04 /* StopTimesTableViewController.m in Sources */,
-				522CF48B15740422006B1F04 /* BigDepartureTableViewCell.m in Sources */,
+				522CF48B15740422006B1F04 /* CountDownView.m in Sources */,
 				522CF49115740422006B1F04 /* StopTimeCell.m in Sources */,
 				522CF47A157403AA006B1F04 /* BusBrainAppDelegate.m in Sources */,
 				A1C637AA1569C68A004D06D9 /* AFHTTPClient.m in Sources */,

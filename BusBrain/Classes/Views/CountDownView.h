@@ -6,10 +6,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BusTableCell.h"
 #import "StopTime.h"
+#import "OHAttributedLabel.h"
+#import "StopTime.h"
+#import "Stop.h"
 
-@interface BigDepartureTableViewCell : BusTableCell {
+@interface CountDownView : UIView {
+  BOOL _dataRefreshRequested;
+  
   OHAttributedLabel *_bigDepartureDays;
   OHAttributedLabel *_bigDepartureHour;
   OHAttributedLabel *_bigDepartureMinute;
@@ -21,6 +25,7 @@
   OHAttributedLabel *_funnySaying;
   OHAttributedLabel *_description;
   OHAttributedLabel *_formattedTime;
+  OHAttributedLabel *_nextTripTime;
   OHAttributedLabel *_price;
 
   NSTimer  *_countDownTimer;
@@ -28,6 +33,7 @@
   StopTime *_stopTime;
 }
 
+@property (nonatomic) BOOL dataRefreshRequested;
 @property (nonatomic, retain) NSTimer   *countDownTimer;
 @property (nonatomic, retain) NSDate    *countDownStartDate;
 @property (nonatomic, retain) StopTime  *stopTime;
@@ -42,6 +48,7 @@
 @property (nonatomic, retain) OHAttributedLabel   *funnySaying;
 @property (nonatomic, retain) OHAttributedLabel   *description;
 @property (nonatomic, retain) OHAttributedLabel   *formattedTime;
+@property (nonatomic, retain) OHAttributedLabel   *nextTripTime;
 @property (nonatomic, retain) OHAttributedLabel   *price;
 
 

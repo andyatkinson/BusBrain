@@ -5,12 +5,11 @@
 //  Copyright (c) 2012 Beetle Fight. All rights reserved.
 //
 
-#import "BusTableCell.h"
 #import "BusLooknFeel.h"
-#import "BigDepartureTableViewCell.h"
+#import "CountDownView.h"
 #import "StopTime.h"
 
-@implementation BigDepartureTableViewCell
+@implementation CountDownView
 
 @synthesize countDownTimer          = _countDownTimer;
 @synthesize countDownStartDate      = _countDownStartDate;
@@ -26,7 +25,156 @@
 @synthesize funnySaying;
 @synthesize description;
 @synthesize formattedTime;
+@synthesize nextTripTime;
 @synthesize price;
+
+- (id)initWithFrame:(CGRect)frame
+{
+  self = [super initWithFrame:frame];
+  if (self) {
+    
+    UIImage *img = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"bg_timer" ofType:@"png"]];
+    
+    [self setBackgroundColor:[UIColor colorWithPatternImage:img]];
+    
+    [self setBigDepartureDays        : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerColor]
+                                                        selectedColor:[BusLooknFeel getTimerColor]
+                                                                 font:[BusLooknFeel getTimerBigFont]]];
+    
+    [self setBigDepartureHour        : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerColor]
+                                                        selectedColor:[BusLooknFeel getTimerColor]
+                                                                 font:[BusLooknFeel getTimerBigFont]]];
+    
+    [self setBigDepartureMinute      : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerColor]
+                                                        selectedColor:[BusLooknFeel getTimerColor]
+                                                                 font:[BusLooknFeel getTimerBigFont]]];
+    
+    [self setBigDepartureSeconds     : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerColor]
+                                                        selectedColor:[BusLooknFeel getTimerColor]
+                                                                 font:[BusLooknFeel getTimerBigFont]]];
+    
+    
+    [self setBigDepartureDaysUnit    : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerColor]
+                                                        selectedColor:[BusLooknFeel getTimerColor]
+                                                                 font:[BusLooknFeel getTimerSmallFont]]];
+    
+    [self setBigDepartureHourUnit    : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerColor]
+                                                        selectedColor:[BusLooknFeel getTimerColor]
+                                                                 font:[BusLooknFeel getTimerSmallFont]]];
+    
+    [self setBigDepartureMinuteUnit  : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerColor]
+                                                        selectedColor:[BusLooknFeel getTimerColor]
+                                                                 font:[BusLooknFeel getTimerSmallFont]]];
+    
+    [self setBigDepartureSecondsUnit : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerColor]
+                                                        selectedColor:[BusLooknFeel getTimerColor]
+                                                                 font:[BusLooknFeel getTimerSmallFont]]];
+    
+    
+    [BusLooknFeel addShadow:[self bigDepartureDays]        color:[BusLooknFeel getTimerShadowColor] height:2.0];
+    [BusLooknFeel addShadow:[self bigDepartureHour]        color:[BusLooknFeel getTimerShadowColor] height:2.0];
+    [BusLooknFeel addShadow:[self bigDepartureMinute]      color:[BusLooknFeel getTimerShadowColor] height:2.0];
+    [BusLooknFeel addShadow:[self bigDepartureSeconds]     color:[BusLooknFeel getTimerShadowColor] height:2.0];
+    [BusLooknFeel addShadow:[self bigDepartureDaysUnit]    color:[BusLooknFeel getTimerShadowColor] height:2.0];
+    [BusLooknFeel addShadow:[self bigDepartureHourUnit]    color:[BusLooknFeel getTimerShadowColor] height:2.0];
+    [BusLooknFeel addShadow:[self bigDepartureMinuteUnit]  color:[BusLooknFeel getTimerShadowColor] height:2.0];
+    [BusLooknFeel addShadow:[self bigDepartureSecondsUnit] color:[BusLooknFeel getTimerShadowColor] height:2.0];
+    
+    
+    [self setFunnySaying   : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerTitleColor]
+                                              selectedColor:[BusLooknFeel getTimerTitleColor]
+                                                       font:[BusLooknFeel getTimerTitleFont]]];
+    
+    [self setDescription   : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerSubTitleColor]
+                                              selectedColor:[BusLooknFeel getTimerSubTitleColor]
+                                                       font:[BusLooknFeel getTimerSubTitleFont]]];
+    
+    [self setFormattedTime : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerDetailColor]
+                                              selectedColor:[BusLooknFeel getTimerDetailColor]
+                                                       font:[BusLooknFeel getTimerDetailFont]]];
+    
+    [self setNextTripTime  : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerDetailColor]
+                                              selectedColor:[BusLooknFeel getTimerDetailColor]
+                                                       font:[BusLooknFeel getRouteDirectionFont]]];
+    
+    [self setPrice         : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerDetailColor]
+                                              selectedColor:[BusLooknFeel getTimerDetailColor]
+                                                       font:[BusLooknFeel getTimerDetailFont]]];
+    
+    [self addSubview:[self bigDepartureDays]];
+    [self addSubview:[self bigDepartureHour]];
+    [self addSubview:[self bigDepartureMinute]];
+    [self addSubview:[self bigDepartureSeconds]];
+    [self addSubview:[self bigDepartureDaysUnit]];
+    [self addSubview:[self bigDepartureHourUnit]];
+    [self addSubview:[self bigDepartureMinuteUnit]];
+    [self addSubview:[self bigDepartureSecondsUnit]];
+    
+    [self addSubview:[self funnySaying]];
+    [self addSubview:[self description]];
+    [self addSubview:[self formattedTime]];
+    [self addSubview:[self nextTripTime]];
+    [self addSubview:[self price]];
+    
+    [[self bigDepartureDays] release];
+    [[self bigDepartureHour] release];
+    [[self bigDepartureMinute] release];
+    [[self bigDepartureSeconds] release];
+    [[self funnySaying] release];
+    [[self description] release];
+    [[self formattedTime] release];
+    [[self nextTripTime] release];
+    [[self price] release];
+    
+    [self setTimerColor:[BusLooknFeel getTimerColor]];
+    
+    [[self bigDepartureDays]        setText : @"00"];
+    [[self bigDepartureHour]        setText : @"00"];
+    [[self bigDepartureMinute]      setText : @"00"];
+    [[self bigDepartureSeconds]     setText : @"00"];
+    [[self bigDepartureDaysUnit]    setText : @"d"];
+    [[self bigDepartureHourUnit]    setText : @"h"];
+    [[self bigDepartureMinuteUnit]  setText : @"m"];
+    [[self bigDepartureSecondsUnit] setText : @"s"];
+    
+  }
+  return self;
+}
+
+- (OHAttributedLabel *)newLabelWithPrimaryColor:(UIColor *) primaryColor
+                                  selectedColor:(UIColor *) selectedColor
+                                       fontSize:(CGFloat) fontSize
+                                           bold:(BOOL) bold {
+  
+  UIFont *font;
+  if (bold) {
+    font = [UIFont boldSystemFontOfSize:fontSize];
+  } else {
+    font = [UIFont systemFontOfSize:fontSize];
+  }
+  
+  OHAttributedLabel *newLabel = [self newLabelWithPrimaryColor:primaryColor selectedColor:selectedColor font: font];
+  return newLabel;
+}
+
+- (OHAttributedLabel *)newLabelWithPrimaryColor:(UIColor *)primaryColor
+                                  selectedColor:(UIColor *)selectedColor
+                                           font:(UIFont *) font {
+  
+  /*
+   Views are drawn most efficiently when they are opaque and do not have a clear background,
+   so set these defaults.  To show selection properly, however, the views need to be transparent
+   (so that the selection color shows through).  This is handled in setSelected:animated:.
+   */
+  OHAttributedLabel *newLabel = [[OHAttributedLabel alloc] initWithFrame:CGRectZero];
+  [newLabel setBackgroundColor: [UIColor clearColor]];
+  [newLabel setOpaque: YES];
+  [newLabel setTextColor: primaryColor];
+  [newLabel setHighlightedTextColor: selectedColor];
+  [newLabel setFont: font];
+  
+  return newLabel;
+}
 
 - (void) setStopTime: (StopTime*) stopTime {
   _stopTime = stopTime;
@@ -34,6 +182,7 @@
   NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
   [dateFormatter setDateFormat:@"hh:mm a"];
   [[self formattedTime] setText: [dateFormatter stringFromDate:[[self stopTime] getStopDate]]];
+  [[self nextTripTime] setText:@"NexTrip"];
   [[self price] setText: @""];
 
 }
@@ -88,122 +237,6 @@
   [self setCountDownTimer: nil];
 }
 
-#pragma mark -
-#pragma mark Table Methods
-
-- (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-  if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-    UIView *contentView = [self contentView];
-    
-    [self setSelectionStyle:UITableViewCellSelectionStyleNone];
-
-    UIImage *img = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"bg_timer" ofType:@"png"]];
-
-    UIImageView *imgView = [[UIImageView alloc] initWithImage:img];
-    [imgView setUserInteractionEnabled:NO];
-    [self setBackgroundView: imgView];
-
-    [self setBigDepartureDays        : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerColor]
-                                                        selectedColor:[BusLooknFeel getTimerColor]
-                                                                 font:[BusLooknFeel getTimerBigFont]]];
-    
-    [self setBigDepartureHour        : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerColor] 
-                                                        selectedColor:[BusLooknFeel getTimerColor] 
-                                                                 font:[BusLooknFeel getTimerBigFont]]];
-    
-    [self setBigDepartureMinute      : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerColor] 
-                                                        selectedColor:[BusLooknFeel getTimerColor] 
-                                                                 font:[BusLooknFeel getTimerBigFont]]];
-    
-    [self setBigDepartureSeconds     : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerColor] 
-                                                        selectedColor:[BusLooknFeel getTimerColor] 
-                                                                 font:[BusLooknFeel getTimerBigFont]]];
-    
-    
-    [self setBigDepartureDaysUnit    : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerColor]
-                                                        selectedColor:[BusLooknFeel getTimerColor]
-                                                                 font:[BusLooknFeel getTimerSmallFont]]];
-    
-    [self setBigDepartureHourUnit    : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerColor] 
-                                                        selectedColor:[BusLooknFeel getTimerColor] 
-                                                                 font:[BusLooknFeel getTimerSmallFont]]];
-    
-    [self setBigDepartureMinuteUnit  : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerColor] 
-                                                        selectedColor:[BusLooknFeel getTimerColor] 
-                                                                 font:[BusLooknFeel getTimerSmallFont]]];
-    
-    [self setBigDepartureSecondsUnit : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerColor] 
-                                                        selectedColor:[BusLooknFeel getTimerColor] 
-                                                                 font:[BusLooknFeel getTimerSmallFont]]];
-    
-  
-    [BusLooknFeel addShadow:[self bigDepartureDays]        color:[BusLooknFeel getTimerShadowColor] height:2.0];
-    [BusLooknFeel addShadow:[self bigDepartureHour]        color:[BusLooknFeel getTimerShadowColor] height:2.0];
-    [BusLooknFeel addShadow:[self bigDepartureMinute]      color:[BusLooknFeel getTimerShadowColor] height:2.0];
-    [BusLooknFeel addShadow:[self bigDepartureSeconds]     color:[BusLooknFeel getTimerShadowColor] height:2.0];
-    [BusLooknFeel addShadow:[self bigDepartureDaysUnit]    color:[BusLooknFeel getTimerShadowColor] height:2.0];
-    [BusLooknFeel addShadow:[self bigDepartureHourUnit]    color:[BusLooknFeel getTimerShadowColor] height:2.0];
-    [BusLooknFeel addShadow:[self bigDepartureMinuteUnit]  color:[BusLooknFeel getTimerShadowColor] height:2.0];
-    [BusLooknFeel addShadow:[self bigDepartureSecondsUnit] color:[BusLooknFeel getTimerShadowColor] height:2.0];
-
-    
-    [self setFunnySaying   : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerTitleColor] 
-                                              selectedColor:[BusLooknFeel getTimerTitleColor] 
-                                                       font:[BusLooknFeel getTimerTitleFont]]];
-    
-    [self setDescription   : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerSubTitleColor] 
-                                              selectedColor:[BusLooknFeel getTimerSubTitleColor] 
-                                                       font:[BusLooknFeel getTimerSubTitleFont]]];
-    
-    [self setFormattedTime : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerDetailColor] 
-                                              selectedColor:[BusLooknFeel getTimerDetailColor] 
-                                                       font:[BusLooknFeel getTimerDetailFont]]];
-    
-    [self setPrice         : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerDetailColor] 
-                                              selectedColor:[BusLooknFeel getTimerDetailColor] 
-                                                       font:[BusLooknFeel getTimerDetailFont]]];
-
-    [contentView addSubview:[self bigDepartureDays]];
-    [contentView addSubview:[self bigDepartureHour]];
-    [contentView addSubview:[self bigDepartureMinute]];
-    [contentView addSubview:[self bigDepartureSeconds]];
-    [contentView addSubview:[self bigDepartureDaysUnit]];
-    [contentView addSubview:[self bigDepartureHourUnit]];
-    [contentView addSubview:[self bigDepartureMinuteUnit]];
-    [contentView addSubview:[self bigDepartureSecondsUnit]];
-
-    [contentView addSubview:[self funnySaying]];
-    [contentView addSubview:[self description]];
-    [contentView addSubview:[self formattedTime]];
-    [contentView addSubview:[self price]];
-
-    [[self bigDepartureDays] release];
-    [[self bigDepartureHour] release];
-    [[self bigDepartureMinute] release];
-    [[self bigDepartureSeconds] release];
-    [[self funnySaying] release];
-    [[self description] release];
-    [[self formattedTime] release];
-    [[self price] release];
-
-    [self setTimerColor:[BusLooknFeel getTimerColor]];
-
-    [[self bigDepartureDays]        setText : @"00"];
-    [[self bigDepartureHour]        setText : @"00"];
-    [[self bigDepartureMinute]      setText : @"00"];
-    [[self bigDepartureSeconds]     setText : @"00"];
-    [[self bigDepartureDaysUnit]    setText : @"d"];
-    [[self bigDepartureHourUnit]    setText : @"h"];
-    [[self bigDepartureMinuteUnit]  setText : @"m"];
-    [[self bigDepartureSecondsUnit] setText : @"s"];
-
-  }
-  return self;
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-  [super setSelected:selected animated:animated];
-}
 
 - (void) setData:(NSDictionary *)dict {
   [[self bigDepartureHour] setText: [dict objectForKey:@"title"]];
@@ -230,7 +263,7 @@
 }
 
 - (void) layoutTimer:(BOOL) showHours showDays:(BOOL) showDays{
-  CGRect contentRect = [[self contentView] bounds];
+  CGRect contentRect = [self bounds];
   CGFloat boundsX    = contentRect.origin.x;
   
   if(showDays || showHours){
@@ -282,7 +315,7 @@
   [super layoutSubviews];
 
   // getting the cell size
-  CGRect contentRect = [[self contentView] bounds];
+  CGRect contentRect = [self bounds];
 
   // In this example we will never be editing, but this illustrates the appropriate pattern
   [self layoutTimer:NO showDays:NO];
@@ -291,8 +324,8 @@
   CGFloat boundsX = contentRect.origin.x;
   [[self funnySaying]   setFrame: CGRectMake(boundsX +  20,  98, 200,  20)];
   [[self description]   setFrame: CGRectMake(boundsX +  20, 115, 200,  20)];
-  [[self formattedTime] setFrame: CGRectMake(boundsX + 250, 108,  80,  20)];
-  //[[self price]         setFrame: CGRectMake(boundsX + 250, 115,  80,  20)];
+  [[self formattedTime] setFrame: CGRectMake(boundsX + 250,  98,  80,  20)];
+  [[self nextTripTime]  setFrame: CGRectMake(boundsX + 250, 118,  80,  20)];
 }
 
 #pragma mark -
@@ -309,6 +342,7 @@
   [_funnySaying dealloc];
   [_description dealloc];
   [_formattedTime dealloc];
+  [_nextTripTime dealloc];
   [_price dealloc];
 
   [_countDownTimer dealloc];

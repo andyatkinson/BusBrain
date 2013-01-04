@@ -105,7 +105,7 @@ NSString * const kLastSectionID   = @"LAST";
       [self setErrorMessage:@"No stops within 25 miles."];
       
       self.stops = [data objectForKey:@"stops"];
-      self.lastViewed = [data objectForKey:@"last_viewed"];
+      [self setLastViewed: [data objectForKey:@"last_viewed"]];
       
       [self.tableView reloadData];
       [self.tableView reloadRowsAtIndexPaths:[self.tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];

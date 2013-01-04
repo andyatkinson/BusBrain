@@ -10,7 +10,7 @@
 #import "Stop.h"
 #import "Route.h"
 #import "MBProgressHUD.h"
-#import "BigDepartureTableViewCell.h"
+#import "CountDownView.h"
 #import "MainTableViewController.h"
 
 @interface StopTimesTableViewController : BusTable <UITableViewDelegate, UITableViewDataSource> {
@@ -18,7 +18,7 @@
   Route          *_selectedRoute;
   Stop           *_selectedStop;
   NSArray        *_stopTimes;
-  BigDepartureTableViewCell *_bigCell;
+  CountDownView  *_countDownView;
   NSMutableArray      *_stopHours;
   NSMutableDictionary *_stopData;
   
@@ -26,7 +26,7 @@
   MainTableViewController *_main;
 }
 
-@property (nonatomic, retain) BigDepartureTableViewCell *bigCell;
+@property (nonatomic, retain) CountDownView *countDownView;
 @property (nonatomic, retain) NSMutableArray *data;
 @property (nonatomic, retain) NSArray *stopTimes;
 @property (nonatomic, retain) NSMutableArray *stopHours;
