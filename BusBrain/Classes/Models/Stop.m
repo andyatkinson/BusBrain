@@ -14,7 +14,9 @@
 
 @implementation Stop
 
-@synthesize stop_id, stop_name, stop_street, stop_lat, stop_lon, location, nextStopTime, headsign, icon_path, route, refLocation, distanceFromLocation;
+@synthesize stop_id, stop_name, stop_street, stop_lat, stop_lon, location, headsign, icon_path, route;
+@synthesize nextStopTime, refLocation, distanceFromLocation;
+@synthesize nextTripStopID,nextTripStopTimes, nextTripBusLocations;
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
   self = [super init];
@@ -66,6 +68,58 @@
                 
      }
    ];
+}
+
+- (void) loadNextTripTimes:(void (^)(BOOL))block {
+  NSString *urlString = [NSString stringWithFormat:@"http://svc.metrotransit.org/NexTrip/%@",[self stop_id]];
+  NSLog(@"URL == %@", urlString);
+  
+  NSDictionary *parameters = [[NSMutableDictionary alloc] init];
+  [parameters setValue:@"Json" forKey:@"format"];
+  
+  [[TransitAPIClient sharedClient] getPath:urlString parameters:parameters success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
+    
+
+    NSMutableArray *nextTripTimes     = [[NSMutableArray alloc] init];
+    NSMutableArray *nextTripLocations = [[NSMutableArray alloc] init];
+    
+    NSEnumerator *e = [JSON objectEnumerator];
+    NSDictionary *attributes;
+  
+    while (attributes = (NSDictionary *)[e nextObject]) {
+      //NSLog(@"XXX: %i, %@", [(NSNumber*)[attributes valueForKeyPath:@"Actual"] integerValue], [[self route ] short_name] );
+      
+      if([(NSNumber*)[attributes valueForKeyPath:@"Actual"] integerValue] == 1 && [[attributes valueForKeyPath:@"Route"] isEqualToString:[[self route ] short_name]]) {
+        NSLog(@"DEBUG: (%@) %@ -- %@, %@",
+              (NSNumber*)[attributes valueForKeyPath:@"Actual"],
+              [attributes valueForKeyPath:@"DepartureText"],
+              (NSNumber*)[attributes valueForKeyPath:@"VehicleLatitude"],
+              (NSNumber*)[attributes valueForKeyPath:@"VehicleLongitude"]);
+        
+        NSLog(@"XXX: %@", [attributes valueForKeyPath:@"DepartureText"]);
+        
+        [nextTripTimes addObject:[attributes valueForKeyPath:@"DepartureText"]];
+        [nextTripLocations addObject:[[CLLocation alloc]
+                                      initWithLatitude:[(NSNumber*)[attributes valueForKeyPath:@"VehicleLatitude"] floatValue]
+                                      longitude:[(NSNumber*)[attributes valueForKeyPath:@"VehicleLongitude"] floatValue]]];
+      }
+      
+    }
+    
+    [self setNextTripStopTimes: [[NSArray alloc] initWithArray:nextTripTimes] ];
+    [self setNextTripBusLocations: [[NSArray alloc] initWithArray:nextTripLocations] ];
+    
+    //Callback
+    if (block) {
+      block (YES);
+    }
+    
+  } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
+    if (block) {
+      NSLog(@"ERROR: %@", error);
+      block (NO);
+    }
+  }];
 }
 
 + (void) loadStopsDB:(void (^)(NSArray *records))block {

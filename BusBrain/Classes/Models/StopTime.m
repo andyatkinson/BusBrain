@@ -88,7 +88,8 @@
   }
 
   NSDate *timerDate = [NSDate dateWithTimeIntervalSince1970:timeInterval];
-
+  //NSLog(@"%@ -- %@ == %@", currentDate, stopDate, timerDate);
+  
   NSCalendar *calendar = [NSCalendar currentCalendar];
   [calendar setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0.0]];
   NSDateComponents *components = [calendar components:(NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:timerDate];
