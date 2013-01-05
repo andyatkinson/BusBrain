@@ -64,7 +64,6 @@
 
 + (NSArray *) filterStopArrayByName:(NSArray*) stopArray filter:(NSString*) filterString location:(CLLocation *)location;
 + (NSArray *) filterStopArrayByNumber:(NSArray*) stopArray filter:(NSString*) filterString location:(CLLocation *)location;
-+ (void) loadStopsDB:(void (^)(NSArray *records))block;
 + (void) getStops:(NSString *)route_id stop_id:(NSString *)stop_id block:(void (^)(NSArray *records))block;
 
 - (void) loadNextTripTimes:(void (^)(BOOL))block;

@@ -14,6 +14,7 @@
 #import "NoStops.h"
 #import "StopTimesTableViewController.h"
 #import "NSString+BeetleFight.h"
+#import "DataCache.h"
 
 #import "TransitAPIClient.h"
 #import "AFJSONRequestOperation.h"
@@ -27,6 +28,8 @@ NSString * const kLastSectionID   = @"LAST";
 @implementation MainTableViewController
 
 @synthesize dataArraysForRoutesScreen = _dataArraysForRoutesScreen;
+@synthesize routes                    = _routes;
+@synthesize routesDB                  = _routesDB;
 @synthesize stops                     = _stops;
 @synthesize stopsDB                   = _stopsDB; 
 @synthesize lastViewed                = _lastViewed; 
@@ -143,41 +146,16 @@ NSString * const kLastSectionID   = @"LAST";
 
 }
 
-- (BOOL) isCacheStail{
-  NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
-
-  int lastCacheStamp = [settings integerForKey:@"lastCacheStamp"];
-  NSDate *lastCacheDate = [NSDate dateWithTimeIntervalSince1970:lastCacheStamp];
-  NSDate *now = [NSDate timeRightNow];
-
-  NSCalendar *calendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
-  NSDateComponents *components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit
-                                             fromDate:lastCacheDate
-                                               toDate:now
-                                              options:0];
-  
-  if(components.day > 0 || components.hour > 20){
-    return true;
-  } else {
-    return false;
-  }
-
-}
-
-- (void) purgeCachedData {
-#ifdef DEBUG_BB
-  NSLog(@"Cache Dumped");
-#endif
-  [self setStopsDB:nil];
-}
-
--(void) cacheStopDB:(id <BusProgressDelegate>)delegate {
+- (void) cacheStopDB:(id <BusProgressDelegate>)delegate {
   [self setCacheLoaded:false];
-  [self downloadCache:delegate];
+  [DataCache downloadCacheProgress:delegate main:self];
   
   //Load existing cache
-  [Stop loadStopsDB:^(NSArray *db) {
+  [DataCache loadCacheStops:^(NSArray *db) {
     [self setStopsDB:db];
+  }];
+  [DataCache loadCacheRoutes:^(NSArray *db) {
+    [self setRoutesDB:db];
     [self setCacheLoaded:true];
   }];
   
@@ -198,6 +176,13 @@ NSString * const kLastSectionID   = @"LAST";
   [[self dataArraysForRoutesScreen] addObject:stopsDict];
   [[self dataArraysForRoutesScreen] addObject:lastStopIDDict];
 
+}
+
+- (void) purgeCachedData {
+#ifdef DEBUG_BB
+  NSLog(@"Cache Dumped");
+#endif
+  [self setStopsDB:nil];
 }
 
 - (void) initLocation {
@@ -240,111 +225,6 @@ NSString * const kLastSectionID   = @"LAST";
   [target setMain:self];
    
   [[self navigationController] pushViewController:target animated:YES];
-}
-
-- (void) downloadCache:(id <BusProgressDelegate>)delegate {
-#ifdef DEBUG_BB
-  NSLog(@"Cache Download Started");
-#endif
-  
-  NSMutableURLRequest *afRequest = [[TransitAPIClient sharedClient]      
-                                    requestWithMethod:@"GET"
-                                    path:@"/bus/v1/stops/search.json"
-                                    parameters:nil]; 
-  
-  NSString *documentsDirectory = [NSHomeDirectory()
-                                  stringByAppendingPathComponent:@"Documents"];
-  NSString *downloadPath = [documentsDirectory
-                            stringByAppendingPathComponent:@"CurrentDownload.json"];
-
-  AFHTTPRequestOperation *operation = [[TransitAPIClient sharedClient] HTTPRequestOperationWithRequest:afRequest 
-                         success:^(AFHTTPRequestOperation *operation, id JSON) {
-
-                           NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
-                           [settings setInteger:[[NSDate timeRightNow] timeIntervalSince1970] forKey:@"lastCacheStamp"];
-                           
-                           [delegate dismiss];
-                           
-                           NSError* error = nil;
-                           NSFileManager *fileMgr = [NSFileManager defaultManager];
-                           
-                           NSString *dbPath = [documentsDirectory
-                                                     stringByAppendingPathComponent:@"CacheStops.json"];
-                           NSString *backupPath = [documentsDirectory
-                                               stringByAppendingPathComponent:@"BackupStops.json"];
-                           
-                           
-                           //Backup last good cache
-                           if ([fileMgr removeItemAtPath:backupPath error:&error] != YES) {
-                             NSLog(@"Unable to delete file (%@): %@", backupPath, [error localizedDescription]);
-                           }
-                           if(![fileMgr copyItemAtPath:downloadPath
-                                                toPath:backupPath
-                                                 error:&error]){
-                             NSLog(@"Failed to Copy %@ -> %@", downloadPath, backupPath);
-                             NSLog(@"Error description-%@ \n", [error localizedDescription]);
-                             NSLog(@"Error reason-%@", [error localizedFailureReason]);
-                           }
-                           
-                           //Remove cache file
-                           if ([fileMgr removeItemAtPath:dbPath error:&error] != YES) {
-                             NSLog(@"Unable to delete file (%@): %@", dbPath, [error localizedDescription]);
-                           }
-                           
-                           //Replace cache with what was downloaded
-                           if(![fileMgr copyItemAtPath:downloadPath 
-                                                toPath:dbPath
-                                                 error:&error]){
-                             NSLog(@"Failed to Copy %@ -> %@", downloadPath, dbPath);
-                             NSLog(@"Error description-%@ \n", [error localizedDescription]);
-                             NSLog(@"Error reason-%@", [error localizedFailureReason]);
-                           }
-                           
-                           //Load new cache into memory
-                           [Stop loadStopsDB:^(NSArray *db) {
-                             
-                             if([db count] > 0 ){
-                               [self setStopsDB:db];
-                               [self setCacheLoaded:true];
-                             } else {
-                               NSLog(@"Purge corrupt download");
-                               NSError* error = nil;
-                               
-                               //Restore the backup into place
-                               if ([fileMgr removeItemAtPath:dbPath error:&error] != YES) {
-                                 NSLog(@"Unable to delete file (%@): %@",dbPath, [error localizedDescription]);
-                               }
-                               
-                               //Replace cache with what was downloaded
-                               if(![fileMgr copyItemAtPath:backupPath
-                                                    toPath:dbPath
-                                                     error:&error]){
-                                 NSLog(@"Failed to Copy %@ -> %@", backupPath, dbPath);
-                                 NSLog(@"Error description-%@ \n", [error localizedDescription]);
-                                 NSLog(@"Error reason-%@", [error localizedFailureReason]);
-                               }
-
-                             }
-                             
-                             [self setSurpressHUD:NO];
-                             
-                           }];
-                           
-                         } 
-                         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                           NSLog(@"Failed: %@",[error localizedDescription]);     
-                         }];
-  
-  [operation setDownloadProgressBlock:^(NSInteger bytesRead, NSInteger totalBytesRead, NSInteger totalBytesExpectedToRead) {
-    float progress = ((float)((int)totalBytesRead) / (float)((int)totalBytesExpectedToRead));
-    [delegate setProgress:progress];
-  }];
-  
-  
-  [operation setOutputStream: [NSOutputStream outputStreamToFileAtPath:downloadPath append:NO]];
-  
-  [[TransitAPIClient sharedClient] enqueueHTTPRequestOperation:operation];
-  
 }
 
 - (void)viewDidLoad {
@@ -565,6 +445,7 @@ NSString * const kLastSectionID   = @"LAST";
 
   [_stopsDB dealloc];
   [_stops dealloc];
+  [_routes dealloc];
   [_lastViewed dealloc];
   [_myLocation dealloc];
   [_dataArraysForRoutesScreen dealloc];

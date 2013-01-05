@@ -12,6 +12,7 @@
 #import "InfoTableViewController.h"
 #import "SpashViewController.h"
 #import "BusLooknFeel.h"
+#import "DataCache.h"
 
 #import "GANTracker.h"
 static const NSInteger kGANDispatchPeriodSec = 10;
@@ -27,7 +28,7 @@ static const NSInteger kGANDispatchPeriodSec = 10;
 }
 
 - (void) applicationWillEnterForeground:(UIApplication *)application {
-  if([mainTableViewController isCacheStail]){
+  if([DataCache isCacheStail]){
     [mainTableViewController initData:nil];
     [mainTableViewController initLocation];
   }
@@ -77,7 +78,7 @@ static const NSInteger kGANDispatchPeriodSec = 10;
   
   
   SpashViewController *splash = nil;
-  if(onboard == nil && [mainTableViewController isCacheStail]){
+  if(onboard == nil && [DataCache isCacheStail]){
     splash = [[SpashViewController alloc] init];
     [mainTableViewController setSurpressHUD:YES];
   }

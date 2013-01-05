@@ -5,13 +5,15 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "BusTable.h"
+#import "DataCache.h"
 
-@protocol BusProgressDelegate;
 
-@interface MainTableViewController : BusTable <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate> {
+@interface MainTableViewController : BusTable <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, BusMainDelegate> {
   NSMutableArray    *_dataArraysForRoutesScreen;
   CLLocation        *_myLocation;
   CLLocationManager *_locationManager;
+  NSArray           *_routes;
+  NSArray           *_routesDB;
   NSArray           *_stops;
   NSArray           *_stopsDB;
   NSDictionary      *_lastViewed;
@@ -26,6 +28,8 @@
 
 @property (nonatomic, retain) NSMutableArray    *dataArraysForRoutesScreen;
 @property (nonatomic, retain) NSArray           *stops;
+@property (nonatomic, retain) NSArray           *routes;
+@property (nonatomic, retain) NSArray           *routesDB;
 @property (nonatomic, retain) NSArray           *stopsDB;
 @property (nonatomic, retain) NSDictionary      *lastViewed;
 @property (nonatomic, retain) CLLocation        *myLocation;
@@ -39,13 +43,7 @@
 
 - (void) initData:(id <BusProgressDelegate>)delegate;
 - (void) initLocation;
-- (BOOL) isCacheStail;
 - (void) purgeCachedData;
-- (void) downloadCache:(id <BusProgressDelegate>)delegate;
 
 @end
 
-@protocol BusProgressDelegate
-- (void) setProgress:(float) progress;
-- (void) dismiss;
-@end

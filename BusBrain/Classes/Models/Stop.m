@@ -122,42 +122,6 @@
   }];
 }
 
-+ (void) loadStopsDB:(void (^)(NSArray *records))block {
-  NSString *documentsDirectory = [NSHomeDirectory() 
-                                  stringByAppendingPathComponent:@"Documents"];
-  NSString *filepath = [documentsDirectory 
-                            stringByAppendingPathComponent:@"CacheStops.json"];
-  
-  if(! [[NSFileManager defaultManager] fileExistsAtPath:filepath]){
-    filepath = [[NSBundle mainBundle] pathForResource:@"search_objects_api_json_dump" ofType:@"json"];
-  }
-  
-  NSLog(@"Loading: %@", filepath);
-  
-  NSData* jsonData = [NSData dataWithContentsOfFile:filepath];
-  NSMutableArray *mutableRecords = [NSMutableArray array];
-  
-  if(jsonData == nil){
-    NSLog(@"No Data?");
-  } else {
-    NSError* error;
-    NSDictionary* jsonDictionary = [NSJSONSerialization JSONObjectWithData:jsonData
-                                                         options:kNilOptions
-                                                           error:&error];
-    NSArray* stopDictArray = [jsonDictionary objectForKey:@"search_objects"];
-
-    for (NSDictionary *attributes in stopDictArray) {
-      Stop *stop = [[[Stop alloc] initWithAttributes:attributes] autorelease];
-      [mutableRecords addObject:stop];
-    }
-  }
-  
-  
-  if (block) {
-    block ([NSArray arrayWithArray:mutableRecords]);
-  }
-}
-
 + (NSArray*) filterStopArrayByName:(NSArray*) stopArray filter:(NSString*) filterString location:(CLLocation *)location {
   NSString *match = [NSString stringWithFormat:@"*%@*", filterString];
   
