@@ -162,63 +162,82 @@
   return sortedArray;
 }
 
-+ (void) loadNearbyStops:(NSString *)urlString near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^)(NSDictionary *data))block {
-  NSDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
++ (void) loadNearbyStopsFromDB:(NSArray*) stopsDB near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^)(NSDictionary *data))block {
   
-  NSMutableDictionary *data = [NSMutableDictionary dictionary];
-  NSMutableArray *stops = [NSMutableArray array];
-  
-  /*
-  NSLog(@"URL: %@", urlString);
-  for(NSString* key in [parameters allKeys]){
-    NSLog(@"DEBUG: %@ = %@", key, [parameters objectForKey:key]);
-  }
-  */
-  
-  [[TransitAPIClient sharedClient] getPath:urlString parameters:mutableParameters success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
+  dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
     
-    //Get Nearby Stops off response
-    for (NSDictionary *attributes in [JSON valueForKeyPath:@"stops"]) {
-      Stop *stop = [[[Stop alloc] initWithAttributes:attributes] autorelease];
+    NSLog(@"XXX %i", [stopsDB count]);
+    NSMutableArray *resultArray = [[NSMutableArray alloc] init];
+    float maxDistance = 0.25f; //Miles
+    while([resultArray count] < 4 || maxDistance > 25){
+      float boxSize = maxDistance * (1.0/60.0);
+      float latMax = location.coordinate.latitude + boxSize;
+      float latMin = location.coordinate.latitude - boxSize;
+      float lonMax = location.coordinate.longitude + boxSize;
+      float lonMin = location.coordinate.longitude - boxSize;
       
-      [stops addObject:stop];
+      NSPredicate *predicate = [NSPredicate
+                                predicateWithFormat:@"stop_lat > %f and stop_lat < %f and stop_lon > %f and stop_lon < %f",
+                                latMin, latMax, lonMin, lonMax];
+      
+      resultArray = [NSMutableArray arrayWithArray:stopsDB];
+      [resultArray filterUsingPredicate:predicate];
+      
+      maxDistance = maxDistance + 1.0;
     }
-    [data setObject:stops forKey:@"stops"];
     
     
-    //Get Last Viewed Stop off response
-    NSMutableDictionary *lastViewed = [[NSMutableDictionary alloc] init];
-    NSDictionary *parsedDict = [JSON valueForKeyPath:@"last_viewed"];
-    if ([parsedDict valueForKey:@"stop"]) {
-      NSDictionary *stopAttributes = [parsedDict valueForKeyPath:@"stop"];
-      Stop *stop = [[[Stop alloc] initWithAttributes:stopAttributes] autorelease];
-      
-      
-      if ( [parsedDict valueForKey:@"next_departure"] != (id)[NSNull null] ) {
-        NSMutableDictionary *timeAttributes = [[NSMutableDictionary alloc] init];
-        [timeAttributes setValue:@"NA" forKey:@"price"];
-        [timeAttributes setValue:[parsedDict valueForKey:@"next_departure"] forKey:@"departure_time"];
-        StopTime *stop_time = [[[StopTime alloc] initWithAttributes:timeAttributes] autorelease];
-        [stop setNextStopTime:stop_time];
-      } else {
-        [stop setNextStopTime:nil];
+    NSArray *sortedArray;
+    if([resultArray count] > 0) {
+      NSEnumerator *e = [resultArray objectEnumerator];
+      Stop *stop;
+      while (stop = [e nextObject]) {
+        [stop setRefLocation:location];
       }
       
-      [lastViewed setValue:stop forKey:@"stop"];
+      sortedArray = [resultArray sortedArrayUsingSelector:@selector(compareLocation:)];
     }
+    
+    
+    NSMutableArray *topArray = [[NSMutableArray alloc] init];
+    if([sortedArray count] > 0) {
+      [topArray addObject:[sortedArray objectAtIndex:0]];
+    }
+    if([sortedArray count] > 1) {
+      [topArray addObject:[sortedArray objectAtIndex:1]];
+    }
+    if([sortedArray count] > 2) {
+      [topArray addObject:[sortedArray objectAtIndex:2]];
+    }
+    if([sortedArray count] > 3) {
+      [topArray addObject:[sortedArray objectAtIndex:3]];
+    }
+    
+    
+    //Get Last Viewed
+    NSString *lastStopID = [parameters objectForKey:@"last_viewed_stop_id"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"stop_id == %@", lastStopID];
+    resultArray = [NSMutableArray arrayWithArray:stopsDB];
+    [resultArray filterUsingPredicate:predicate];
+    
+    NSMutableDictionary *lastViewed = [[NSMutableDictionary alloc] init];
+    Stop *stop = [resultArray objectAtIndex:0];
+    [stop setNextStopTime:nil];
+    [lastViewed setValue:stop forKey:@"stop"];
+    
+    //Prepare Return
+    NSMutableDictionary *data = [NSMutableDictionary dictionary];
+    [data setObject:topArray forKey:@"stops"];
     [data setObject:lastViewed forKey:@"last_viewed"];
     
-    
-    //Setup return
     if (block) {
       block([NSDictionary dictionaryWithDictionary:data]);
     }
-  } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
-    if (block) {
-      block([NSArray array]);
-    }
-  }];
+    
+  });
+  
 }
+
 
 + (void)getStops:(NSString *)route_id stop_id:(NSString *)stop_id block:(void (^)(NSArray *records))block {
   NSString *urlString = [NSString stringWithFormat:@"bus/v1/routes/%@/stops/all", route_id];

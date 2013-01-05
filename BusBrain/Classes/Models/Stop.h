@@ -68,6 +68,5 @@
 
 - (void) loadNextTripTimes:(void (^)(BOOL))block;
 - (void) loadNextStopTime;
-+ (void) loadNearbyStops:(NSString *)urlString near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^)(NSDictionary *data))block;
-
++ (void) loadNearbyStopsFromDB:(NSArray*) stopsDB near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^)(NSDictionary *data))block;
 @end

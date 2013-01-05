@@ -98,12 +98,12 @@ NSString * const kLastSectionID   = @"LAST";
   [params setValue:[NSString stringWithFormat:@"%d", [components minute]] forKey:@"minute"];
   
 
-  [Stop loadNearbyStops:@"bus/v1/stops/nearby.json" near:location parameters:params block:^(NSDictionary *data) {
+  [Stop loadNearbyStopsFromDB:self.stopsDB near:location parameters:params block:^(NSDictionary *data) {
+    
     if (data == NULL || ![data isKindOfClass:[NSDictionary class]]) {
       self.stops = [[NSArray alloc] init];
       [self setErrorMessage:@"Error loading data. Email support."];
       [self.tableView reloadData];
-      
     } else {
       [self setErrorMessage:@"No stops within 25 miles."];
       
@@ -112,11 +112,10 @@ NSString * const kLastSectionID   = @"LAST";
       
       [self.tableView reloadData];
       [self.tableView reloadRowsAtIndexPaths:[self.tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
-
     }
     
-   [self setFetchCount: [self fetchCount] - 1];
-   [self hideHUD];
+    [self setFetchCount: [self fetchCount] - 1];
+    [self hideHUD];
   }];
 }
 
