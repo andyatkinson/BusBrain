@@ -128,10 +128,10 @@
     
     [self setTimerColor:[BusLooknFeel getTimerColor]];
     
-    [[self bigDepartureDays]        setText : @"00"];
-    [[self bigDepartureHour]        setText : @"00"];
-    [[self bigDepartureMinute]      setText : @"00"];
-    [[self bigDepartureSeconds]     setText : @"00"];
+    [[self bigDepartureDays]        setText : @""];
+    [[self bigDepartureHour]        setText : @""];
+    [[self bigDepartureMinute]      setText : @""];
+    [[self bigDepartureSeconds]     setText : @""];
     [[self bigDepartureDaysUnit]    setText : @"d"];
     [[self bigDepartureHourUnit]    setText : @"h"];
     [[self bigDepartureMinuteUnit]  setText : @"m"];
@@ -319,6 +319,10 @@
 
   // In this example we will never be editing, but this illustrates the appropriate pattern
   [self layoutTimer:NO showDays:NO];
+  
+  //Force everythig off screen to avoid flicker when pushing view on the stack
+  [[self bigDepartureMinuteUnit] setFrame: CGRectMake(0 - 100,  45, 300, 100)];
+  [[self bigDepartureSecondsUnit] setFrame: CGRectMake(0 - 100,  45, 300, 100)];
 
   // get the X pixel spot
   CGFloat boundsX = contentRect.origin.x;
