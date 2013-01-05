@@ -294,7 +294,7 @@ NSString * const kRouteSectionID  = @"ROUTE";
       return 1;
     }
   } else if ([id isEqualToString:kRouteSectionID]) {
-    if([self fetchCount] < 1){
+    if([[self stops] count] > 1){
       return 1;
     } else {
       return 0;
@@ -324,7 +324,7 @@ NSString * const kRouteSectionID  = @"ROUTE";
     }
     
   } else if ([id isEqualToString:kRouteSectionID]) {
-    if([self fetchCount] < 1){
+    if([[self stops] count] > 1){
       return @"Routes";
     } else {
       return NULL;
@@ -384,7 +384,7 @@ NSString * const kRouteSectionID  = @"ROUTE";
       }
     
   } else if ([id isEqualToString:kRouteSectionID]) {
-    if([self fetchCount] < 1){
+    if([[self stops] count] > 1){
       static NSString *CellIdentifier = @"RouteCell";
       NoStops* cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
       if (cell == nil) {
