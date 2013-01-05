@@ -86,7 +86,7 @@ static const NSInteger kGANDispatchPeriodSec = 10;
   [mainTableViewController initLocation];
   
   
-  UINavigationController *routesController = [[[UINavigationController alloc] initWithRootViewController:mainTableViewController] autorelease];
+  UINavigationController *routesController = [[UINavigationController alloc] initWithRootViewController:mainTableViewController];
   
   NSMutableDictionary *titleBarAttributes = [NSMutableDictionary dictionaryWithDictionary: [[UINavigationBar appearance] titleTextAttributes]];
   [titleBarAttributes setValue:[BusLooknFeel getNavigationTitleFont] forKey:UITextAttributeFont];
@@ -95,14 +95,12 @@ static const NSInteger kGANDispatchPeriodSec = 10;
   routesController.navigationBar.barStyle = UIBarStyleDefault;
   routesController.tabBarItem.title = @"Departures";
   routesController.tabBarItem.image = [UIImage imageNamed:@"11-clock.png"];
-  [mainTableViewController release];
 
   infoTableViewController = [[InfoTableViewController alloc] init];
-  UINavigationController *infoController = [[[UINavigationController alloc] initWithRootViewController:infoTableViewController] autorelease];
+  UINavigationController *infoController = [[UINavigationController alloc] initWithRootViewController:infoTableViewController];
   infoController.navigationBar.barStyle = UIBarStyleDefault;
   infoController.title = @"Info";
   infoController.tabBarItem.image = [UIImage imageNamed:@"icon_info.png"];
-  [infoTableViewController release];
 
   tabBarController.viewControllers = [NSArray arrayWithObjects:routesController, infoController, nil];
   [window addSubview:tabBarController.view];
@@ -124,13 +122,6 @@ static const NSInteger kGANDispatchPeriodSec = 10;
 	[[self mainTableViewController] purgeCachedData];
 }
 
-- (void)dealloc {
-  [mainTableViewController release];
-  [infoViewController release];
-  [tabBarController release];
-  [window release];
-  [super dealloc];
-}
 
 
 @end

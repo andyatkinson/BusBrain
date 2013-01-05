@@ -22,7 +22,7 @@
   NSDate *lastCacheDate = [NSDate dateWithTimeIntervalSince1970:lastCacheStamp];
   NSDate *now = [NSDate timeRightNow];
   
-  NSCalendar *calendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+  NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
   NSDateComponents *components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit
                                              fromDate:lastCacheDate
                                                toDate:now
@@ -63,7 +63,7 @@
     
     NSArray* routeDictArray = [jsonDictionary objectForKey:@"routes"];
     for (NSDictionary *attributes in routeDictArray) {
-      Route *route = [[[Route alloc] initWithAttributes:attributes] autorelease];
+      Route *route = [[Route alloc] initWithAttributes:attributes];
       [mutableRecords addObject:route];
     }
   }
@@ -91,7 +91,7 @@
     
     NSArray* stopDictArray = [jsonDictionary objectForKey:@"stops"];
     for (NSDictionary *attributes in stopDictArray) {
-      Stop *stop = [[[Stop alloc] initWithAttributes:attributes] autorelease];
+      Stop *stop = [[Stop alloc] initWithAttributes:attributes];
       [mutableRecords addObject:stop];
     }
   }

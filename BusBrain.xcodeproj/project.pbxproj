@@ -25,11 +25,11 @@
 		522CF49F15740485006B1F04 /* InfoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF49515740461006B1F04 /* InfoTableViewController.m */; };
 		522CF4A015740485006B1F04 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF49715740461006B1F04 /* MainTableViewController.m */; };
 		522CF4A315740485006B1F04 /* StopTimesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF49D15740461006B1F04 /* StopTimesTableViewController.m */; };
-		522CF4A9157404F1006B1F04 /* SVSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF4A6157404F1006B1F04 /* SVSegmentedControl.m */; };
-		522CF4AA157404F1006B1F04 /* SVSegmentedThumb.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF4A8157404F1006B1F04 /* SVSegmentedThumb.m */; };
+		522CF4A9157404F1006B1F04 /* SVSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF4A6157404F1006B1F04 /* SVSegmentedControl.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		522CF4AA157404F1006B1F04 /* SVSegmentedThumb.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF4A8157404F1006B1F04 /* SVSegmentedThumb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		522CF4AF15740592006B1F04 /* FunnyPhrase.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF4AC15740565006B1F04 /* FunnyPhrase.m */; };
 		522CF4B015740592006B1F04 /* Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF4AE15740565006B1F04 /* Info.m */; };
-		522CF4C31574060E006B1F04 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF4B91574060E006B1F04 /* EGORefreshTableHeaderView.m */; };
+		522CF4C31574060E006B1F04 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF4B91574060E006B1F04 /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		522CF4C41574060E006B1F04 /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 522CF4BB1574060E006B1F04 /* blackArrow.png */; };
 		522CF4C51574060E006B1F04 /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 522CF4BC1574060E006B1F04 /* blackArrow@2x.png */; };
 		522CF4C61574060E006B1F04 /* blueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 522CF4BD1574060E006B1F04 /* blueArrow.png */; };
@@ -77,8 +77,8 @@
 		522CF53E15740F21006B1F04 /* icon_clock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 522CF50A15740F21006B1F04 /* icon_clock@2x.png */; };
 		522CF54115740F21006B1F04 /* icon_news.png in Resources */ = {isa = PBXBuildFile; fileRef = 522CF50D15740F21006B1F04 /* icon_news.png */; };
 		522CF54215740F21006B1F04 /* icon_news@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 522CF50E15740F21006B1F04 /* icon_news@2x.png */; };
-		522CF57715745F63006B1F04 /* NSAttributedString+Attributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF57415745F44006B1F04 /* NSAttributedString+Attributes.m */; };
-		522CF57815745F63006B1F04 /* OHAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF57615745F44006B1F04 /* OHAttributedLabel.m */; };
+		522CF57715745F63006B1F04 /* NSAttributedString+Attributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF57415745F44006B1F04 /* NSAttributedString+Attributes.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		522CF57815745F63006B1F04 /* OHAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 522CF57615745F44006B1F04 /* OHAttributedLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		522CF5C115763FEE006B1F04 /* routes.png in Resources */ = {isa = PBXBuildFile; fileRef = 522CF5C015763FEE006B1F04 /* routes.png */; };
 		52340C511640A6A80001B619 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 52340C4F1640A6A80001B619 /* Default@2x.png */; };
 		52340C521640A6A80001B619 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 52340C501640A6A80001B619 /* Default.png */; };
@@ -120,17 +120,17 @@
 		A15BFA751569C5E8004651B9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15BFA741569C5E8004651B9 /* UIKit.framework */; };
 		A15BFA771569C5E8004651B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15BFA761569C5E8004651B9 /* Foundation.framework */; };
 		A15BFA791569C5E8004651B9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15BFA781569C5E8004651B9 /* CoreGraphics.framework */; };
-		A1C637AA1569C68A004D06D9 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6377E1569C68A004D06D9 /* AFHTTPClient.m */; };
-		A1C637AB1569C68A004D06D9 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C637801569C68A004D06D9 /* AFHTTPRequestOperation.m */; };
-		A1C637AC1569C68A004D06D9 /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C637821569C68A004D06D9 /* AFImageRequestOperation.m */; };
-		A1C637AD1569C68A004D06D9 /* AFJSONRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C637841569C68A004D06D9 /* AFJSONRequestOperation.m */; };
-		A1C637AE1569C68A004D06D9 /* AFJSONUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C637861569C68A004D06D9 /* AFJSONUtilities.m */; };
-		A1C637AF1569C68A004D06D9 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C637881569C68A004D06D9 /* AFNetworkActivityIndicatorManager.m */; };
-		A1C637B01569C68A004D06D9 /* AFPropertyListRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6378B1569C68A004D06D9 /* AFPropertyListRequestOperation.m */; };
-		A1C637B11569C68A004D06D9 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6378D1569C68A004D06D9 /* AFURLConnectionOperation.m */; };
-		A1C637B21569C68A004D06D9 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6378F1569C68A004D06D9 /* AFXMLRequestOperation.m */; };
-		A1C637B31569C68A004D06D9 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C637911569C68A004D06D9 /* UIImageView+AFNetworking.m */; };
-		A1C637B51569C68A004D06D9 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C637961569C68A004D06D9 /* MBProgressHUD.m */; };
+		A1C637AA1569C68A004D06D9 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6377E1569C68A004D06D9 /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A1C637AB1569C68A004D06D9 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C637801569C68A004D06D9 /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A1C637AC1569C68A004D06D9 /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C637821569C68A004D06D9 /* AFImageRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A1C637AD1569C68A004D06D9 /* AFJSONRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C637841569C68A004D06D9 /* AFJSONRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A1C637AE1569C68A004D06D9 /* AFJSONUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C637861569C68A004D06D9 /* AFJSONUtilities.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A1C637AF1569C68A004D06D9 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C637881569C68A004D06D9 /* AFNetworkActivityIndicatorManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A1C637B01569C68A004D06D9 /* AFPropertyListRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6378B1569C68A004D06D9 /* AFPropertyListRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A1C637B11569C68A004D06D9 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6378D1569C68A004D06D9 /* AFURLConnectionOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A1C637B21569C68A004D06D9 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6378F1569C68A004D06D9 /* AFXMLRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A1C637B31569C68A004D06D9 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C637911569C68A004D06D9 /* UIImageView+AFNetworking.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A1C637B51569C68A004D06D9 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C637961569C68A004D06D9 /* MBProgressHUD.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A1C637B61569C68A004D06D9 /* Headsign.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C637991569C68A004D06D9 /* Headsign.m */; };
 		A1C637B71569C68A004D06D9 /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6379B1569C68A004D06D9 /* Route.m */; };
 		A1C637B81569C68A004D06D9 /* Stop.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6379D1569C68A004D06D9 /* Stop.m */; };
@@ -960,6 +960,7 @@
 		A15BFA891569C5E8004651B9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = BusBrain/BusBrain.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BusBrain/BusBrain-Prefix.pch";
@@ -976,6 +977,7 @@
 		A15BFA8A1569C5E8004651B9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = BusBrain/BusBrain.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BusBrain/BusBrain-Prefix.pch";

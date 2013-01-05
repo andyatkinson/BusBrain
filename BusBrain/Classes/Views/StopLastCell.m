@@ -103,10 +103,10 @@
     [contentView addSubview:[self routeName]];
     [contentView addSubview:[self stopName]];
 
-    [[self routeNumber] release];
-    [[self routeName] release];
-    [[self relativeTime] release];
-    [[self stopName] release];
+    [self routeNumber];
+    [self routeName];
+    [self relativeTime];
+    [self stopName];
     
   }
 
@@ -133,13 +133,5 @@
   [super setSelected:selected animated:animated];
 }
 
-- (void)dealloc {
-  [_routeNumber dealloc];
-  [_routeName dealloc];
-  [_stopName dealloc];
-  [_relativeTime dealloc];
-  
-  [super dealloc];
-}
 
 @end

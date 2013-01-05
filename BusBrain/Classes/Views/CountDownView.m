@@ -116,15 +116,15 @@
     [self addSubview:[self nextTripTime]];
     [self addSubview:[self price]];
     
-    [[self bigDepartureDays] release];
-    [[self bigDepartureHour] release];
-    [[self bigDepartureMinute] release];
-    [[self bigDepartureSeconds] release];
-    [[self funnySaying] release];
-    [[self description] release];
-    [[self formattedTime] release];
-    [[self nextTripTime] release];
-    [[self price] release];
+    [self bigDepartureDays];
+    [self bigDepartureHour];
+    [self bigDepartureMinute];
+    [self bigDepartureSeconds];
+    [self funnySaying];
+    [self description];
+    [self formattedTime];
+    [self nextTripTime];
+    [self price];
     
     [self setTimerColor:[BusLooknFeel getTimerColor]];
     
@@ -335,25 +335,5 @@
 #pragma mark -
 #pragma mark Cleanup Methods
 
-- (void)dealloc {
-  [_bigDepartureHour dealloc];
-  [_bigDepartureMinute dealloc];
-  [_bigDepartureSeconds dealloc];
-  [_bigDepartureHourUnit dealloc];
-  [_bigDepartureMinuteUnit dealloc];
-  [_bigDepartureSecondsUnit dealloc];
-
-  [_funnySaying dealloc];
-  [_description dealloc];
-  [_formattedTime dealloc];
-  [_nextTripTime dealloc];
-  [_price dealloc];
-
-  [_countDownTimer dealloc];
-  [_countDownStartDate dealloc];
-  [_stopTime dealloc];
-
-  [super dealloc];
-}
 
 @end

@@ -12,8 +12,8 @@
   NSString *_headsign_name;
 }
 
-@property (nonatomic, retain) NSString *headsign_key;
-@property (nonatomic, retain) NSString *headsign_name;
+@property (nonatomic, strong) NSString *headsign_key;
+@property (nonatomic, strong) NSString *headsign_name;
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
 

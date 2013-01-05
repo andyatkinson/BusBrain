@@ -11,7 +11,7 @@
   NSString *_detail;
 }
 
-@property (nonatomic, retain) NSString *detail;
+@property (nonatomic, strong) NSString *detail;
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
 + (void)infoDetailURLEndpoint:(NSString *)urlString parameters:(NSDictionary *)parameters block:(void (^) (NSArray *records))block;

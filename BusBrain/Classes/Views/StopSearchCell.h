@@ -17,9 +17,9 @@
   OHAttributedLabel *_stopName;
 }
 
-@property (nonatomic, retain) OHAttributedLabel *routeNumber;
-@property (nonatomic, retain) OHAttributedLabel *routeDirection;
-@property (nonatomic, retain) OHAttributedLabel *stopName;
+@property (nonatomic, strong) OHAttributedLabel *routeNumber;
+@property (nonatomic, strong) OHAttributedLabel *routeDirection;
+@property (nonatomic, strong) OHAttributedLabel *stopName;
 
 // internal function to ease setting up label text
 - (void) setStop:(Stop*) stop;

@@ -78,10 +78,10 @@
     [contentView addSubview:[self scheduleTime]];
     [contentView addSubview:[self price]];
 
-    [[self icon] release];
-    [[self relativeTime] release];
-    [[self scheduleTime] release];
-    [[self price] release];
+    [self icon];
+    [self relativeTime];
+    [self scheduleTime];
+    [self price];
   }
 
   return self;
@@ -117,13 +117,5 @@
   [super setSelected:selected animated:animated];
 }
 
-- (void)dealloc {
-  [_relativeTime dealloc];
-  [_scheduleTime dealloc];
-  [_icon dealloc];
-  [_price dealloc];
-  
-  [super dealloc];
-}
 
 @end

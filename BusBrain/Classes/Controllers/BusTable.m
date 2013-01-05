@@ -45,7 +45,7 @@
 
 - (UIView *)tableView:(UITableView *)tv viewForHeaderInSection:(NSInteger)section {
 
-  UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0,0,[[self tableView] frame].size.width,30)] autorelease];
+  UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0,0,[[self tableView] frame].size.width,30)];
 
   UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(10,0,[headerView frame].size.width, [headerView frame].size.height)];
   [headerLabel setText: [self tableView:tv titleForHeaderInSection:section]];
@@ -79,7 +79,6 @@
     [view setDelegate:self];
     [[self tableView] addSubview:view];
     [self setRefreshHeaderView:view];
-    [view release];
   }
   
   //  update the last update date
@@ -108,13 +107,5 @@
   
 }
 
-- (void) dealloc {
-  [_tableView dealloc];
-  [_HUD dealloc];
-  [_refreshHeaderView dealloc];
-  
-  [super dealloc];
- 
-}
 
 @end

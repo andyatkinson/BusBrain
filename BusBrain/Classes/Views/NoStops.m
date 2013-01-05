@@ -37,7 +37,7 @@
     
     [contentView addSubview:[self message]];
     
-    [[self message] release];
+    [self message];
     
   }
   
@@ -58,10 +58,5 @@
   [super setSelected:selected animated:animated];
 }
 
-- (void)dealloc {
-  [_message dealloc];
-
-  [super dealloc];
-}
 
 @end

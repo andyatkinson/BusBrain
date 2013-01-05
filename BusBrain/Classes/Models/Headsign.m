@@ -24,10 +24,4 @@
   return self;
 }
 
-- (void)dealloc {
-  [_headsign_key dealloc];
-  [_headsign_name dealloc];
-  
-  [super dealloc];
-}
 @end

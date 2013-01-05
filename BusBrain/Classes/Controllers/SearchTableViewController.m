@@ -257,7 +257,7 @@
      //StopSearchCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
      StopLastCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
      if (cell == nil) {
-     cell = [[[StopLastCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+     cell = [[StopLastCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
      }
      
      [cell setStop: stop];
@@ -285,13 +285,5 @@
 }
 
 
-- (void)dealloc {
-  [_stopsDB dealloc];
-  [_searchArray dealloc];
-  [_myLocation dealloc];
-  
-  [super dealloc];
-
-}
 
 @end

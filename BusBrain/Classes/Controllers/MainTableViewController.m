@@ -24,6 +24,7 @@
 
 NSString * const kStopSectionID   = @"STOP";
 NSString * const kLastSectionID   = @"LAST";
+NSString * const kRouteSectionID  = @"ROUTE";
 
 @implementation MainTableViewController
 
@@ -54,7 +55,6 @@ NSString * const kLastSectionID   = @"LAST";
                         cancelButtonTitle:@"OK"
                         otherButtonTitles:nil];
   [alert show];
-  [alert release];
 
 }
 
@@ -64,7 +64,7 @@ NSString * const kLastSectionID   = @"LAST";
 }
 
 - (void) hideHUD {
-  if([self fetchCount] == 0) {
+  if([self fetchCount] < 1) {
     [[self HUD] hide:YES];
   }
 }
@@ -103,30 +103,30 @@ NSString * const kLastSectionID   = @"LAST";
     if (data == NULL || ![data isKindOfClass:[NSDictionary class]]) {
       self.stops = [[NSArray alloc] init];
       [self setErrorMessage:@"Error loading data. Email support."];
-      [self.tableView reloadData];
     } else {
       [self setErrorMessage:@"No stops within 25 miles."];
       
       self.stops = [data objectForKey:@"stops"];
       [self setLastViewed: [data objectForKey:@"last_viewed"]];
       
-      [self.tableView reloadData];
-      [self.tableView reloadRowsAtIndexPaths:[self.tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
+      //[self.tableView reloadRowsAtIndexPaths:[self.tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
     }
     
     [self setFetchCount: [self fetchCount] - 1];
     [self hideHUD];
+    [[self tableView] reloadData];
   }];
 }
 
 
 - (void) repaintTable {
-    if([self dataRefreshRequested]){
-      [self setDataRefreshRequested: false];
-      [self loadDataForLocation:[self myLocation]];
-    } else {
+    //if([self dataRefreshRequested]){
+    //  [self setDataRefreshRequested: false];
+    //  [self loadDataForLocation:[self myLocation]];
+    //} else {
+      NSLog(@"RELOAD 1");
       [[self tableView] reloadData];
-    }
+    //}
 }
 
 - (void) loadDataForLocation:(CLLocation *)location {
@@ -169,11 +169,13 @@ NSString * const kLastSectionID   = @"LAST";
   
   NSDictionary *lastStopIDDict = [NSDictionary dictionaryWithObject:kLastSectionID forKey:@"id"];
   NSDictionary *stopsDict      = [NSDictionary dictionaryWithObject:kStopSectionID forKey:@"id"];
+  NSDictionary *routesDict     = [NSDictionary dictionaryWithObject:kRouteSectionID forKey:@"id"];
 
   [self setDataArraysForRoutesScreen: [[NSMutableArray alloc] init]];
 
   [[self dataArraysForRoutesScreen] addObject:stopsDict];
   [[self dataArraysForRoutesScreen] addObject:lastStopIDDict];
+  [[self dataArraysForRoutesScreen] addObject:routesDict];
 
 }
 
@@ -205,7 +207,6 @@ NSString * const kLastSectionID   = @"LAST";
                             cancelButtonTitle:@"OK"
                             otherButtonTitles:nil];
       [alert show];
-      [alert release];
       
       UIApplication* app = [UIApplication sharedApplication];
       UIApplicationState state = [app applicationState];
@@ -241,7 +242,6 @@ NSString * const kLastSectionID   = @"LAST";
   [searchButton setImage:[UIImage imageNamed:@"btn_search_down.png"] forState:UIControlStateSelected];
   UIBarButtonItem *searchButtonItem = [[UIBarButtonItem alloc] initWithCustomView:searchButton];
   self.navigationItem.rightBarButtonItem = searchButtonItem;
-  [searchButtonItem release];
   
   
  
@@ -251,14 +251,10 @@ NSString * const kLastSectionID   = @"LAST";
   [[self tableView] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_app.png"]]];
   [self setView:[self tableView]];
 
+  [self loadDataForLocation:[self myLocation]];
   
   [self initPullRefresh];
-  [self setDataRefreshRequested:false];
-  [self setRefreshTimer: [NSTimer scheduledTimerWithTimeInterval:1.0
-                                                          target:self
-                                                        selector:@selector(repaintTable)
-                                                        userInfo:nil
-                                                         repeats:YES]];
+
 }
 
 - (void)viewDidAppear {
@@ -297,6 +293,12 @@ NSString * const kLastSectionID   = @"LAST";
     } else {
       return 1;
     }
+  } else if ([id isEqualToString:kRouteSectionID]) {
+    if([self fetchCount] < 1){
+      return 1;
+    } else {
+      return 0;
+    }
   } else {
     return 0;
   }
@@ -321,6 +323,12 @@ NSString * const kLastSectionID   = @"LAST";
       return NULL;
     }
     
+  } else if ([id isEqualToString:kRouteSectionID]) {
+    if([self fetchCount] < 1){
+      return @"Routes";
+    } else {
+      return NULL;
+    }
   }
   
   return NULL;
@@ -337,15 +345,11 @@ NSString * const kLastSectionID   = @"LAST";
     static NSString *CellIdentifier = @"LastCell";
     StopLastCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-      cell = [[[StopLastCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+      cell = [[StopLastCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
 
     Stop *stop = (Stop *)[[self lastViewed] valueForKey:@"stop"];
     [cell setStop: stop];
-    
-    if ( [cell dataRefreshRequested] ) {
-      [cell setDataRefreshRequested:false];
-    }
     [cell setAccessoryView: [[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 
@@ -359,16 +363,12 @@ NSString * const kLastSectionID   = @"LAST";
         //StopMainCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
         StopLastCell* cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
-          cell = [[[StopLastCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+          cell = [[StopLastCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
       
         Stop *stop = (Stop *)[[self stops] objectAtIndex:[indexPath row]];
         [cell setStop: stop];
-        
-        if ( [cell dataRefreshRequested] ) {
-          [cell setDataRefreshRequested:false];
-        }
-      
+       
         [cell setAccessoryView:[[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];
         [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
         return cell;
@@ -377,11 +377,27 @@ NSString * const kLastSectionID   = @"LAST";
         static NSString *CellIdentifier = @"NoStops";
         NoStops* cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
-          cell = [[[NoStops alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+          cell = [[NoStops alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
         [[cell message] setText:[self errorMessage]];
         return cell;
       }
+    
+  } else if ([id isEqualToString:kRouteSectionID]) {
+    if([self fetchCount] < 1){
+      static NSString *CellIdentifier = @"RouteCell";
+      NoStops* cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+      if (cell == nil) {
+        cell = [[NoStops alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+      }
+      [cell setAccessoryView:[[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];
+      [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+      
+      [[cell message] setText:@"Select a Route"];
+      return cell;
+    } else {
+      return NULL;
+    }
     
   }
 
@@ -411,9 +427,10 @@ NSString * const kLastSectionID   = @"LAST";
       
       [[self navigationController] pushViewController:target animated:YES];
     } else {
-      [self setDataRefreshRequested: true];
       [self repaintTable];
     }
+  } else if ([id isEqualToString:kRouteSectionID]) {
+    NSLog(@"Show Route Table");
   }
 
 }
@@ -440,19 +457,5 @@ NSString * const kLastSectionID   = @"LAST";
   [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:[self tableView]];
 }
 
-- (void) dealloc {
-
-  [_stopsDB dealloc];
-  [_stops dealloc];
-  [_routes dealloc];
-  [_lastViewed dealloc];
-  [_myLocation dealloc];
-  [_dataArraysForRoutesScreen dealloc];
-  [_locationManager dealloc];
-  [_refreshTimer dealloc];
-  
-  [super dealloc];
- 
-}
 
 @end

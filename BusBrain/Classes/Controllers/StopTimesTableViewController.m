@@ -167,7 +167,7 @@
          }];
          
        } else {
-         UIView *container = [[[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,400)] autorelease];
+         UIView *container = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,400)];
          container.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_app.png"]];
          UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20,5,self.view.frame.size.width, 50)];
          label.backgroundColor = [UIColor clearColor];
@@ -214,7 +214,6 @@
   
   UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
   self.navigationItem.leftBarButtonItem = backBarButtonItem;
-  [backBarButtonItem release];
 
   [self setTableView:[[UITableView alloc] initWithFrame:CGRectZero]];
 
@@ -308,7 +307,7 @@
   if ([[self stopTimes] count] > 0) {
       StopTimeCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
       if (cell == nil) {
-        cell = [[[StopTimeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[StopTimeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
       }
       
       NSString *stopHour = [[self stopHours] objectAtIndex:[indexPath section]];
@@ -324,15 +323,5 @@
   return cell;
 }
 
-- (void)dealloc {
-  [_data dealloc];
-  [_selectedStop dealloc];
-  [_stopTimes dealloc];
-  [_countDownView dealloc];
-  [_refreshTimer dealloc];
-  
-  [super dealloc];
- 
-}
 
 @end

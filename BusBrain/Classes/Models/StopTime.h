@@ -24,13 +24,13 @@
   int _departureTimeDay;
 }
 
-@property (nonatomic, retain) NSString *departureDate;
-@property (nonatomic, retain) NSString *departureTime;
-@property (nonatomic, retain) NSString *arrivalTime;
-@property (nonatomic, retain) NSString *dropOffType;
-@property (nonatomic, retain) NSString *pickupType;
-@property (nonatomic, retain) NSString *price;
-@property (nonatomic, retain) NSString *headsign;
+@property (nonatomic, strong) NSString *departureDate;
+@property (nonatomic, strong) NSString *departureTime;
+@property (nonatomic, strong) NSString *arrivalTime;
+@property (nonatomic, strong) NSString *dropOffType;
+@property (nonatomic, strong) NSString *pickupType;
+@property (nonatomic, strong) NSString *price;
+@property (nonatomic, strong) NSString *headsign;
 @property (nonatomic, assign) int departureTimeHour;
 @property (nonatomic, assign) int departureTimeMinute;
 @property (nonatomic, assign) int departureTimeYear;

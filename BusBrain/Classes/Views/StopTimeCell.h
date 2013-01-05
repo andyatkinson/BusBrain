@@ -17,10 +17,10 @@
   UIImageView *_icon;
 }
 
-@property (nonatomic, retain) OHAttributedLabel *relativeTime;
-@property (nonatomic, retain) OHAttributedLabel *scheduleTime;
-@property (nonatomic, retain) OHAttributedLabel *price;
-@property (nonatomic, retain) UIImageView *icon;
+@property (nonatomic, strong) OHAttributedLabel *relativeTime;
+@property (nonatomic, strong) OHAttributedLabel *scheduleTime;
+@property (nonatomic, strong) OHAttributedLabel *price;
+@property (nonatomic, strong) UIImageView *icon;
 
 // internal function to ease setting up label text
 - (void) setStopTime:(StopTime*) stopTime;

@@ -75,7 +75,7 @@
 #pragma mark - Table view data source
 
 - (UIView *)tableView:(UITableView *)tv viewForHeaderInSection:(NSInteger)section {
-  UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0,0,self.tableView.frame.size.width,29)] autorelease];
+  UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.tableView.frame.size.width,29)];
   
   UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 200, 20)];
   headerLabel.textAlignment = UITextAlignmentLeft;
@@ -84,7 +84,6 @@
   headerLabel.textColor = [UIColor grayColor];
   headerLabel.backgroundColor = [UIColor clearColor];
   [headerView addSubview:headerLabel];
-  [headerLabel release];
   
   return headerView;
 }
@@ -152,7 +151,7 @@
   static NSString *CellIdentifier = @"Cell";
   UITableViewCell *cell = [tv dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
-    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     cell.backgroundColor = [UIColor clearColor];
     cell.textLabel.textColor = [UIColor whiteColor];
     cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0];
@@ -164,7 +163,7 @@
   
   int rowsInSection = [self numberOfRowsInSection:indexPath.section];
   if (rowsInSection == 1){
-    cell.backgroundView = [ [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"info_cell_single.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ]autorelease];
+    cell.backgroundView = [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"info_cell_single.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
     
   } else {
     cell.accessoryView = [[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]];
@@ -214,9 +213,6 @@
     [[mailViewController navigationBar] setTintColor:[UIColor blackColor]];
     
     [self presentModalViewController:mailViewController animated:YES];
-    [mailViewController release];
-    [recipients release];
-    [emailBody release];
     
   } else {
     // pop an UIAlertView?
@@ -229,11 +225,5 @@
   [self dismissModalViewControllerAnimated:YES];
 }
 
-- (void)dealloc {
-  [tableView dealloc];
-  [dataArrays dealloc];
-  
-  [super dealloc];
-}
 
 @end

@@ -20,13 +20,13 @@
   MainTableViewController *_main;
 }
 
-@property (nonatomic, retain) CLLocation        *myLocation;
-@property (nonatomic, retain) NSArray           *stopsDB;
-@property (nonatomic, retain) NSArray           *searchArray;
-@property (nonatomic, retain) UISearchBar       *searchBar;
-@property (nonatomic, retain) UIView            *greyView;
-@property (nonatomic, retain) UILabel           *message;
-@property (nonatomic, retain) MainTableViewController *main;
+@property (nonatomic, strong) CLLocation        *myLocation;
+@property (nonatomic, strong) NSArray           *stopsDB;
+@property (nonatomic, strong) NSArray           *searchArray;
+@property (nonatomic, strong) UISearchBar       *searchBar;
+@property (nonatomic, strong) UIView            *greyView;
+@property (nonatomic, strong) UILabel           *message;
+@property (nonatomic, strong) MainTableViewController *main;
 
 - (void) performSearch:(NSString*) searchString;
 

@@ -26,9 +26,9 @@
   
   self.stop_name = [attributes valueForKeyPath:@"stop_name"];
   self.stop_id = [attributes valueForKeyPath:@"stop_id"];
-  self.stop_lat = [attributes valueForKeyPath:@"stop_lat"];
-  self.stop_lon = [attributes valueForKeyPath:@"stop_lon"];
-  self.location = [[[CLLocation alloc] initWithLatitude:self.stop_lat.floatValue longitude:self.stop_lon.floatValue] autorelease];
+  self.stop_lat = [[attributes valueForKeyPath:@"stop_lat"] floatValue];
+  self.stop_lon = [[attributes valueForKeyPath:@"stop_lon"] floatValue];
+  self.location = [[CLLocation alloc] initWithLatitude:self.stop_lat longitude:self.stop_lon];
   
   NSString *family = [attributes valueForKeyPath:@"route_family"];
   if ([family length] > 0) {
@@ -166,7 +166,6 @@
   
   dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
     
-    NSLog(@"XXX %i", [stopsDB count]);
     NSMutableArray *resultArray = [[NSMutableArray alloc] init];
     float maxDistance = 0.25f; //Miles
     while([resultArray count] < 4 || maxDistance > 25){
@@ -229,11 +228,11 @@
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
     [data setObject:topArray forKey:@"stops"];
     [data setObject:lastViewed forKey:@"last_viewed"];
-    
+  
     if (block) {
       block([NSDictionary dictionaryWithDictionary:data]);
     }
-    
+  
   });
   
 }
@@ -249,7 +248,7 @@
   [[TransitAPIClient sharedClient] getPath:urlString parameters:nil success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
      NSMutableArray *mutableRecords = [NSMutableArray array];
      for (NSDictionary *attributes in [JSON valueForKeyPath:@"stops"]) {
-       Stop *stop = [[[Stop alloc] initWithAttributes:attributes] autorelease];
+       Stop *stop = [[Stop alloc] initWithAttributes:attributes];
        
        if( stop_id == (id)[NSNull null] || [stop_id isEqualToString:[stop stop_id]]){
          [mutableRecords addObject:stop];

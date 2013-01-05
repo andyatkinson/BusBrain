@@ -26,16 +26,16 @@
   BOOL _surpressHUD;
 }
 
-@property (nonatomic, retain) NSMutableArray    *dataArraysForRoutesScreen;
-@property (nonatomic, retain) NSArray           *stops;
-@property (nonatomic, retain) NSArray           *routes;
-@property (nonatomic, retain) NSArray           *routesDB;
-@property (nonatomic, retain) NSArray           *stopsDB;
-@property (nonatomic, retain) NSDictionary      *lastViewed;
-@property (nonatomic, retain) CLLocation        *myLocation;
-@property (nonatomic, retain) CLLocationManager *locationManager;
-@property (nonatomic, retain) NSTimer           *refreshTimer;
-@property (nonatomic, retain) NSString          *errorMessage;
+@property (nonatomic, strong) NSMutableArray    *dataArraysForRoutesScreen;
+@property (nonatomic, strong) NSArray           *stops;
+@property (nonatomic, strong) NSArray           *routes;
+@property (nonatomic, strong) NSArray           *routesDB;
+@property (nonatomic, strong) NSArray           *stopsDB;
+@property (nonatomic, strong) NSDictionary      *lastViewed;
+@property (nonatomic, strong) CLLocation        *myLocation;
+@property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, strong) NSTimer           *refreshTimer;
+@property (nonatomic, strong) NSString          *errorMessage;
 @property (nonatomic)         int               fetchCount;
 @property (nonatomic)         BOOL              dataRefreshRequested;
 @property (nonatomic)         BOOL              cacheLoaded;

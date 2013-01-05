@@ -19,13 +19,13 @@
   NSString *_icon_path;
 }
 
-@property (nonatomic, retain) NSString *route_id;
-@property (nonatomic, retain) NSString *long_name;
-@property (nonatomic, retain) NSString *short_name;
-@property (nonatomic, retain) NSString *route_desc;
-@property (nonatomic, retain) NSString *route_type;
-@property (nonatomic, retain) NSString *route_url;
-@property (nonatomic, retain) NSString *icon_path;
+@property (nonatomic, strong) NSString *route_id;
+@property (nonatomic, strong) NSString *long_name;
+@property (nonatomic, strong) NSString *short_name;
+@property (nonatomic, strong) NSString *route_desc;
+@property (nonatomic, strong) NSString *route_type;
+@property (nonatomic, strong) NSString *route_url;
+@property (nonatomic, strong) NSString *icon_path;
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
 

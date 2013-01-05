@@ -81,10 +81,5 @@
   
 }
 
-- (void) dealloc {
-  [_hud dealloc];
-  
-  [super dealloc];
-}
 
 @end

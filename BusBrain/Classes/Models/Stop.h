@@ -17,8 +17,8 @@
   NSString   *stop_id;
   NSString   *stop_name;
   NSString   *stop_street;
-  NSString   *stop_lat;
-  NSString   *stop_lon;
+  float       stop_lat;
+  float       stop_lon;
   CLLocation *location;
   NSString   *icon_path;
   Headsign   *headsign;
@@ -41,23 +41,23 @@
     
 }
 
-@property (nonatomic, retain) NSString   *stop_id;
-@property (nonatomic, retain) NSString   *stop_name;
-@property (nonatomic, retain) NSString   *stop_street;
-@property (nonatomic, retain) NSString   *stop_lat;
-@property (nonatomic, retain) NSString   *stop_lon;
-@property (nonatomic, retain) CLLocation *location;
-@property (nonatomic, retain) NSString   *icon_path;
-@property (nonatomic, retain) Headsign   *headsign;
-@property (nonatomic, retain) Route      *route;
+@property (nonatomic, strong) NSString   *stop_id;
+@property (nonatomic, strong) NSString   *stop_name;
+@property (nonatomic, strong) NSString   *stop_street;
+@property (nonatomic) float   stop_lat;
+@property (nonatomic) float   stop_lon;
+@property (nonatomic, strong) CLLocation *location;
+@property (nonatomic, strong) NSString   *icon_path;
+@property (nonatomic, strong) Headsign   *headsign;
+@property (nonatomic, strong) Route      *route;
 
-@property (nonatomic, retain) CLLocation *refLocation;
-@property (nonatomic, retain) NSNumber   *distanceFromLocation;
-@property (nonatomic, retain) StopTime   *nextStopTime;
+@property (nonatomic, strong) CLLocation *refLocation;
+@property (nonatomic, strong) NSNumber   *distanceFromLocation;
+@property (nonatomic, strong) StopTime   *nextStopTime;
 
-@property (nonatomic, retain) NSString   *nextTripStopID;
-@property (nonatomic, retain) NSArray    *nextTripStopTimes;
-@property (nonatomic, retain) NSArray    *nextTripBusLocations;
+@property (nonatomic, strong) NSString   *nextTripStopID;
+@property (nonatomic, strong) NSArray    *nextTripStopTimes;
+@property (nonatomic, strong) NSArray    *nextTripBusLocations;
 
 
 - (id)initWithAttributes:(NSDictionary *)attributes;

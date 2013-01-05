@@ -15,7 +15,7 @@
   NSTimer       *_t;
 }
 
-@property (nonatomic, retain) MBProgressHUD *hud;
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 - (void) setProgress:(float) progress;
 - (void) dismiss;

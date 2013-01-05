@@ -26,14 +26,14 @@
   MainTableViewController *_main;
 }
 
-@property (nonatomic, retain) CountDownView *countDownView;
-@property (nonatomic, retain) NSMutableArray *data;
-@property (nonatomic, retain) NSArray *stopTimes;
-@property (nonatomic, retain) NSMutableArray *stopHours;
-@property (nonatomic, retain) NSMutableDictionary *stopData;
-@property (nonatomic, retain) Stop *selectedStop;
-@property (nonatomic, retain) NSTimer *refreshTimer;
-@property (nonatomic, retain) MainTableViewController *main;
+@property (nonatomic, strong) CountDownView *countDownView;
+@property (nonatomic, strong) NSMutableArray *data;
+@property (nonatomic, strong) NSArray *stopTimes;
+@property (nonatomic, strong) NSMutableArray *stopHours;
+@property (nonatomic, strong) NSMutableDictionary *stopData;
+@property (nonatomic, strong) Stop *selectedStop;
+@property (nonatomic, strong) NSTimer *refreshTimer;
+@property (nonatomic, strong) MainTableViewController *main;
 
 - (void)loadStopTimes;
 

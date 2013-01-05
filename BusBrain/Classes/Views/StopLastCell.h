@@ -19,10 +19,10 @@
   
 }
 
-@property (nonatomic, retain) OHAttributedLabel *routeNumber;
-@property (nonatomic, retain) OHAttributedLabel *stopName;
-@property (nonatomic, retain) OHAttributedLabel *routeName;
-@property (nonatomic, retain) OHAttributedLabel *relativeTime;
+@property (nonatomic, strong) OHAttributedLabel *routeNumber;
+@property (nonatomic, strong) OHAttributedLabel *stopName;
+@property (nonatomic, strong) OHAttributedLabel *routeName;
+@property (nonatomic, strong) OHAttributedLabel *relativeTime;
 
 // internal function to ease setting up label text
 - (void) setStop:(Stop*) stop;

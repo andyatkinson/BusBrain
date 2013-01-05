@@ -13,9 +13,9 @@
   NSString *selectedRow;
 }
 
-@property (nonatomic, retain) NSArray *infos;
-@property (nonatomic, retain) UIWebView *webView;
-@property (nonatomic, retain) NSString *selectedRow;
+@property (nonatomic, strong) NSArray *infos;
+@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) NSString *selectedRow;
 
 - (void)loadInfo:(NSString *)endpoint;
 -(void) loadHTML;

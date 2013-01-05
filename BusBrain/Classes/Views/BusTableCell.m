@@ -60,8 +60,5 @@
   return newLabel;
 }
 
-- (void)dealloc {
-  [super dealloc];
-}
 
 @end

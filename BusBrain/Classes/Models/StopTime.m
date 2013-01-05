@@ -71,7 +71,6 @@
   [components setSecond:0];
 
   NSDate *stopDate = [gregorian dateFromComponents:components];
-  [gregorian release];
 
   return stopDate;
 }
@@ -143,7 +142,7 @@
 
      NSMutableArray *mutableRecords = [NSMutableArray array];
      for (NSDictionary *attributes in [JSON valueForKeyPath:@"stop_times"]) {
-       StopTime *stop_time = [[[StopTime alloc] initWithAttributes:attributes] autorelease];
+       StopTime *stop_time = [[StopTime alloc] initWithAttributes:attributes];
 
        //Cehck if stop is in the past
        if([[stop_time getStopDate] compare: [NSDate timeRightNow]] == NSOrderedDescending) {
@@ -165,7 +164,7 @@
 + (NSArray *)stopTimesFromArray:(NSArray *)array {
   NSMutableArray *mutableRecords = [NSMutableArray array];
   for (NSDictionary *attributes in array) {
-    StopTime *st = [[[StopTime alloc] initWithAttributes:attributes] autorelease];
+    StopTime *st = [[StopTime alloc] initWithAttributes:attributes];
     [mutableRecords addObject:st];
   }
 

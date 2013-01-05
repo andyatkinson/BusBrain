@@ -100,9 +100,9 @@
     [contentView addSubview:[self routeNumber]];
     [contentView addSubview:[self stopName]];
 
-    [[self routeNumber] release];
-    [[self relativeTime] release];
-    [[self stopName] release];
+    [self routeNumber];
+    [self relativeTime];
+    [self stopName];
     
   }
 
@@ -132,12 +132,5 @@
   // Configure the view for the selected state
 }
 
-- (void)dealloc {
-  [_routeNumber dealloc];
-  [_stopName dealloc];
-  [_relativeTime dealloc];
-  
-  [super dealloc];
-}
 
 @end

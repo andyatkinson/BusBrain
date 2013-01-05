@@ -18,11 +18,11 @@
   UITabBarController    *tabBarController;
 }
 
-@property (nonatomic, retain) IBOutlet UIWindow     *window;
-@property (nonatomic, retain) MainTableViewController *mainTableViewController;
-@property (nonatomic, retain) UIViewController      *infoViewController;
-@property (nonatomic, retain) UIViewController *infoTableViewController;
-@property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
+@property (nonatomic, strong) IBOutlet UIWindow     *window;
+@property (nonatomic, strong) MainTableViewController *mainTableViewController;
+@property (nonatomic, strong) UIViewController      *infoViewController;
+@property (nonatomic, strong) UIViewController *infoTableViewController;
+@property (nonatomic, strong) IBOutlet UITabBarController *tabBarController;
 
 - (void) saveAnalytics:(NSString*) pageName;
 

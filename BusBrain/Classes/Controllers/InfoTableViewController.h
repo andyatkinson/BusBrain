@@ -14,8 +14,8 @@
   UITableView *tableView;
 }
 
-@property (nonatomic, retain) NSMutableArray *dataArrays;
-@property (nonatomic, retain) UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *dataArrays;
+@property (nonatomic, strong) UITableView *tableView;
 
 
 @end

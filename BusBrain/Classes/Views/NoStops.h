@@ -14,6 +14,6 @@
 
 }
 
-@property (nonatomic, retain) OHAttributedLabel *message;
+@property (nonatomic, strong) OHAttributedLabel *message;
 
 @end

@@ -13,9 +13,9 @@
   
 }
 
-@property (nonatomic, retain) UITableView               *tableView;
-@property (nonatomic, retain) MBProgressHUD             *HUD;
-@property (nonatomic, retain) EGORefreshTableHeaderView *refreshHeaderView;
+@property (nonatomic, strong) UITableView               *tableView;
+@property (nonatomic, strong) MBProgressHUD             *HUD;
+@property (nonatomic, strong) EGORefreshTableHeaderView *refreshHeaderView;
 
 - (void) showHUD;
 - (void) initPullRefresh;

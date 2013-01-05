@@ -31,7 +31,7 @@
 
      NSDictionary *attributes = [JSON valueForKeyPath:@"info"];
 
-     Info *info = [[[Info alloc] initWithAttributes:attributes] autorelease];
+     Info *info = [[Info alloc] initWithAttributes:attributes];
      [mutableRecords addObject:info];
 
      if (block) {
@@ -44,10 +44,5 @@
    }];
 }
 
-- (void)dealloc {
-  [_detail dealloc];
-  
-  [super dealloc];
-}
 
 @end

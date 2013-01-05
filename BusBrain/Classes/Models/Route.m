@@ -60,7 +60,7 @@
 
     for (NSDictionary *attributes in [[NSArray alloc] initWithArray :[jsonDictionary objectForKey:@"routes"]]) {
       if([mutableRecords count] < 5) {
-        Route *route = [[[Route alloc] initWithAttributes:attributes] autorelease];
+        Route *route = [[Route alloc] initWithAttributes:attributes];
         [mutableRecords addObject:route];
       }
     }
