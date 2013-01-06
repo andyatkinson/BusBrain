@@ -259,6 +259,33 @@
   }];
 }
 
++ (void) loadStopsforRoute:(Route*) route block:(void (^)(NSArray *records))block  {
+  NSString *urlString = [NSString stringWithFormat:@"/bus/v2/stops.json"];
+  
+  NSDictionary *parameters = [[NSMutableDictionary alloc] init];
+  [parameters setValue:[route short_name] forKey:@"route_short_name"];
+  
+  NSLog(@"URL == %@, %@", urlString, [route short_name] );
+  
+  [[TransitAPIClient sharedClient] getPath:urlString parameters:parameters success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
+    
+    NSMutableArray *stops = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *attributes in [JSON objectEnumerator]) {
+      Stop *thisStop = [[Stop alloc] initWithAttributes:attributes];
+      [stops addObject:thisStop];
+    }
+    
+    if (block) {
+      block ([NSArray arrayWithArray:stops]);
+    }
+  } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
+    if (block) {
+      block ([NSArray array]);
+    }
+  }];
+}
+
 + (void)getStops:(NSString *)route_id stop_id:(NSString *)stop_id block:(void (^)(NSArray *records))block {
   NSString *urlString = [NSString stringWithFormat:@"bus/v1/routes/%@/stops/all", route_id];
   

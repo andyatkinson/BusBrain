@@ -1,22 +1,21 @@
 //
-//  RouteTableViewController.m
+//  StopViewController.m
 //  BusBrain
 //
-//  Created by John Doll on 1/5/13.
+//  Created by John Doll on 1/6/13.
 //
 //
 
 #import "BusBrainAppDelegate.h"
-#import "RouteTableViewController.h"
-#import "StopTimesTableViewController.h"
 #import "StopViewController.h"
-#import "Route.h"
 #import "NoStops.h"
+#import "Stop.h"
+#import "StopTimesTableViewController.h"
 
-@implementation RouteTableViewController
+@implementation StopViewController
 
-@synthesize routes = _routes;
-@synthesize stop   = _stop;
+@synthesize stops = _stops;
+@synthesize route = _route;
 
 - (void) viewWillAppear:(BOOL)animated {
   BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -31,16 +30,17 @@
   return self;
 }
 
-- (void) loadRoutesForStop:(Stop*) stop {
-  [self setStop:stop];
-  NSLog(@"Stop 1: %@", [stop stop_id]);
-  
+- (void) loadStopsForRoute:(Route*) route {
+  [self setRoute:route];
+
   [self showHUD];
-  [stop loadRoutes:^(NSArray *records) {
-    [self setRoutes:records];
+
+  [Stop loadStopsforRoute:route block:^(NSArray *records) {
+    [self setStops:records];
     [[self tableView] reloadData];
     [[self HUD] hide:YES];
   }];
+
 }
 
 - (void) backButtonPressed:(id)sender {
@@ -63,11 +63,11 @@
   [self setTableView:[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 300)]];
   
   [super viewDidLoad];
-
+  
   
   //Set Title
-  [[self navigationItem] setTitle: @"Routes"];
-
+  [[self navigationItem] setTitle: @"Stops"];
+  
   [[self tableView] setDataSource: self];
   [[self tableView] setDelegate: self];
   [[self tableView] setSeparatorStyle: UITableViewCellSeparatorStyleNone];
@@ -75,7 +75,7 @@
   [self setView:[self tableView]];
   
   
-
+  
 }
 
 - (void)viewDidUnload {
@@ -87,7 +87,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  if([[self routes] count] > 0){
+  if([[self stops] count] > 0){
     return 1;
   } else {
     return 0;
@@ -111,8 +111,8 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return [[self routes] count];
-
+  return [[self stops] count];
+  
 }
 
 
@@ -122,7 +122,7 @@
   static NSString *CellIdentifier = @"Cell";
   UITableViewCell *cell = [[UITableViewCell alloc] init];
   
-  if ([[self routes] count] > 0) {
+  if ([[self stops] count] > 0) {
     NoStops *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
       cell = [[NoStops alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -130,8 +130,8 @@
     [cell setAccessoryView:[[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
-    Route *route = [[self routes] objectAtIndex:[indexPath row]];
-    [[cell message] setText:[route long_name]];
+    Stop *stop = [[self stops] objectAtIndex:[indexPath row]];
+    [[cell message] setText:[stop stop_name]];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
@@ -142,18 +142,15 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
-  Route *route = [[self routes] objectAtIndex:[indexPath row]];
-  if([self stop] == nil){
-    StopViewController *target = [[StopViewController alloc] init];
-    [target loadStopsForRoute:route];
-    [[self navigationController] pushViewController:target animated:YES];
-
+  
+  Stop *stop = [[self stops] objectAtIndex:[indexPath row]];
+  if([self route] == nil){
+    NSLog(@"Show table to select routes for stop: %@" , [stop stop_name]);
   } else {
     //TODO: Show table to select trip
-    [[self stop] setRoute:route];
+    [stop setRoute:[self route]];
     StopTimesTableViewController *target = [[StopTimesTableViewController alloc] init];
-    [target setSelectedStop:[self stop]];
+    [target setSelectedStop:stop];
     [[self navigationController] pushViewController:target animated:YES];
   }
   
