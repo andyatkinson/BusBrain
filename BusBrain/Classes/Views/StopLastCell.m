@@ -64,8 +64,10 @@
   [[self relativeTime] setAttributedText: string];
   [[self stopName] setText: [stop stop_name]];
   
-  [[self routeNumber] setText: [[stop route] short_name]];
-  [[self routeName] setText: [[stop headsign] headsign_name]];
+  if([[stop route] short_name] > 0){
+    [[self routeNumber] setText: [NSString stringWithFormat:@"%i", [[stop route] short_name]]];
+  }
+  [[self routeName] setText: [[stop trip] trip_headsign]];
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {

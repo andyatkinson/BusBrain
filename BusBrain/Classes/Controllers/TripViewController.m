@@ -1,5 +1,5 @@
 //
-//  StopViewController.m
+//  TripViewController.m
 //  BusBrain
 //
 //  Created by John Doll on 1/6/13.
@@ -7,16 +7,15 @@
 //
 
 #import "BusBrainAppDelegate.h"
-#import "StopViewController.h"
-#import "NoStops.h"
-#import "Stop.h"
-#import "RouteTableViewController.h"
 #import "TripViewController.h"
+#import "NoStops.h"
+#import "Trip.h"
+#import "StopTimesTableViewController.h"
 
-@implementation StopViewController
+@implementation TripViewController
 
-@synthesize stops = _stops;
-@synthesize route = _route;
+@synthesize trips = _trips;
+@synthesize stop   = _stop;
 
 - (void) viewWillAppear:(BOOL)animated {
   BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -31,17 +30,15 @@
   return self;
 }
 
-- (void) loadStopsForRoute:(Route*) route {
-  [self setRoute:route];
-
+- (void) loadTripsForStop:(Stop*) stop {
+  [self setStop:stop];
+  
   [self showHUD];
-
-  [Stop loadStopsforRoute:route block:^(NSArray *records) {
-    [self setStops:records];
+  [stop loadTrips:^(NSArray *records) {
+    [self setTrips:records];
     [[self tableView] reloadData];
     [[self HUD] hide:YES];
   }];
-
 }
 
 - (void) backButtonPressed:(id)sender {
@@ -67,7 +64,7 @@
   
   
   //Set Title
-  [[self navigationItem] setTitle: @"Stops"];
+  [[self navigationItem] setTitle: @"Trips"];
   
   [[self tableView] setDataSource: self];
   [[self tableView] setDelegate: self];
@@ -88,7 +85,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  if([[self stops] count] > 0){
+  if([[self trips] count] > 0){
     return 1;
   } else {
     return 0;
@@ -112,7 +109,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return [[self stops] count];
+  return [[self trips] count];
   
 }
 
@@ -123,7 +120,7 @@
   static NSString *CellIdentifier = @"Cell";
   UITableViewCell *cell = [[UITableViewCell alloc] init];
   
-  if ([[self stops] count] > 0) {
+  if ([[self trips] count] > 0) {
     NoStops *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
       cell = [[NoStops alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -131,8 +128,8 @@
     [cell setAccessoryView:[[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
-    Stop *stop = [[self stops] objectAtIndex:[indexPath row]];
-    [[cell message] setText:[stop stop_name]];
+    Trip *trip = [[self trips] objectAtIndex:[indexPath row]];
+    [[cell message] setText:[trip trip_headsign]];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
@@ -144,17 +141,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   
-  Stop *stop = [[self stops] objectAtIndex:[indexPath row]];
-  if([self route] == nil){
-    RouteTableViewController *target = [[RouteTableViewController alloc] init];
-    [target loadRoutesForStop:stop];
-    [[self navigationController] pushViewController:target animated:YES];
-  } else {
-    [stop setRoute:[self route]];
-    TripViewController *target = [[TripViewController alloc] init];
-    [target loadTripsForStop:stop];
-    [[self navigationController] pushViewController:target animated:YES];
-  }
+  Trip *trip = [[self trips] objectAtIndex:[indexPath row]];
+  [[self stop] setTrip:trip];
+
+  StopTimesTableViewController *target = [[StopTimesTableViewController alloc] init];
+  [target setSelectedStop:[self stop]];
+  [[self navigationController] pushViewController:target animated:YES];
   
 }
 

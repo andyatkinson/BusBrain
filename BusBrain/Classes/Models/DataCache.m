@@ -48,10 +48,13 @@
 
 + (void) loadCacheRoutes:(void (^)(NSArray *records))block {
   NSString *filepath = [DataCache cacheFile];
+
+#ifdef DEBUG_BB
   NSLog(@"Loading Routes From: %@", filepath);
+#endif
   
   NSData* jsonData = [NSData dataWithContentsOfFile:filepath];
-  NSMutableArray *mutableRecords = [NSMutableArray array];
+  NSMutableArray *routes = [NSMutableArray array];
   
   if(jsonData == nil){
     NSLog(@"No Data?");
@@ -64,19 +67,23 @@
     NSArray* routeDictArray = [jsonDictionary objectForKey:@"routes"];
     for (NSDictionary *attributes in routeDictArray) {
       Route *route = [[Route alloc] initWithAttributes:attributes];
-      [mutableRecords addObject:route];
+      [routes addObject:route];
     }
+    
+    
   }
   
+  NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"short_name" ascending:YES];
+  NSArray * sortedArray=[routes sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]];
   
   if (block) {
-    block ([NSArray arrayWithArray:mutableRecords]);
+    block ([NSArray arrayWithArray:sortedArray]);
   }
 }
 
 + (void) loadCacheStops:(void (^)(NSArray *records))block {
   NSString *filepath = [DataCache cacheFile];
-  NSLog(@"Loading Stops From: %@", filepath);
+  //NSLog(@"Loading Stops From: %@", filepath);
   
   NSData* jsonData = [NSData dataWithContentsOfFile:filepath];
   NSMutableArray *mutableRecords = [NSMutableArray array];

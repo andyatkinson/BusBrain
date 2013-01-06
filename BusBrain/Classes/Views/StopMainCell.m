@@ -64,11 +64,10 @@
   [[self relativeTime] setAttributedText: string];
   [[self stopName] setText: [stop stop_name]];
   
-  //if([[stop route] short_name] == nil){
-  //  [[self routeNumber] setText:@"NA"];
-  //} else {
-    [[self routeNumber] setText: [[stop route] short_name]];
-  //}
+
+  if([[stop route] short_name] > 0){
+    [[self routeNumber] setText: [NSString stringWithFormat:@"%i", [[stop route] short_name]]];
+  }
 
 }
 

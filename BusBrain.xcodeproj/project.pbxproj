@@ -85,6 +85,8 @@
 		52340C521640A6A80001B619 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 52340C501640A6A80001B619 /* Default.png */; };
 		524D8D0C15FC165B00280258 /* NoStops.m in Sources */ = {isa = PBXBuildFile; fileRef = 524D8D0B15FC165B00280258 /* NoStops.m */; };
 		524E60C31699DE6100964351 /* StopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 524E60C21699DE6100964351 /* StopViewController.m */; };
+		524E60C71699E21700964351 /* TripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 524E60C61699E21700964351 /* TripViewController.m */; };
+		524E60CA1699E33400964351 /* Trip.m in Sources */ = {isa = PBXBuildFile; fileRef = 524E60C91699E33400964351 /* Trip.m */; };
 		52589C52166BB956002A45EB /* btn_back_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 52589C4E166BB956002A45EB /* btn_back_down@2x.png */; };
 		52589C53166BB956002A45EB /* btn_back_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 52589C4F166BB956002A45EB /* btn_back_down.png */; };
 		52589C54166BB956002A45EB /* btn_back_norm.png in Resources */ = {isa = PBXBuildFile; fileRef = 52589C50166BB956002A45EB /* btn_back_norm.png */; };
@@ -133,7 +135,6 @@
 		A1C637B21569C68A004D06D9 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6378F1569C68A004D06D9 /* AFXMLRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A1C637B31569C68A004D06D9 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C637911569C68A004D06D9 /* UIImageView+AFNetworking.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A1C637B51569C68A004D06D9 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C637961569C68A004D06D9 /* MBProgressHUD.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		A1C637B61569C68A004D06D9 /* Headsign.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C637991569C68A004D06D9 /* Headsign.m */; };
 		A1C637B71569C68A004D06D9 /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6379B1569C68A004D06D9 /* Route.m */; };
 		A1C637B81569C68A004D06D9 /* Stop.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6379D1569C68A004D06D9 /* Stop.m */; };
 		A1C637B91569C68A004D06D9 /* StopTime.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6379F1569C68A004D06D9 /* StopTime.m */; };
@@ -242,11 +243,15 @@
 		524D8D0B15FC165B00280258 /* NoStops.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoStops.m; sourceTree = "<group>"; };
 		524E60C11699DE6100964351 /* StopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopViewController.h; sourceTree = "<group>"; };
 		524E60C21699DE6100964351 /* StopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopViewController.m; sourceTree = "<group>"; };
+		524E60C51699E21700964351 /* TripViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripViewController.h; sourceTree = "<group>"; };
+		524E60C61699E21700964351 /* TripViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripViewController.m; sourceTree = "<group>"; };
+		524E60C81699E33400964351 /* Trip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trip.h; sourceTree = "<group>"; };
+		524E60C91699E33400964351 /* Trip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Trip.m; sourceTree = "<group>"; };
 		52589C4E166BB956002A45EB /* btn_back_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_back_down@2x.png"; sourceTree = "<group>"; };
 		52589C4F166BB956002A45EB /* btn_back_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_back_down.png; sourceTree = "<group>"; };
 		52589C50166BB956002A45EB /* btn_back_norm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_back_norm.png; sourceTree = "<group>"; };
 		52589C51166BB956002A45EB /* btn_back_norm@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_back_norm@2x.png"; sourceTree = "<group>"; };
-		526223ED157783B100816859 /* StopMainCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StopMainCell.h; sourceTree = "<group>"; };
+		526223ED157783B100816859 /* StopMainCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = StopMainCell.h; path = ../Views/StopMainCell.h; sourceTree = "<group>"; };
 		526223EE157783B100816859 /* StopMainCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopMainCell.m; sourceTree = "<group>"; };
 		526856FB158D0B74000A99BB /* BusTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BusTableCell.h; sourceTree = "<group>"; };
 		526856FC158D0B75000A99BB /* BusTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BusTableCell.m; sourceTree = "<group>"; };
@@ -316,8 +321,6 @@
 		A1C637901569C68A004D06D9 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
 		A1C637911569C68A004D06D9 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
 		A1C637961569C68A004D06D9 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
-		A1C637981569C68A004D06D9 /* Headsign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Headsign.h; sourceTree = "<group>"; };
-		A1C637991569C68A004D06D9 /* Headsign.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Headsign.m; sourceTree = "<group>"; };
 		A1C6379A1569C68A004D06D9 /* Route.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Route.h; sourceTree = "<group>"; };
 		A1C6379B1569C68A004D06D9 /* Route.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Route.m; sourceTree = "<group>"; };
 		A1C6379C1569C68A004D06D9 /* Stop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stop.h; sourceTree = "<group>"; };
@@ -370,6 +373,8 @@
 				52158DE4169855BF00AB4876 /* RouteTableViewController.m */,
 				524E60C11699DE6100964351 /* StopViewController.h */,
 				524E60C21699DE6100964351 /* StopViewController.m */,
+				524E60C51699E21700964351 /* TripViewController.h */,
+				524E60C61699E21700964351 /* TripViewController.m */,
 				522CF49C15740461006B1F04 /* StopTimesTableViewController.h */,
 				522CF49D15740461006B1F04 /* StopTimesTableViewController.m */,
 			);
@@ -671,6 +676,7 @@
 				522CF49515740461006B1F04 /* InfoTableViewController.m */,
 				5216AF6C15FB866E005DF9B2 /* InfoDetailViewController.h */,
 				5216AF6D15FB8670005DF9B2 /* InfoDetailViewController.m */,
+				526223ED157783B100816859 /* StopMainCell.h */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -686,12 +692,12 @@
 				522CF4AC15740565006B1F04 /* FunnyPhrase.m */,
 				522CF4AD15740565006B1F04 /* Info.h */,
 				522CF4AE15740565006B1F04 /* Info.m */,
-				A1C637981569C68A004D06D9 /* Headsign.h */,
-				A1C637991569C68A004D06D9 /* Headsign.m */,
 				A1C6379A1569C68A004D06D9 /* Route.h */,
 				A1C6379B1569C68A004D06D9 /* Route.m */,
 				A1C6379C1569C68A004D06D9 /* Stop.h */,
 				A1C6379D1569C68A004D06D9 /* Stop.m */,
+				524E60C81699E33400964351 /* Trip.h */,
+				524E60C91699E33400964351 /* Trip.m */,
 				A1C6379E1569C68A004D06D9 /* StopTime.h */,
 				A1C6379F1569C68A004D06D9 /* StopTime.m */,
 				A1C637A21569C68A004D06D9 /* TransitAPIClient.h */,
@@ -707,7 +713,6 @@
 				526856FC158D0B75000A99BB /* BusTableCell.m */,
 				522CF47B1574040B006B1F04 /* CountDownView.h */,
 				522CF47C1574040B006B1F04 /* CountDownView.m */,
-				526223ED157783B100816859 /* StopMainCell.h */,
 				526223EE157783B100816859 /* StopMainCell.m */,
 				52E627EF1586CE4000ACF885 /* StopSearchCell.h */,
 				52E627F01586CE4000ACF885 /* StopSearchCell.m */,
@@ -898,7 +903,6 @@
 				A1C637B21569C68A004D06D9 /* AFXMLRequestOperation.m in Sources */,
 				A1C637B31569C68A004D06D9 /* UIImageView+AFNetworking.m in Sources */,
 				A1C637B51569C68A004D06D9 /* MBProgressHUD.m in Sources */,
-				A1C637B61569C68A004D06D9 /* Headsign.m in Sources */,
 				A1C637B71569C68A004D06D9 /* Route.m in Sources */,
 				A1C637B81569C68A004D06D9 /* Stop.m in Sources */,
 				A1C637B91569C68A004D06D9 /* StopTime.m in Sources */,
@@ -915,6 +919,8 @@
 				52BA80791697AD6E005508A7 /* DataCache.m in Sources */,
 				52158DE5169855BF00AB4876 /* RouteTableViewController.m in Sources */,
 				524E60C31699DE6100964351 /* StopViewController.m in Sources */,
+				524E60C71699E21700964351 /* TripViewController.m in Sources */,
+				524E60CA1699E33400964351 /* Trip.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

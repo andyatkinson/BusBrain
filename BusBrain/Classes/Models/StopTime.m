@@ -16,11 +16,7 @@
 
 @synthesize departureDate       = _departureDate;
 @synthesize departureTime       = _departureTime;
-@synthesize arrivalTime         = _arrivalTime;
-@synthesize dropOffType         = _dropOffType;
-@synthesize pickupType          = _pickupType;
-@synthesize price               = _price;
-@synthesize headsign            = _headsign;
+
 @synthesize departureTimeHour   = _departureTimeHour;
 @synthesize departureTimeMinute = _departureTimeMinute;
 @synthesize departureTimeYear   = _departureTimeYear;
@@ -33,17 +29,16 @@
     return nil;
   }
 
-  [self setDepartureDate: [attributes valueForKeyPath:@"departure_date"]];
+  
+  [self setDepartureDate: [[attributes allKeys] objectAtIndex:0]];
   if([self departureDate] == nil){
     [self setDepartureDate:[NSDate dateRightNow]];
   }
+  [self setDepartureTime: [[attributes allValues] objectAtIndex:0]];
   
-  [self setDepartureTime: [attributes valueForKeyPath:@"departure_time"]];
-  [self setArrivalTime: [attributes valueForKeyPath:@"arrival_time"]];
-  [self setDropOffType: [attributes valueForKeyPath:@"drop_off_type"]];
-  [self setPickupType: [attributes valueForKeyPath:@"pickup_type"]];
-  [self setPrice: [attributes valueForKeyPath:@"price"]];
-  [self setHeadsign: [attributes valueForKey:@"headsign"]];
+#ifdef DEBUG_BB
+  NSLog(@"DEBUG - Date: %@, Time: %@", [self departureDate], [self departureTime]);
+#endif
   
   [self setDepartureTimeHour: [[self departureTime] hourFromDepartureString]];
   [self setDepartureTimeMinute: [[self departureTime] minuteFromDepartureString]];
@@ -104,71 +99,6 @@
                         [NSNumber numberWithInteger:seconds],
                         nil];
   return timeArray;
-}
-
-+ (void)stopTimesSimple:(NSString *) route_id
-                   stop:(NSString *) stop_id
-                   near:(CLLocation *)location 
-                  block:(void (^)(NSArray *records))block {
-  
-  NSString *urlString = [NSString stringWithFormat:@"bus/v1/routes/%@/stops/%@/stop_times.json", route_id, stop_id];
-
-  NSDate *now = [NSDate timeRightNow];
-  NSCalendar *calendar = [NSCalendar currentCalendar];
-  
-  NSDateComponents *components = [calendar components:NSHourCalendarUnit|NSMinuteCalendarUnit fromDate:now];
-  int hour   = [components hour];
-  int minute = [components minute];
-  
-  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-  [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-  NSString *dateString = [dateFormatter stringFromDate:now];
-  
-  NSDictionary *params = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", hour],
-                                                              [NSString stringWithFormat:@"%d", minute],
-                                                              [NSString stringWithFormat:@"%@", dateString],
-                                                              nil]
-                                                     forKeys:[NSArray arrayWithObjects:@"hour", @"minute", @"date", nil] ];
-  /*
-  NSLog(@"URL: %@", urlString);
-  for(NSString* key in [params allKeys]){
-    NSLog(@"DEBUG: %@ = %@", key, [params objectForKey:key]);
-  }
-  */
-  
-  NSDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:params];
-
-  [[TransitAPIClient sharedClient] getPath:urlString parameters:mutableParameters success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
-
-     NSMutableArray *mutableRecords = [NSMutableArray array];
-     for (NSDictionary *attributes in [JSON valueForKeyPath:@"stop_times"]) {
-       StopTime *stop_time = [[StopTime alloc] initWithAttributes:attributes];
-
-       //Cehck if stop is in the past
-       if([[stop_time getStopDate] compare: [NSDate timeRightNow]] == NSOrderedDescending) {
-         [mutableRecords addObject:stop_time];
-       }
-
-     }
-
-     if (block) {
-       block ([NSArray arrayWithArray:mutableRecords]);
-     }
-   } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
-     if (block) {
-       block ([NSArray array]);
-     }
-   }];
-}
-
-+ (NSArray *)stopTimesFromArray:(NSArray *)array {
-  NSMutableArray *mutableRecords = [NSMutableArray array];
-  for (NSDictionary *attributes in array) {
-    StopTime *st = [[StopTime alloc] initWithAttributes:attributes];
-    [mutableRecords addObject:st];
-  }
-
-  return mutableRecords;
 }
 
 

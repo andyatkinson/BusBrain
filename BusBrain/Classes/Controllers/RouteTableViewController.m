@@ -8,7 +8,7 @@
 
 #import "BusBrainAppDelegate.h"
 #import "RouteTableViewController.h"
-#import "StopTimesTableViewController.h"
+#import "TripViewController.h"
 #import "StopViewController.h"
 #import "Route.h"
 #import "NoStops.h"
@@ -33,7 +33,6 @@
 
 - (void) loadRoutesForStop:(Stop*) stop {
   [self setStop:stop];
-  NSLog(@"Stop 1: %@", [stop stop_id]);
   
   [self showHUD];
   [stop loadRoutes:^(NSArray *records) {
@@ -131,7 +130,7 @@
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
     Route *route = [[self routes] objectAtIndex:[indexPath row]];
-    [[cell message] setText:[route long_name]];
+    [[cell message] setText:[NSString stringWithFormat:@"%i - %@", [route short_name], [route long_name]] ];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
@@ -150,10 +149,9 @@
     [[self navigationController] pushViewController:target animated:YES];
 
   } else {
-    //TODO: Show table to select trip
     [[self stop] setRoute:route];
-    StopTimesTableViewController *target = [[StopTimesTableViewController alloc] init];
-    [target setSelectedStop:[self stop]];
+    TripViewController *target = [[TripViewController alloc] init];
+    [target loadTripsForStop:[self stop]];
     [[self navigationController] pushViewController:target animated:YES];
   }
   

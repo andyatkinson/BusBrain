@@ -7,14 +7,16 @@
 //
 
 #import "BusBrainAppDelegate.h"
+#import "Trip.h"
 #import "Route.h"
 #import "Stop.h"
 #import "TransitAPIClient.h"
-#import "Headsign.h"
+#import "NSDate+BusBrain.h"
 
 @implementation Stop
 
-@synthesize stop_id, stop_name, stop_street, stop_lat, stop_lon, location, headsign, icon_path, route;
+@synthesize stop_id, stop_name, stop_street, stop_lat, stop_lon, location, icon_path;
+@synthesize route, trip;
 @synthesize nextStopTime, refLocation, distanceFromLocation;
 @synthesize nextTripStopID,nextTripStopTimes, nextTripBusLocations;
 
@@ -35,13 +37,13 @@
     self.icon_path = [NSString stringWithFormat: @"icon_%@.png", family];
   }
   
-  self.headsign = [[Headsign alloc] init];
-  self.headsign.headsign_name = [attributes valueForKeyPath:@"headsign_name"];
+  self.trip = [[Trip alloc] init];
+  self.trip.trip_headsign = [attributes valueForKeyPath:@"headsign_name"];
   
   self.route = [[Route alloc] init];
   self.route.route_id = [attributes valueForKeyPath:@"route_id"];
   
-  self.route.short_name = [attributes valueForKeyPath:@"route_short_name"];
+  self.route.short_name = [[attributes valueForKeyPath:@"route_short_name"] intValue];
   
   return self;
 }
@@ -56,23 +58,9 @@
   [self setDistanceFromLocation:[NSNumber numberWithDouble:dist]];
 }
 
-- (void) loadNextStopTime {
-  NSLog(@"Load next stop time for Route: %@, Stop, %@", [[self route ] route_id] , [self stop_id] );
-  [StopTime stopTimesSimple:[[self route ] route_id]  stop:[self stop_id] near:nil  block:^(NSArray *stops) {
-
-      if ([stops count] > 0) {
-        [self setNextStopTime:(StopTime *)[stops objectAtIndex:0]];
-      } else {
-        [self setNextStopTime:nil];
-      }
-                
-     }
-   ];
-}
-
 - (void) loadNextTripTimes:(void (^)(BOOL))block {
   NSString *urlString = [NSString stringWithFormat:@"http://svc.metrotransit.org/NexTrip/%@",[self stop_id]];
-  NSLog(@"URL == %@", urlString);
+  NSLog(@"URL: %@", urlString);
   
   NSDictionary *parameters = [[NSMutableDictionary alloc] init];
   [parameters setValue:@"Json" forKey:@"format"];
@@ -87,13 +75,16 @@
     NSDictionary *attributes;
   
     while (attributes = (NSDictionary *)[e nextObject]) {
-      if([(NSNumber*)[attributes valueForKeyPath:@"Actual"] integerValue] == 1 && [[attributes valueForKeyPath:@"Route"] isEqualToString:[[self route ] short_name]]) {
+      if( [(NSNumber*)[attributes valueForKeyPath:@"Actual"] integerValue] == 1 &&
+         [[attributes valueForKeyPath:@"Route"] intValue] == [[self route ] short_name] ) {
+        
+//#ifdef DEBUG_BB
         NSLog(@"DEBUG: (%@) %@ -- %@, %@",
               (NSNumber*)[attributes valueForKeyPath:@"Actual"],
               [attributes valueForKeyPath:@"DepartureText"],
               (NSNumber*)[attributes valueForKeyPath:@"VehicleLatitude"],
               (NSNumber*)[attributes valueForKeyPath:@"VehicleLongitude"]);
-        
+//#endif
         [nextTripTimes addObject:[attributes valueForKeyPath:@"DepartureText"]];
         [nextTripLocations addObject:[[CLLocation alloc]
                                       initWithLatitude:[(NSNumber*)[attributes valueForKeyPath:@"VehicleLatitude"] floatValue]
@@ -238,8 +229,6 @@
   NSDictionary *parameters = [[NSMutableDictionary alloc] init];
   [parameters setValue:[self stop_id] forKey:@"stop_id"];
   
-  NSLog(@"URL == %@, %@", urlString, [self stop_id]);
-  
   [[TransitAPIClient sharedClient] getPath:urlString parameters:parameters success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
     
     NSMutableArray *routes = [[NSMutableArray alloc] init];
@@ -249,8 +238,56 @@
       [routes addObject:thisRoute];
     }
     
+    //Sort
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"short_name" ascending:YES];
+    NSArray * sortedArray=[routes sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]];
+    
     if (block) {
-      block ([NSArray arrayWithArray:routes]);
+      block ([NSArray arrayWithArray:sortedArray]);
+    }
+  } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
+    if (block) {
+      block ([NSArray array]);
+    }
+  }];
+}
+
+- (void) loadTrips:(void (^)(NSArray *records))block  {
+  NSString *urlString = [NSString stringWithFormat:@"/bus/v2/trips.json"];
+
+  NSDate *now = [NSDate timeRightNow];
+  NSCalendar *calendar = [NSCalendar currentCalendar];
+  
+  NSDateComponents *components = [calendar components:NSHourCalendarUnit|NSMinuteCalendarUnit fromDate:now];
+  int hour   = [components hour];
+  int minute = [components minute];
+  
+  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+  [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+  NSString *dateString = [dateFormatter stringFromDate:now];
+  
+  
+  NSDictionary *parameters = [[NSMutableDictionary alloc] init];
+  [parameters setValue:[NSString stringWithFormat:@"%i", [[self route] short_name]] forKey:@"route_short_name"];
+  [parameters setValue:[self stop_id] forKey:@"stop_id"];
+  [parameters setValue:[NSString stringWithFormat:@"%@", dateString] forKey:@"date"];
+  [parameters setValue:[NSString stringWithFormat:@"%d", hour] forKey:@"hour"];
+  [parameters setValue:[NSString stringWithFormat:@"%d", minute] forKey:@"minute"];
+  
+  [[TransitAPIClient sharedClient] getPath:urlString parameters:parameters success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
+    
+    NSMutableArray *trips = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *attributes in [JSON objectEnumerator]) {
+      Trip *thisTrip = [[Trip alloc] initWithAttributes:attributes];
+      [thisTrip setDate:[NSString stringWithFormat:@"%@", dateString]];
+      [thisTrip setHour:[NSString stringWithFormat:@"%d", hour]];
+      [thisTrip setMinute:[NSString stringWithFormat:@"%d", minute]];
+      [trips addObject:thisTrip];
+    }
+    
+    if (block) {
+      block ([NSArray arrayWithArray:trips]);
     }
   } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
     if (block) {
@@ -263,9 +300,7 @@
   NSString *urlString = [NSString stringWithFormat:@"/bus/v2/stops.json"];
   
   NSDictionary *parameters = [[NSMutableDictionary alloc] init];
-  [parameters setValue:[route short_name] forKey:@"route_short_name"];
-  
-  NSLog(@"URL == %@, %@", urlString, [route short_name] );
+  [parameters setValue:[NSString stringWithFormat:@"%i", [route short_name]] forKey:@"route_short_name"];
   
   [[TransitAPIClient sharedClient] getPath:urlString parameters:parameters success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
     
@@ -276,8 +311,11 @@
       [stops addObject:thisStop];
     }
     
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"stop_name" ascending:YES];
+    NSArray * sortedArray=[stops sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]];
+    
     if (block) {
-      block ([NSArray arrayWithArray:stops]);
+      block ([NSArray arrayWithArray:sortedArray]);
     }
   } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
     if (block) {
@@ -286,33 +324,48 @@
   }];
 }
 
-+ (void)getStops:(NSString *)route_id stop_id:(NSString *)stop_id block:(void (^)(NSArray *records))block {
-  NSString *urlString = [NSString stringWithFormat:@"bus/v1/routes/%@/stops/all", route_id];
+- (void) loadStopTimes:(void (^)(NSArray *records))block {
   
-#ifdef DEBUG_BB
-    NSLog(@"DEBUG: %@", urlString);
-#endif
+  NSString *urlString = @"/bus/v2/stop_times.json";
   
-  [[TransitAPIClient sharedClient] getPath:urlString parameters:nil success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
-     NSMutableArray *mutableRecords = [NSMutableArray array];
-     for (NSDictionary *attributes in [JSON valueForKeyPath:@"stops"]) {
-       Stop *stop = [[Stop alloc] initWithAttributes:attributes];
-       
-       if( stop_id == (id)[NSNull null] || [stop_id isEqualToString:[stop stop_id]]){
-         [mutableRecords addObject:stop];
-       }
-     }
+  NSDictionary *parameters = [[NSMutableDictionary alloc] init];
+  [parameters setValue:[NSString stringWithFormat:@"%i", [route short_name]] forKey:@"route_short_name"];
+  [parameters setValue:[self stop_id] forKey:@"stop_id"];
+  [parameters setValue:[[self trip] trip_id] forKey:@"trip_id"];
+  [parameters setValue:[[self trip] date] forKey:@"date"];
+  [parameters setValue:[[self trip] hour] forKey:@"hour"];
+  [parameters setValue:[[self trip] minute] forKey:@"minute"];
 
-     if (block) {
-       block ([NSArray arrayWithArray:mutableRecords]);
-     }
-   } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
-     if (block) {
-       block ([NSArray array]);
-     }
-   }];
+//#ifdef DEBUG_BB
+  NSLog(@"URL: %@", urlString);
+  for(NSString* key in [parameters allKeys]){
+    NSLog(@"  Param: %@ = %@", key, [parameters objectForKey:key]);
+  }
+//#endif
+  
+  [[TransitAPIClient sharedClient] getPath:urlString parameters:parameters success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
+    
+    NSMutableArray *times = [NSMutableArray array];
+    for (NSDictionary *attributes in [JSON objectEnumerator]) {
+      StopTime *stop_time = [[StopTime alloc] initWithAttributes:attributes];
+      
+      //Cehck if stop is in the past
+      if([[stop_time getStopDate] compare: [NSDate timeRightNow]] == NSOrderedDescending) {
+        [times addObject:stop_time];
+      }
+
+    }
+    
+    if (block) {
+      block ([NSArray arrayWithArray:times]);
+    }
+    
+  } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
+    if (block) {
+      block ([NSArray array]);
+    }
+  }];
 }
-
 
 
 @end

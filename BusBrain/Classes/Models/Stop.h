@@ -11,7 +11,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "Route.h"
 #import "StopTime.h"
-#import "Headsign.h"
+#import "Trip.h"
 
 @interface Stop : NSObject {
   NSString   *stop_id;
@@ -21,8 +21,8 @@
   float       stop_lon;
   CLLocation *location;
   NSString   *icon_path;
-  Headsign   *headsign;
   Route      *route;
+  Trip       *trip;
   
   /* Cache users current location and save distance from
      allowing us to sort stops by nearest location
@@ -48,8 +48,8 @@
 @property (nonatomic) float   stop_lon;
 @property (nonatomic, strong) CLLocation *location;
 @property (nonatomic, strong) NSString   *icon_path;
-@property (nonatomic, strong) Headsign   *headsign;
 @property (nonatomic, strong) Route      *route;
+@property (nonatomic, strong) Trip       *trip;
 
 @property (nonatomic, strong) CLLocation *refLocation;
 @property (nonatomic, strong) NSNumber   *distanceFromLocation;
@@ -64,12 +64,17 @@
 
 + (NSArray *) filterStopArrayByName:(NSArray*) stopArray filter:(NSString*) filterString location:(CLLocation *)location;
 + (NSArray *) filterStopArrayByNumber:(NSArray*) stopArray filter:(NSString*) filterString location:(CLLocation *)location;
-+ (void) getStops:(NSString *)route_id stop_id:(NSString *)stop_id block:(void (^)(NSArray *records))block;
 
+- (void) loadStopTimes:(void (^)(NSArray *records))block;
 - (void) loadRoutes:(void (^)(NSArray *records))block;
+- (void) loadTrips:(void (^)(NSArray *records))block;
 - (void) loadNextTripTimes:(void (^)(BOOL))block;
-- (void) loadNextStopTime;
-+ (void) loadNearbyStopsFromDB:(NSArray*) stopsDB near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^)(NSDictionary *data))block;
+
 + (void) loadStopsforRoute:(Route*) route block:(void (^)(NSArray *records))block;
++ (void) loadNearbyStopsFromDB:(NSArray*) stopsDB
+                          near:(CLLocation *)location
+                    parameters:(NSDictionary *)parameters
+                         block:(void (^)(NSDictionary *data))block;
+
 
 @end

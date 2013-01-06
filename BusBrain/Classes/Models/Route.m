@@ -29,7 +29,7 @@
 
   self.route_id = [attributes valueForKeyPath:@"route_id"];
   self.long_name = [attributes valueForKeyPath:@"long_name"];
-  self.short_name = [attributes valueForKeyPath:@"short_name"];
+  self.short_name = [[attributes valueForKeyPath:@"short_name"] intValue];
   self.route_desc = [attributes valueForKeyPath:@"route_desc"];
   self.route_type = [attributes valueForKeyPath:@"route_type"];
   self.route_url = [attributes valueForKeyPath:@"route_url"];

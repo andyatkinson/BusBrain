@@ -67,6 +67,7 @@
     [self loadStopTimes];
   } else {
     [[self tableView] reloadData];
+    [self loadNextTrip];
   }
 
   [self setRefreshTimer: [NSTimer scheduledTimerWithTimeInterval:60
@@ -121,22 +122,38 @@
   }
 }
 
+- (void) loadNextTrip {
+  [[self selectedStop] loadNextTripTimes:^(BOOL success) {
+    
+    if(success){
+      //Update UI
+      if([[[self selectedStop] nextTripStopTimes] count] == 0){
+        [[[self countDownView] nextTripTime] setText: @"NexTrip NA"];
+      } else {
+        
+        [[[self countDownView] nextTripTime] setText:
+         [NSString stringWithFormat:@"NexT %@",
+          [[[self selectedStop] nextTripStopTimes] objectAtIndex:0]] ];
+      }
+      
+      
+    } else {
+      //Do we care?
+    }
+  }];
+  
+}
+
 - (void) loadStopTimes {
   
 
-  if ([self selectedStop] == NULL || [[[self selectedStop] route] short_name] == NULL) {
+  if ([self selectedStop] == NULL || [[[self selectedStop] route] short_name] == 0) {
     NSLog(@"tried to call controller but didn't supply enough data. <selectedStop>: %@", [self selectedStop]);
 
   } else {
 
     [self showHUD];
-    
-    
-    //Just a hack so the V1 API will still work until trip selection is in place
-    [StopTime stopTimesSimple:[NSString stringWithFormat:@"%@-%@",[[[self selectedStop] route] short_name], @"60"]
-                         stop:[[self selectedStop] stop_id]
-                         near:nil  
-                        block:^(NSArray *stops) {
+    [[self selectedStop] loadStopTimes:^(NSArray *stops) {
                           
        [self setStopTimes: stops];
        [self processStopTimes];
@@ -148,24 +165,7 @@
          [self setupRefresh];
          [[self tableView] reloadData];
          
-         [[self selectedStop] loadNextTripTimes:^(BOOL success) {
-           
-           if(success){
-             //Update UI
-             if([[[self selectedStop] nextTripStopTimes] count] == 0){
-               [[[self countDownView] nextTripTime] setText: @"NexTrip NA"];
-             } else {
-               
-               [[[self countDownView] nextTripTime] setText:
-                  [NSString stringWithFormat:@"NexT %@",
-                   [[[self selectedStop] nextTripStopTimes] objectAtIndex:0]] ];
-             }
-             
-             
-           } else {
-             //Do we care?
-           }
-         }];
+         [self loadNextTrip];
          
        } else {
          UIView *container = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,400)];
@@ -249,7 +249,7 @@
   
   [self setCountDownView:[[CountDownView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, detailViewHeight)]];
   [[[self countDownView] funnySaying] setText: [FunnyPhrase rand]];
-  [[[self countDownView] description] setText: [[[self selectedStop] headsign] headsign_name] ];
+  [[[self countDownView] description] setText: [[[self selectedStop] trip] trip_headsign] ];
   [[self countDownView] startTimer];
   [[self view] addSubview:[self countDownView]];
 }
