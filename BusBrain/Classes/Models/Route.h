@@ -29,7 +29,4 @@
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
 
-+ (void) routesFromFile:(void (^) (NSArray *records))block;
-+ (void) routesFromFile:(CLLocation *)location block:(void (^) (NSArray *records))block;
-
 @end

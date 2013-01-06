@@ -274,7 +274,6 @@
     Stop *stop = (Stop *)[[self searchArray] objectAtIndex:[indexPath row]];
     StopTimesTableViewController *target = [[StopTimesTableViewController alloc] init];
     [target setSelectedStop:stop];
-    [target setMain:[self main]];
 
     [[self navigationController] pushViewController:target animated:YES];
 }

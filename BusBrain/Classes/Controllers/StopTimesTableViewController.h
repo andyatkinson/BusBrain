@@ -14,16 +14,14 @@
 #import "MainTableViewController.h"
 
 @interface StopTimesTableViewController : BusTable <UITableViewDelegate, UITableViewDataSource> {
-  NSMutableArray *_data;
-  Route          *_selectedRoute;
-  Stop           *_selectedStop;
-  NSArray        *_stopTimes;
-  CountDownView  *_countDownView;
+  Route               *_selectedRoute;
+  Stop                *_selectedStop;
+  NSArray             *_stopTimes;
+  CountDownView       *_countDownView;
   NSMutableArray      *_stopHours;
   NSMutableDictionary *_stopData;
   
-  NSTimer        *_refreshTimer;
-  MainTableViewController *_main;
+  NSTimer             *_refreshTimer;
 }
 
 @property (nonatomic, strong) CountDownView *countDownView;
@@ -33,7 +31,6 @@
 @property (nonatomic, strong) NSMutableDictionary *stopData;
 @property (nonatomic, strong) Stop *selectedStop;
 @property (nonatomic, strong) NSTimer *refreshTimer;
-@property (nonatomic, strong) MainTableViewController *main;
 
 - (void)loadStopTimes;
 

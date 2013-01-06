@@ -87,16 +87,12 @@
     NSDictionary *attributes;
   
     while (attributes = (NSDictionary *)[e nextObject]) {
-      //NSLog(@"XXX: %i, %@", [(NSNumber*)[attributes valueForKeyPath:@"Actual"] integerValue], [[self route ] short_name] );
-      
       if([(NSNumber*)[attributes valueForKeyPath:@"Actual"] integerValue] == 1 && [[attributes valueForKeyPath:@"Route"] isEqualToString:[[self route ] short_name]]) {
         NSLog(@"DEBUG: (%@) %@ -- %@, %@",
               (NSNumber*)[attributes valueForKeyPath:@"Actual"],
               [attributes valueForKeyPath:@"DepartureText"],
               (NSNumber*)[attributes valueForKeyPath:@"VehicleLatitude"],
               (NSNumber*)[attributes valueForKeyPath:@"VehicleLongitude"]);
-        
-        NSLog(@"XXX: %@", [attributes valueForKeyPath:@"DepartureText"]);
         
         [nextTripTimes addObject:[attributes valueForKeyPath:@"DepartureText"]];
         [nextTripLocations addObject:[[CLLocation alloc]
@@ -164,11 +160,14 @@
 
 + (void) loadNearbyStopsFromDB:(NSArray*) stopsDB near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^)(NSDictionary *data))block {
   
-  dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-    
-    NSMutableArray *resultArray = [[NSMutableArray alloc] init];
+  NSMutableArray *resultArray     = [[NSMutableArray alloc] init];
+  NSMutableArray *topArray        = [[NSMutableArray alloc] init];
+  NSMutableDictionary *lastViewed = [[NSMutableDictionary alloc] init];
+  
+  if(location.coordinate.latitude != 0){
     float maxDistance = 0.25f; //Miles
-    while([resultArray count] < 4 || maxDistance > 25){
+    while([resultArray count] < 4 && maxDistance < 25){
+      
       float boxSize = maxDistance * (1.0/60.0);
       float latMax = location.coordinate.latitude + boxSize;
       float latMin = location.coordinate.latitude - boxSize;
@@ -197,8 +196,6 @@
       sortedArray = [resultArray sortedArrayUsingSelector:@selector(compareLocation:)];
     }
     
-    
-    NSMutableArray *topArray = [[NSMutableArray alloc] init];
     if([sortedArray count] > 0) {
       [topArray addObject:[sortedArray objectAtIndex:0]];
     }
@@ -219,24 +216,48 @@
     resultArray = [NSMutableArray arrayWithArray:stopsDB];
     [resultArray filterUsingPredicate:predicate];
     
-    NSMutableDictionary *lastViewed = [[NSMutableDictionary alloc] init];
     Stop *stop = [resultArray objectAtIndex:0];
     [stop setNextStopTime:nil];
     [lastViewed setValue:stop forKey:@"stop"];
-    
-    //Prepare Return
-    NSMutableDictionary *data = [NSMutableDictionary dictionary];
-    [data setObject:topArray forKey:@"stops"];
-    [data setObject:lastViewed forKey:@"last_viewed"];
+  }
   
-    if (block) {
-      block([NSDictionary dictionaryWithDictionary:data]);
-    }
+  //Prepare Return
+  NSMutableDictionary *data = [NSMutableDictionary dictionary];
+  [data setObject:topArray forKey:@"stops"];
+  [data setObject:lastViewed forKey:@"last_viewed"];
   
-  });
-  
+  if (block) {
+    block([NSDictionary dictionaryWithDictionary:data]);
+  }
+
 }
 
+- (void) loadRoutes:(void (^)(NSArray *records))block  {
+  NSString *urlString = [NSString stringWithFormat:@"/bus/v2/routes.json"];
+  
+  NSDictionary *parameters = [[NSMutableDictionary alloc] init];
+  [parameters setValue:[self stop_id] forKey:@"stop_id"];
+  
+  NSLog(@"URL == %@, %@", urlString, [self stop_id]);
+  
+  [[TransitAPIClient sharedClient] getPath:urlString parameters:parameters success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
+    
+    NSMutableArray *routes = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *attributes in [JSON objectEnumerator]) {
+      Route *thisRoute = [[Route alloc] initWithAttributes:attributes];
+      [routes addObject:thisRoute];
+    }
+    
+    if (block) {
+      block ([NSArray arrayWithArray:routes]);
+    }
+  } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
+    if (block) {
+      block ([NSArray array]);
+    }
+  }];
+}
 
 + (void)getStops:(NSString *)route_id stop_id:(NSString *)stop_id block:(void (^)(NSArray *records))block {
   NSString *urlString = [NSString stringWithFormat:@"bus/v1/routes/%@/stops/all", route_id];

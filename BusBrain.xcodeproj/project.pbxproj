@@ -15,6 +15,7 @@
 		520DA84A15FB88B8008A5463 /* info_cell_single@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 520DA84215FB88B8008A5463 /* info_cell_single@2x.png */; };
 		520DA84B15FB88B8008A5463 /* info_cell_top.png in Resources */ = {isa = PBXBuildFile; fileRef = 520DA84315FB88B8008A5463 /* info_cell_top.png */; };
 		520DA84C15FB88B8008A5463 /* info_cell_top@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 520DA84415FB88B8008A5463 /* info_cell_top@2x.png */; };
+		52158DE5169855BF00AB4876 /* RouteTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52158DE4169855BF00AB4876 /* RouteTableViewController.m */; };
 		5216AEB015F6DA7C005DF9B2 /* data_cache.json in Resources */ = {isa = PBXBuildFile; fileRef = 5216AEAF15F6DA7C005DF9B2 /* data_cache.json */; };
 		5216AF6E15FB8673005DF9B2 /* InfoDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5216AF6D15FB8670005DF9B2 /* InfoDetailViewController.m */; };
 		5222D42A15D4936D007B9ABE /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5222D42915D4936D007B9ABE /* Icon-Small@2x.png */; };
@@ -152,6 +153,8 @@
 		520DA84215FB88B8008A5463 /* info_cell_single@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info_cell_single@2x.png"; sourceTree = "<group>"; };
 		520DA84315FB88B8008A5463 /* info_cell_top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info_cell_top.png; sourceTree = "<group>"; };
 		520DA84415FB88B8008A5463 /* info_cell_top@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info_cell_top@2x.png"; sourceTree = "<group>"; };
+		52158DE3169855BF00AB4876 /* RouteTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteTableViewController.h; sourceTree = "<group>"; };
+		52158DE4169855BF00AB4876 /* RouteTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteTableViewController.m; sourceTree = "<group>"; };
 		5216AEAF15F6DA7C005DF9B2 /* data_cache.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = data_cache.json; path = Data/data_cache.json; sourceTree = "<group>"; };
 		5216AF6C15FB866E005DF9B2 /* InfoDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoDetailViewController.h; sourceTree = "<group>"; };
 		5216AF6D15FB8670005DF9B2 /* InfoDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoDetailViewController.m; sourceTree = "<group>"; };
@@ -351,6 +354,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		52158DE21698550600AB4876 /* Tables */ = {
+			isa = PBXGroup;
+			children = (
+				5275A17B158D14980095B382 /* BusTable.h */,
+				5275A17A158D14980095B382 /* BusTable.m */,
+				522CF49615740461006B1F04 /* MainTableViewController.h */,
+				522CF49715740461006B1F04 /* MainTableViewController.m */,
+				52E627F4158819B400ACF885 /* SearchTableViewController.h */,
+				52E627F3158819B400ACF885 /* SearchTableViewController.m */,
+				52158DE3169855BF00AB4876 /* RouteTableViewController.h */,
+				52158DE4169855BF00AB4876 /* RouteTableViewController.m */,
+				522CF49C15740461006B1F04 /* StopTimesTableViewController.h */,
+				522CF49D15740461006B1F04 /* StopTimesTableViewController.m */,
+			);
+			name = Tables;
+			sourceTree = "<group>";
+		};
 		522CF4A4157404F1006B1F04 /* SVSegmentedControl */ = {
 			isa = PBXGroup;
 			children = (
@@ -641,14 +661,7 @@
 				52E89444167D28250043B492 /* OnboardViewController.m */,
 				5282A38C1593FDDA00B258CB /* SpashViewController.h */,
 				5282A38B1593FDD900B258CB /* SpashViewController.m */,
-				5275A17B158D14980095B382 /* BusTable.h */,
-				5275A17A158D14980095B382 /* BusTable.m */,
-				522CF49615740461006B1F04 /* MainTableViewController.h */,
-				522CF49715740461006B1F04 /* MainTableViewController.m */,
-				52E627F4158819B400ACF885 /* SearchTableViewController.h */,
-				52E627F3158819B400ACF885 /* SearchTableViewController.m */,
-				522CF49C15740461006B1F04 /* StopTimesTableViewController.h */,
-				522CF49D15740461006B1F04 /* StopTimesTableViewController.m */,
+				52158DE21698550600AB4876 /* Tables */,
 				522CF49415740461006B1F04 /* InfoTableViewController.h */,
 				522CF49515740461006B1F04 /* InfoTableViewController.m */,
 				5216AF6C15FB866E005DF9B2 /* InfoDetailViewController.h */,
@@ -895,6 +908,7 @@
 				52E89445167D28250043B492 /* OnboardViewController.m in Sources */,
 				52E8949C1680070D0043B492 /* NSDate+BusBrain.m in Sources */,
 				52BA80791697AD6E005508A7 /* DataCache.m in Sources */,
+				52158DE5169855BF00AB4876 /* RouteTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

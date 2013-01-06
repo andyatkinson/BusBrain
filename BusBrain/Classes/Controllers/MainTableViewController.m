@@ -12,7 +12,7 @@
 #import "StopMainCell.h"
 #import "StopLastCell.h"
 #import "NoStops.h"
-#import "StopTimesTableViewController.h"
+#import "RouteTableViewController.h"
 #import "NSString+BeetleFight.h"
 #import "DataCache.h"
 
@@ -98,6 +98,10 @@ NSString * const kRouteSectionID  = @"ROUTE";
   [params setValue:[NSString stringWithFormat:@"%d", [components minute]] forKey:@"minute"];
   
 
+  if(location.coordinate.latitude == 0){
+    return;
+  }
+  
   [Stop loadNearbyStopsFromDB:self.stopsDB near:location parameters:params block:^(NSDictionary *data) {
     
     if (data == NULL || ![data isKindOfClass:[NSDictionary class]]) {
@@ -412,8 +416,8 @@ NSString * const kRouteSectionID  = @"ROUTE";
   if ( [id isEqualToString:kLastSectionID] )  {
 
     Stop *stop = (Stop *)[[self lastViewed] valueForKey:@"stop"];
-    StopTimesTableViewController *target = [[StopTimesTableViewController alloc] init];
-    [target setSelectedStop:stop];
+    RouteTableViewController *target = [[RouteTableViewController alloc] init];
+    [target loadRoutesForStop:stop];
     
     [[self navigationController] pushViewController:target animated:YES];
 
@@ -421,16 +425,17 @@ NSString * const kRouteSectionID  = @"ROUTE";
     
     if([[self stops] count] > 0){
       Stop *stop = (Stop *)[[self stops] objectAtIndex:[indexPath row]];
-      StopTimesTableViewController *target = [[StopTimesTableViewController alloc] init];
-      [target setMain:self];
-      [target setSelectedStop:stop];
+      RouteTableViewController *target = [[RouteTableViewController alloc] init];
+      [target loadRoutesForStop:stop];
       
       [[self navigationController] pushViewController:target animated:YES];
     } else {
       [self repaintTable];
     }
   } else if ([id isEqualToString:kRouteSectionID]) {
-    NSLog(@"Show Route Table");
+    RouteTableViewController *target = [[RouteTableViewController alloc] init];
+    [target setRoutes:[self routesDB]];
+    [[self navigationController] pushViewController:target animated:YES];
   }
 
 }

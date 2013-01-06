@@ -18,7 +18,6 @@
 @implementation StopTimesTableViewController
 
 @synthesize countDownView = _countDownView;
-@synthesize data          = _data;
 @synthesize stopTimes     = _stopTimes;
 @synthesize stopHours     = _stopHours;
 @synthesize stopData      = _stopData;
@@ -125,14 +124,16 @@
 - (void) loadStopTimes {
   
 
-  if ([self selectedStop] == NULL || [[[self selectedStop] route] route_id] == NULL) {
+  if ([self selectedStop] == NULL || [[[self selectedStop] route] short_name] == NULL) {
     NSLog(@"tried to call controller but didn't supply enough data. <selectedStop>: %@", [self selectedStop]);
 
   } else {
 
     [self showHUD];
     
-    [StopTime stopTimesSimple:[[[self selectedStop] route] route_id]
+    
+    //Just a hack so the V1 API will still work until trip selection is in place
+    [StopTime stopTimesSimple:[NSString stringWithFormat:@"%@-%@",[[[self selectedStop] route] short_name], @"60"]
                          stop:[[self selectedStop] stop_id]
                          near:nil  
                         block:^(NSArray *stops) {
@@ -182,7 +183,9 @@
                           
        NSMutableDictionary *lastViewed = [[NSMutableDictionary alloc] init];
        [lastViewed setValue:[self selectedStop] forKey:@"stop"];
-       [[self main] setLastViewed:lastViewed];
+                          
+       BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
+       [[app mainTableViewController] setLastViewed:lastViewed];
                           
        NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
        [settings setObject:[[self selectedStop] stop_id] forKey:@"last_viewed_stop_id"];
@@ -221,7 +224,6 @@
   
 
   //Load Data
-  [self setData: [[NSMutableArray alloc] init]];
   [self setStopTimes: [[NSArray alloc] init]];
   [self loadStopTimes];
 
@@ -250,10 +252,6 @@
   [[[self countDownView] description] setText: [[[self selectedStop] headsign] headsign_name] ];
   [[self countDownView] startTimer];
   [[self view] addSubview:[self countDownView]];
-}
-
-- (void) viewDidDisappear:(BOOL)animated{
-  [[[self main] tableView] reloadData];
 }
 
 - (void)viewDidUnload {
