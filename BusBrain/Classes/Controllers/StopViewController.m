@@ -33,6 +33,9 @@
 
 - (void) loadStopsForRoute:(Route*) route {
   [self setRoute:route];
+  
+  //Set Title
+  [[self navigationItem] setTitle: [NSString stringWithFormat:@"Stops for Route: %i", [route short_name]]];
 
   [self showHUD];
 
@@ -67,7 +70,7 @@
   
   
   //Set Title
-  [[self navigationItem] setTitle: @"Stops"];
+  //[[self navigationItem] setTitle: @"Stops"];
   
   [[self tableView] setDataSource: self];
   [[self tableView] setDelegate: self];
@@ -107,7 +110,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-  return 28;
+  return 0;
 }
 
 

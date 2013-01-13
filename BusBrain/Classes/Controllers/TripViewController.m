@@ -8,7 +8,7 @@
 
 #import "BusBrainAppDelegate.h"
 #import "TripViewController.h"
-#import "NoStops.h"
+#import "TripCell.h"
 #import "Trip.h"
 #import "StopTimesTableViewController.h"
 
@@ -32,6 +32,8 @@
 
 - (void) loadTripsForStop:(Stop*) stop {
   [self setStop:stop];
+  
+  [[self navigationItem] setTitle: [NSString stringWithFormat:@"Trips on route: %i", [[stop route] short_name] ]];
   
   [self showHUD];
   [stop loadTrips:^(NSArray *records) {
@@ -64,7 +66,7 @@
   
   
   //Set Title
-  [[self navigationItem] setTitle: @"Trips"];
+  //[[self navigationItem] setTitle: @"Trips"];
   
   [[self tableView] setDataSource: self];
   [[self tableView] setDelegate: self];
@@ -104,7 +106,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-  return 28;
+  return 0;
 }
 
 
@@ -121,15 +123,15 @@
   UITableViewCell *cell = [[UITableViewCell alloc] init];
   
   if ([[self trips] count] > 0) {
-    NoStops *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    TripCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-      cell = [[NoStops alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+      cell = [[TripCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     [cell setAccessoryView:[[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
     Trip *trip = [[self trips] objectAtIndex:[indexPath row]];
-    [[cell message] setText:[trip trip_headsign]];
+    [cell setTrip:trip];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     

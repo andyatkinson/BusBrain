@@ -9,8 +9,7 @@
 #import "SearchTableViewController.h"
 #import "Route.h"
 #import "Stop.h"
-#import "StopMainCell.h"
-#import "StopLastCell.h"
+#import "StopCell.h"
 #import "NoStops.h"
 #import "RouteTableViewController.h"
 #import "NSString+BeetleFight.h"
@@ -347,9 +346,9 @@ NSString * const kRouteSectionID  = @"ROUTE";
   if ( [id isEqualToString:kLastSectionID] )  {
 
     static NSString *CellIdentifier = @"LastCell";
-    StopLastCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    StopCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-      cell = [[StopLastCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+      cell = [[StopCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
 
     Stop *stop = (Stop *)[[self lastViewed] valueForKey:@"stop"];
@@ -364,10 +363,9 @@ NSString * const kRouteSectionID  = @"ROUTE";
       
      if([[self stops] count] > 0){
         static NSString *CellIdentifier = @"StopCell";
-        //StopMainCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        StopLastCell* cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        StopCell* cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
-          cell = [[StopLastCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+          cell = [[StopCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
       
         Stop *stop = (Stop *)[[self stops] objectAtIndex:[indexPath row]];
@@ -435,6 +433,7 @@ NSString * const kRouteSectionID  = @"ROUTE";
   } else if ([id isEqualToString:kRouteSectionID]) {
     RouteTableViewController *target = [[RouteTableViewController alloc] init];
     [target setRoutes:[self routesDB]];
+    [[target navigationItem] setTitle: @"Routes" ];
     [[self navigationController] pushViewController:target animated:YES];
   }
 

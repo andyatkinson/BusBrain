@@ -25,7 +25,7 @@
   [self setSelectedBackgroundView: selectHighlightView];
 }
 
-- (OHAttributedLabel *)newLabelWithPrimaryColor:(UIColor *) primaryColor 
+- (OHAttributedLabel *)newOHALabelWithPrimaryColor:(UIColor *) primaryColor
                                   selectedColor:(UIColor *) selectedColor 
                                        fontSize:(CGFloat) fontSize 
                                            bold:(BOOL) bold {
@@ -37,11 +37,11 @@
     font = [UIFont systemFontOfSize:fontSize];
   }
 
-  OHAttributedLabel *newLabel = [self newLabelWithPrimaryColor:primaryColor selectedColor:selectedColor font: font]; 
+  OHAttributedLabel *newLabel = [self newOHALabelWithPrimaryColor:primaryColor selectedColor:selectedColor font: font];
   return newLabel;
 }
 
-- (OHAttributedLabel *)newLabelWithPrimaryColor:(UIColor *)primaryColor 
+- (OHAttributedLabel *)newOHALabelWithPrimaryColor:(UIColor *)primaryColor
                                   selectedColor:(UIColor *)selectedColor 
                                            font:(UIFont *) font {
   
@@ -59,6 +59,37 @@
   
   return newLabel;
 }
+
+- (UILabel *)newUILabelWithPrimaryColor:(UIColor *) primaryColor
+                                     selectedColor:(UIColor *) selectedColor
+                                          fontSize:(CGFloat) fontSize
+                                              bold:(BOOL) bold {
+  
+  UIFont *font;
+  if (bold) {
+    font = [UIFont boldSystemFontOfSize:fontSize];
+  } else {
+    font = [UIFont systemFontOfSize:fontSize];
+  }
+  
+  UILabel *newLabel = [self newUILabelWithPrimaryColor:primaryColor selectedColor:selectedColor font: font];
+  return newLabel;
+}
+
+- (UILabel *)newUILabelWithPrimaryColor:(UIColor *)primaryColor
+                                     selectedColor:(UIColor *)selectedColor
+                                              font:(UIFont *) font {
+
+  UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+  [newLabel setBackgroundColor: [UIColor clearColor]];
+  [newLabel setOpaque: YES];
+  [newLabel setTextColor: primaryColor];
+  [newLabel setHighlightedTextColor: selectedColor];
+  [newLabel setFont: font];
+  
+  return newLabel;
+}
+
 
 
 @end

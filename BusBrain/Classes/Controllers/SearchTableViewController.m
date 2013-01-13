@@ -7,8 +7,7 @@
 #import "SearchTableViewController.h"
 #import "Route.h"
 #import "Stop.h"
-#import "StopSearchCell.h"
-#import "StopLastCell.h"
+#import "StopCell.h"
 #import "StopTimesTableViewController.h"
 #import "NSString+BeetleFight.h"
 #import "BusBrainAppDelegate.h"
@@ -255,9 +254,9 @@
      Stop *stop = (Stop *)[[self searchArray] objectAtIndex:[indexPath row]];
      static NSString *CellIdentifier = @"SearchResultCell";
      //StopSearchCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-     StopLastCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+     StopCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
      if (cell == nil) {
-     cell = [[StopLastCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+     cell = [[StopCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
      }
      
      [cell setStop: stop];

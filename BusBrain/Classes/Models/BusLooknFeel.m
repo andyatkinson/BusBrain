@@ -83,11 +83,11 @@
 }
 
 + (UIFont *) getRouteDirectionFont {
-  return [UIFont systemFontOfSize:10.0];
+  return [UIFont boldSystemFontOfSize:22.0];
 }
 
 + (UIColor *) getRouteDirectionColor {
-  return [UIColor colorWithRed:122/256.0 green:122/256.0 blue:122/256.0 alpha:1];
+  return [UIColor colorWithRed:255/256.0 green:223/256.0 blue:24/256.0 alpha:1];
 }
 
 // Stop Title (Timer)

@@ -25,12 +25,15 @@
 + (UIFont *)  getSelectFont;
 + (UIColor *) getSelectColor;
 + (UIColor *) getSelectShadowtColor;
+
 + (UIFont *)  getRouteTitleFont;
 + (UIColor *) getRouteTitleColor;
 + (UIFont *)  getRouteDirectionFont;
 + (UIColor *) getRouteDirectionColor;
+
 + (UIFont *)  getStopTitleFont;
 + (UIColor *) getStopTitleColor;
+
 + (UIColor *) getTimerColor;
 + (UIColor *) getTimerZeroColor;
 + (UIColor *) getTimerShadowColor;
@@ -42,14 +45,17 @@
 + (UIColor *) getTimerSubTitleColor;
 + (UIFont *)  getTimerDetailFont;
 + (UIColor *) getTimerDetailColor;
+
 + (UIFont *)  getUpcomingTitleBigFont;
 + (UIFont *)  getUpcomingTitleSmallFont;
 + (UIColor *) getUpcomingTitleColor;
 + (UIFont *)  getUpcomingSubTitleFont;
 + (UIColor *) getUpcomingSubTitleColor;
+
 + (UIFont *)  getHeaderFont;
 + (UIColor *) getHeaderTextColor;
 + (UIColor *) getHeaderShadowtColor;
+
 + (UIFont *)  getTitleFont;
 + (UIColor *) getTitleColor;
 + (UIFont *)  getSubTitleFont;

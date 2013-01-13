@@ -11,7 +11,7 @@
 #import "TripViewController.h"
 #import "StopViewController.h"
 #import "Route.h"
-#import "NoStops.h"
+#import "RouteCell.h"
 
 @implementation RouteTableViewController
 
@@ -33,6 +33,7 @@
 
 - (void) loadRoutesForStop:(Stop*) stop {
   [self setStop:stop];
+  [[self navigationItem] setTitle: [NSString stringWithFormat:@"%@", stop.stop_name ] ];
   
   [self showHUD];
   [stop loadRoutes:^(NSArray *records) {
@@ -65,7 +66,7 @@
 
   
   //Set Title
-  [[self navigationItem] setTitle: @"Routes"];
+  //[[self navigationItem] setTitle: @"Routes"];
 
   [[self tableView] setDataSource: self];
   [[self tableView] setDelegate: self];
@@ -105,7 +106,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-  return 28;
+  return 0;
 }
 
 
@@ -122,15 +123,15 @@
   UITableViewCell *cell = [[UITableViewCell alloc] init];
   
   if ([[self routes] count] > 0) {
-    NoStops *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    RouteCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-      cell = [[NoStops alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+      cell = [[RouteCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     [cell setAccessoryView:[[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
     Route *route = [[self routes] objectAtIndex:[indexPath row]];
-    [[cell message] setText:[NSString stringWithFormat:@"%i - %@", [route short_name], [route long_name]] ];
+    [cell setRoute:route];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     

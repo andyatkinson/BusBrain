@@ -17,12 +17,21 @@
 @property (nonatomic) BOOL dataRefreshRequested;
 
 - (void) initSelectionStyle;
-- (OHAttributedLabel *)newLabelWithPrimaryColor:(UIColor *)primaryColor 
+- (OHAttributedLabel *)newOHALabelWithPrimaryColor:(UIColor *)primaryColor
                                   selectedColor:(UIColor *)selectedColor 
                                        fontSize:(CGFloat)fontSize 
                                            bold:(BOOL)bold;
 
-- (OHAttributedLabel *)newLabelWithPrimaryColor:(UIColor *)primaryColor 
+- (OHAttributedLabel *)newOHALabelWithPrimaryColor:(UIColor *)primaryColor
                                   selectedColor:(UIColor *)selectedColor 
                                        font:(UIFont *) font;
+
+- (OHAttributedLabel *)newUILabelWithPrimaryColor:(UIColor *)primaryColor
+                                     selectedColor:(UIColor *)selectedColor
+                                          fontSize:(CGFloat)fontSize
+                                              bold:(BOOL)bold;
+
+- (OHAttributedLabel *)newUILabelWithPrimaryColor:(UIColor *)primaryColor
+                                     selectedColor:(UIColor *)selectedColor
+                                              font:(UIFont *) font;
 @end

@@ -30,7 +30,7 @@
     [self setBackgroundView: [[UIImageView alloc] initWithImage:bgImg]];
     
     
-    [self setMessage       : [self newLabelWithPrimaryColor:[BusLooknFeel getDetailColor]
+    [self setMessage       : [self newUILabelWithPrimaryColor:[BusLooknFeel getDetailColor]
                                               selectedColor:[BusLooknFeel getDetailColor]
                                                        font:[BusLooknFeel getDetailFont]]];
     

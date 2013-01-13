@@ -28,4 +28,34 @@
   return self;
 }
 
+- (NSString*) getDirection {
+  
+  NSRange northRange = NSMakeRange(NSNotFound, 0);
+  NSRange southRange = NSMakeRange(NSNotFound, 0);
+  NSRange eastRange  = NSMakeRange(NSNotFound, 0);
+  NSRange westRange  = NSMakeRange(NSNotFound, 0);
+
+  northRange = [self.trip_headsign rangeOfString:@"north" options:NSCaseInsensitiveSearch];  
+  if(northRange.location != NSNotFound) {
+    return @"N";
+  }
+  
+  southRange = [self.trip_headsign rangeOfString:@"south" options:NSCaseInsensitiveSearch];
+  if(southRange.location != NSNotFound) {
+    return @"S";
+  }
+  
+  eastRange = [self.trip_headsign rangeOfString:@"east" options:NSCaseInsensitiveSearch];
+  if(eastRange.location != NSNotFound) {
+    return @"E";
+  }
+  
+  westRange = [self.trip_headsign rangeOfString:@"west" options:NSCaseInsensitiveSearch];
+  if(westRange.location != NSNotFound) {
+    return @"W";
+  }
+  
+  return @"N";
+}
+
 @end

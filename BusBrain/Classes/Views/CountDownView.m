@@ -95,7 +95,7 @@
     
     [self setNextTripTime  : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerDetailColor]
                                               selectedColor:[BusLooknFeel getTimerDetailColor]
-                                                       font:[BusLooknFeel getRouteDirectionFont]]];
+                                                       font:[BusLooknFeel getTimerDetailFont]]];
     
     [self setPrice         : [self newLabelWithPrimaryColor:[BusLooknFeel getTimerDetailColor]
                                               selectedColor:[BusLooknFeel getTimerDetailColor]

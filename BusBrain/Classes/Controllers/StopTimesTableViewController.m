@@ -7,7 +7,7 @@
 
 #import "MainTableViewController.h"
 #import "StopTimesTableViewController.h"
-#import "CountDownView.h"
+#import "CountDownCell.h"
 #import "StopTimeCell.h"
 #import "StopTime.h"
 #import "NSString+BeetleFight.h"
@@ -17,7 +17,7 @@
 
 @implementation StopTimesTableViewController
 
-@synthesize countDownView = _countDownView;
+@synthesize countDownCell = _countDownCell;
 @synthesize stopTimes     = _stopTimes;
 @synthesize stopHours     = _stopHours;
 @synthesize stopData      = _stopData;
@@ -128,12 +128,11 @@
     if(success){
       //Update UI
       if([[[self selectedStop] nextTripStopTimes] count] == 0){
-        [[[self countDownView] nextTripTime] setText: @"NexTrip NA"];
+        [[self countDownCell] setNexTrip: @"NexTrip NA"];
       } else {
         
-        [[[self countDownView] nextTripTime] setText:
-         [NSString stringWithFormat:@"NexT %@",
-          [[[self selectedStop] nextTripStopTimes] objectAtIndex:0]] ];
+        [[self countDownCell] setNexTrip: [NSString stringWithFormat:@"NexT %@",
+                                           [[[self selectedStop] nextTripStopTimes] objectAtIndex:0]]];
       }
       
       
@@ -160,7 +159,7 @@
 
        if ([[self stopTimes] count] > 0) {
          StopTime *stop_time = (StopTime *)[[self stopTimes] objectAtIndex:0];
-         [[self countDownView] setStopTime:stop_time];
+         [[self countDownCell] setStopTime:stop_time];
 
          [self setupRefresh];
          [[self tableView] reloadData];
@@ -207,7 +206,6 @@
 }
 
 - (void)viewDidLoad {
-  //Setup View
   UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
   [backButton setFrame:CGRectMake(0.0f, 0.0f, 35.0f, 30.0f)];
   [backButton addTarget:self action:@selector(backButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -217,41 +215,26 @@
   
   UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
   self.navigationItem.leftBarButtonItem = backBarButtonItem;
-
-  [self setTableView:[[UITableView alloc] initWithFrame:CGRectZero]];
-
+  
+  [self setTableView:[[UITableView alloc] initWithFrame:CGRectMake(22, 207, 270, 233)]];
+  
   [super viewDidLoad];
   
-
-  //Load Data
-  [self setStopTimes: [[NSArray alloc] init]];
-  [self loadStopTimes];
-
-  //Set Title
-  [[self navigationItem] setTitle: [[self selectedStop] stop_name]];
-
-  //Re-layout View
-  [self setView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 300)]];
-  [[self view] setBackgroundColor:[UIColor blueColor]];
-  
-  CGRect screenRect        = [[UIScreen mainScreen] bounds];
-  CGFloat screenWidth      = screenRect.size.width;
-  CGFloat screenHeight     = screenRect.size.height;
-  CGFloat detailViewHeight = 154.0;
-
-  [[self tableView] setFrame:CGRectMake(0, detailViewHeight, screenWidth, screenHeight - 113 - detailViewHeight)];
   [[self tableView] setDataSource: self];
   [[self tableView] setDelegate: self];
+  
+  [self setData: [[NSMutableArray alloc] init]];
+  
+  [self setStopTimes: [[NSArray alloc] init]];
+  [self loadStopTimes];
+  
   [[self tableView] setSeparatorStyle: UITableViewCellSeparatorStyleNone];
   [[self tableView] setBackgroundColor: [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_app.png"]]];
-  [[self view] addSubview:[self tableView]];
   
   
-  [self setCountDownView:[[CountDownView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, detailViewHeight)]];
-  [[[self countDownView] funnySaying] setText: [FunnyPhrase rand]];
-  [[[self countDownView] description] setText: [[[self selectedStop] trip] trip_headsign] ];
-  [[self countDownView] startTimer];
-  [[self view] addSubview:[self countDownView]];
+  [[self navigationItem] setTitle: [[self selectedStop] stop_name]];
+  
+  [self setView: [self tableView]];
 }
 
 - (void)viewDidUnload {
@@ -280,46 +263,72 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+  if ([indexPath section] == 0) {
+    return 154;
+  }
   return 57;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-  return 28;
-}
-
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  NSString *stopHour = [[self stopHours] objectAtIndex:section];
-  return [(NSMutableArray*)[[self stopData] objectForKey:stopHour] count];
+  if (section == 0) {
+    return 0;
+  } else if (section > 0) {
+    return 28;
+  }
   
   return 0;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  if (section == 0) {
+    return 1;
+  } else if (section > 0) {
+    NSString *stopHour = [[self stopHours] objectAtIndex:section - 1];
+    return [(NSMutableArray*)[[self stopData] objectForKey:stopHour] count];
+  }
+  
+  return 0;
+}
 
 - (UITableViewCell *)tableView:(UITableView *)thisTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+  
   static NSString *CellIdentifier = @"Cell";
   UITableViewCell *cell = [[UITableViewCell alloc] init];
-
+  
   if ([[self stopTimes] count] > 0) {
+    if ([indexPath section] == 0) {
+      
+      if ([self countDownCell] == NULL) {
+        [self setCountDownCell:[[CountDownCell alloc] init]];
+        
+        StopTime *stop_time = (StopTime *)[[self stopTimes] objectAtIndex:[indexPath row]];
+        [[self countDownCell] setStop:[self selectedStop]];
+        [[self countDownCell] setStopTime:stop_time];
+      }
+      return [self countDownCell];
+      
+      
+    } else if ([indexPath section] > 0) {
+      
       StopTimeCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
       if (cell == nil) {
         cell = [[StopTimeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
       }
       
-      NSString *stopHour = [[self stopHours] objectAtIndex:[indexPath section]];
+      NSString *stopHour = [[self stopHours] objectAtIndex:[indexPath section] - 1];
       StopTime *stop_time = (StopTime *)[ (NSMutableArray*)[[self stopData] objectForKey:stopHour] objectAtIndex:[indexPath row]];
       
       [[cell icon] setImage: [UIImage imageNamed:@"icon_clock.png"]];
       [cell setStopTime:stop_time];
       [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-
+      
       return cell;
+      
+    }
   }
-
+  
   return cell;
 }
-
 
 @end

@@ -10,10 +10,10 @@
 
 @interface NoStops : BusTableCell  {
 
-  OHAttributedLabel *_message;
+  UILabel *_message;
 
 }
 
-@property (nonatomic, strong) OHAttributedLabel *message;
+@property (nonatomic, strong) UILabel *message;
 
 @end

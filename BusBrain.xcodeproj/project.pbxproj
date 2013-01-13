@@ -91,7 +91,9 @@
 		52589C53166BB956002A45EB /* btn_back_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 52589C4F166BB956002A45EB /* btn_back_down.png */; };
 		52589C54166BB956002A45EB /* btn_back_norm.png in Resources */ = {isa = PBXBuildFile; fileRef = 52589C50166BB956002A45EB /* btn_back_norm.png */; };
 		52589C55166BB956002A45EB /* btn_back_norm@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 52589C51166BB956002A45EB /* btn_back_norm@2x.png */; };
-		526223EF157784B700816859 /* StopMainCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 526223EE157783B100816859 /* StopMainCell.m */; };
+		5260A6F516A302F300AE184A /* RouteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5260A6F416A302F300AE184A /* RouteCell.m */; };
+		5260A6F816A3071A00AE184A /* TripCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5260A6F716A3071A00AE184A /* TripCell.m */; };
+		5260A73B16A30F1900AE184A /* CountDownCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5260A73A16A30F1800AE184A /* CountDownCell.m */; };
 		52685701158D0D07000A99BB /* BusTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 526856FC158D0B75000A99BB /* BusTableCell.m */; };
 		5274F2AC1640056A00980179 /* btn_search_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 5274F2A81640056A00980179 /* btn_search_down.png */; };
 		5274F2AD1640056A00980179 /* btn_search_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5274F2A91640056A00980179 /* btn_search_down@2x.png */; };
@@ -108,8 +110,7 @@
 		52B9849A163F63F300934EA9 /* bg_splash@2X.png in Resources */ = {isa = PBXBuildFile; fileRef = 52B98498163F63F300934EA9 /* bg_splash@2X.png */; };
 		52B9849C163F643100934EA9 /* bg_splash-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 52B9849B163F643100934EA9 /* bg_splash-568h@2x.png */; };
 		52BA80791697AD6E005508A7 /* DataCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 52BA80781697AD6E005508A7 /* DataCache.m */; };
-		52C374DC157A93F600B61A47 /* StopLastCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52C374DA157A93E200B61A47 /* StopLastCell.m */; };
-		52E627F21586CE4C00ACF885 /* StopSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E627F01586CE4000ACF885 /* StopSearchCell.m */; };
+		52E627F21586CE4C00ACF885 /* StopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E627F01586CE4000ACF885 /* StopCell.m */; };
 		52E627F515881A9F00ACF885 /* SearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E627F3158819B400ACF885 /* SearchTableViewController.m */; };
 		52E89440167D27EE0043B492 /* onboard-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E8943D167D27EE0043B492 /* onboard-568h@2x.png */; };
 		52E89441167D27EE0043B492 /* onboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E8943E167D27EE0043B492 /* onboard.png */; };
@@ -251,8 +252,12 @@
 		52589C4F166BB956002A45EB /* btn_back_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_back_down.png; sourceTree = "<group>"; };
 		52589C50166BB956002A45EB /* btn_back_norm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_back_norm.png; sourceTree = "<group>"; };
 		52589C51166BB956002A45EB /* btn_back_norm@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_back_norm@2x.png"; sourceTree = "<group>"; };
-		526223ED157783B100816859 /* StopMainCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = StopMainCell.h; path = ../Views/StopMainCell.h; sourceTree = "<group>"; };
-		526223EE157783B100816859 /* StopMainCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopMainCell.m; sourceTree = "<group>"; };
+		5260A6F316A302F300AE184A /* RouteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteCell.h; sourceTree = "<group>"; };
+		5260A6F416A302F300AE184A /* RouteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteCell.m; sourceTree = "<group>"; };
+		5260A6F616A3071900AE184A /* TripCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripCell.h; sourceTree = "<group>"; };
+		5260A6F716A3071A00AE184A /* TripCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripCell.m; sourceTree = "<group>"; };
+		5260A73916A30F1700AE184A /* CountDownCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountDownCell.h; sourceTree = "<group>"; };
+		5260A73A16A30F1800AE184A /* CountDownCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountDownCell.m; sourceTree = "<group>"; };
 		526856FB158D0B74000A99BB /* BusTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BusTableCell.h; sourceTree = "<group>"; };
 		526856FC158D0B75000A99BB /* BusTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BusTableCell.m; sourceTree = "<group>"; };
 		5274F2A81640056A00980179 /* btn_search_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_search_down.png; sourceTree = "<group>"; };
@@ -274,10 +279,8 @@
 		52B9849B163F643100934EA9 /* bg_splash-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg_splash-568h@2x.png"; sourceTree = "<group>"; };
 		52BA80771697AD6E005508A7 /* DataCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataCache.h; sourceTree = "<group>"; };
 		52BA80781697AD6E005508A7 /* DataCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataCache.m; sourceTree = "<group>"; };
-		52C374D9157A93E200B61A47 /* StopLastCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StopLastCell.h; sourceTree = "<group>"; };
-		52C374DA157A93E200B61A47 /* StopLastCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopLastCell.m; sourceTree = "<group>"; };
-		52E627EF1586CE4000ACF885 /* StopSearchCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StopSearchCell.h; sourceTree = "<group>"; };
-		52E627F01586CE4000ACF885 /* StopSearchCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopSearchCell.m; sourceTree = "<group>"; };
+		52E627EF1586CE4000ACF885 /* StopCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StopCell.h; sourceTree = "<group>"; };
+		52E627F01586CE4000ACF885 /* StopCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopCell.m; sourceTree = "<group>"; };
 		52E627F3158819B400ACF885 /* SearchTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewController.m; sourceTree = "<group>"; };
 		52E627F4158819B400ACF885 /* SearchTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchTableViewController.h; sourceTree = "<group>"; };
 		52E8943D167D27EE0043B492 /* onboard-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onboard-568h@2x.png"; sourceTree = "<group>"; };
@@ -684,7 +687,6 @@
 				522CF49515740461006B1F04 /* InfoTableViewController.m */,
 				5216AF6C15FB866E005DF9B2 /* InfoDetailViewController.h */,
 				5216AF6D15FB8670005DF9B2 /* InfoDetailViewController.m */,
-				526223ED157783B100816859 /* StopMainCell.h */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -721,11 +723,14 @@
 				526856FC158D0B75000A99BB /* BusTableCell.m */,
 				522CF47B1574040B006B1F04 /* CountDownView.h */,
 				522CF47C1574040B006B1F04 /* CountDownView.m */,
-				526223EE157783B100816859 /* StopMainCell.m */,
-				52E627EF1586CE4000ACF885 /* StopSearchCell.h */,
-				52E627F01586CE4000ACF885 /* StopSearchCell.m */,
-				52C374D9157A93E200B61A47 /* StopLastCell.h */,
-				52C374DA157A93E200B61A47 /* StopLastCell.m */,
+				52E627EF1586CE4000ACF885 /* StopCell.h */,
+				52E627F01586CE4000ACF885 /* StopCell.m */,
+				5260A73916A30F1700AE184A /* CountDownCell.h */,
+				5260A73A16A30F1800AE184A /* CountDownCell.m */,
+				5260A6F316A302F300AE184A /* RouteCell.h */,
+				5260A6F416A302F300AE184A /* RouteCell.m */,
+				5260A6F616A3071900AE184A /* TripCell.h */,
+				5260A6F716A3071A00AE184A /* TripCell.m */,
 				522CF4891574040B006B1F04 /* StopTimeCell.h */,
 				522CF48A1574040B006B1F04 /* StopTimeCell.m */,
 				524D8D0A15FC165B00280258 /* NoStops.h */,
@@ -888,9 +893,7 @@
 				5275A17D158D15190095B382 /* BusTable.m in Sources */,
 				52685701158D0D07000A99BB /* BusTableCell.m in Sources */,
 				52E627F515881A9F00ACF885 /* SearchTableViewController.m in Sources */,
-				52E627F21586CE4C00ACF885 /* StopSearchCell.m in Sources */,
-				52C374DC157A93F600B61A47 /* StopLastCell.m in Sources */,
-				526223EF157784B700816859 /* StopMainCell.m in Sources */,
+				52E627F21586CE4C00ACF885 /* StopCell.m in Sources */,
 				522CF57715745F63006B1F04 /* NSAttributedString+Attributes.m in Sources */,
 				522CF57815745F63006B1F04 /* OHAttributedLabel.m in Sources */,
 				522CF4AF15740592006B1F04 /* FunnyPhrase.m in Sources */,
@@ -930,6 +933,9 @@
 				524E60C31699DE6100964351 /* StopViewController.m in Sources */,
 				524E60C71699E21700964351 /* TripViewController.m in Sources */,
 				524E60CA1699E33400964351 /* Trip.m in Sources */,
+				5260A6F516A302F300AE184A /* RouteCell.m in Sources */,
+				5260A6F816A3071A00AE184A /* TripCell.m in Sources */,
+				5260A73B16A30F1900AE184A /* CountDownCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

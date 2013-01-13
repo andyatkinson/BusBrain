@@ -23,5 +23,6 @@
 @property (nonatomic, strong) NSString *minute;
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
+- (NSString*) getDirection;
 
 @end

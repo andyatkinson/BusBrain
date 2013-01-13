@@ -60,14 +60,14 @@
 
     [self setIcon : [[ UIImageView alloc ] init]];
     
-    [self setRelativeTime  : [self newLabelWithPrimaryColor:[BusLooknFeel getUpcomingTitleColor] 
+    [self setRelativeTime  : [self newOHALabelWithPrimaryColor:[BusLooknFeel getUpcomingTitleColor]
                                               selectedColor:[BusLooknFeel getUpcomingTitleColor] 
                                                        font:[BusLooknFeel getUpcomingTitleBigFont]]];
     
-    [self setScheduleTime  : [self newLabelWithPrimaryColor:[BusLooknFeel getUpcomingSubTitleColor] 
+    [self setScheduleTime  : [self newOHALabelWithPrimaryColor:[BusLooknFeel getUpcomingSubTitleColor]
                                               selectedColor:[BusLooknFeel getUpcomingSubTitleColor] 
                                                        font:[BusLooknFeel getUpcomingSubTitleFont]]];
-    [self setPrice         : [self newLabelWithPrimaryColor:[BusLooknFeel getUpcomingSubTitleColor] 
+    [self setPrice         : [self newOHALabelWithPrimaryColor:[BusLooknFeel getUpcomingSubTitleColor]
                                               selectedColor:[BusLooknFeel getUpcomingSubTitleColor] 
                                                        font:[BusLooknFeel getUpcomingSubTitleFont]]];
 
