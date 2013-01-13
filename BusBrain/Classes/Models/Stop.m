@@ -253,6 +253,7 @@
 }
 
 - (void) loadTrips:(void (^)(NSArray *records))block  {
+  //NSString *urlString = [NSString stringWithFormat:@"/bus/v2/grouped_headsigns.json"];
   NSString *urlString = [NSString stringWithFormat:@"/bus/v2/trips.json"];
 
   NSDate *now = [NSDate timeRightNow];

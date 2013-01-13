@@ -8,7 +8,7 @@
 #import "Route.h"
 #import "Stop.h"
 #import "StopCell.h"
-#import "StopTimesTableViewController.h"
+#import "RouteTableViewController.h"
 #import "NSString+BeetleFight.h"
 #import "BusBrainAppDelegate.h"
 
@@ -253,7 +253,6 @@
   
      Stop *stop = (Stop *)[[self searchArray] objectAtIndex:[indexPath row]];
      static NSString *CellIdentifier = @"SearchResultCell";
-     //StopSearchCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
      StopCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
      if (cell == nil) {
      cell = [[StopCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -270,11 +269,12 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    Stop *stop = (Stop *)[[self searchArray] objectAtIndex:[indexPath row]];
-    StopTimesTableViewController *target = [[StopTimesTableViewController alloc] init];
-    [target setSelectedStop:stop];
-
-    [[self navigationController] pushViewController:target animated:YES];
+  Stop *stop = (Stop *)[[self searchArray] objectAtIndex:[indexPath row]];
+  
+  RouteTableViewController *target = [[RouteTableViewController alloc] init];
+  [target loadRoutesForStop:stop];
+  
+  [[self navigationController] pushViewController:target animated:YES];
 }
 
 
