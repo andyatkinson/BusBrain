@@ -207,7 +207,8 @@
          
        } 
        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-         NSLog(@"Failed: %@",[error localizedDescription]);     
+         NSLog(@"Failed: %@",[error localizedDescription]);
+         [progress dismiss];
        }];
   
   [operation setDownloadProgressBlock:^(NSInteger bytesRead, NSInteger totalBytesRead, NSInteger totalBytesExpectedToRead) {

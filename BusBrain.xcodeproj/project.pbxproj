@@ -477,6 +477,19 @@
 			name = HUD;
 			sourceTree = "<group>";
 		};
+		5260A6F216A2FCE100AE184A /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				52E8949A1680070C0043B492 /* NSDate+BusBrain.h */,
+				52E8949B1680070C0043B492 /* NSDate+BusBrain.m */,
+				522CF4781574032F006B1F04 /* BusBrainAppDelegate.h */,
+				522CF4791574032F006B1F04 /* BusBrainAppDelegate.m */,
+				A1C637BE1569C6C7004D06D9 /* NSString+BeetleFight.h */,
+				A1C637BF1569C6C7004D06D9 /* NSString+BeetleFight.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 		52850901160E8513001FEEF4 /* Google */ = {
 			isa = PBXGroup;
 			children = (
@@ -504,6 +517,7 @@
 				52AEC5BC1602D604004C548E /* Default-568h@2x.png */,
 				5222D42B15D49379007B9ABE /* Icon@2x.png */,
 				5222D42915D4936D007B9ABE /* Icon-Small@2x.png */,
+				A1C637A81569C68A004D06D9 /* Mockups */,
 				A1C637771569C68A004D06D9 /* BusBrain */,
 				A15BFA731569C5E8004651B9 /* Frameworks */,
 				A15BFA711569C5E8004651B9 /* Products */,
@@ -538,16 +552,15 @@
 		A1C637771569C68A004D06D9 /* BusBrain */ = {
 			isa = PBXGroup;
 			children = (
-				A1EE5AB215ED134E00B21B1B /* BusBrain.entitlements */,
-				522CF54C15741097006B1F04 /* Data */,
-				522CF4D5157407D0006B1F04 /* MainWindow.xib */,
 				A1C637781569C68A004D06D9 /* Assets */,
+				522CF54C15741097006B1F04 /* Data */,
+				A1C6377B1569C68A004D06D9 /* Classes */,
+				522CF4D5157407D0006B1F04 /* MainWindow.xib */,
+				A1EE5AB215ED134E00B21B1B /* BusBrain.entitlements */,
 				A1C637791569C68A004D06D9 /* BusBrain-Info.plist */,
 				A1C6377A1569C68A004D06D9 /* BusBrain-Prefix.pch */,
-				A1C6377B1569C68A004D06D9 /* Classes */,
 				A1C637A51569C68A004D06D9 /* InfoPlist.strings */,
 				A1C637A71569C68A004D06D9 /* main.m */,
-				A1C637A81569C68A004D06D9 /* Mockups */,
 			);
 			path = BusBrain;
 			sourceTree = "<group>";
@@ -622,12 +635,7 @@
 		A1C6377B1569C68A004D06D9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				52E8949A1680070C0043B492 /* NSDate+BusBrain.h */,
-				52E8949B1680070C0043B492 /* NSDate+BusBrain.m */,
-				522CF4781574032F006B1F04 /* BusBrainAppDelegate.h */,
-				522CF4791574032F006B1F04 /* BusBrainAppDelegate.m */,
-				A1C637BE1569C6C7004D06D9 /* NSString+BeetleFight.h */,
-				A1C637BF1569C6C7004D06D9 /* NSString+BeetleFight.m */,
+				5260A6F216A2FCE100AE184A /* Categories */,
 				A1C637941569C68A004D06D9 /* Controllers */,
 				A1C637A41569C68A004D06D9 /* Views */,
 				A1C637971569C68A004D06D9 /* Models */,
@@ -731,7 +739,8 @@
 			children = (
 				522CF5C015763FEE006B1F04 /* routes.png */,
 			);
-			path = Mockups;
+			name = Mockups;
+			path = BusBrain/Mockups;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
