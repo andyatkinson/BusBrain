@@ -23,6 +23,31 @@
 @synthesize departureTimeMonth  = _departureTimeMonth;
 @synthesize departureTimeDay    = _departureTimeDay;
 
+- (id)initWithDate:(NSDate *)date {
+  self = [super init];
+  if (!self) {
+    return nil;
+  }
+  
+  NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+  NSDateComponents *components = [gregorian components:
+                                  NSYearCalendarUnit |
+                                  NSMonthCalendarUnit |
+                                  NSDayCalendarUnit |
+                                  NSHourCalendarUnit |
+                                  NSMinuteCalendarUnit
+                                  fromDate:date];
+  
+  [self setDepartureTimeHour:   [components hour]];
+  [self setDepartureTimeMinute: [components minute]];
+  [self setDepartureTimeYear:   [components year]];
+  [self setDepartureTimeMonth:  [components month]];
+  [self setDepartureTimeDay:    [components day]];
+
+  return self;
+}
+
+
 - (id)initWithAttributes:(NSDictionary *)attributes {
   self = [super init];
   if (!self) {

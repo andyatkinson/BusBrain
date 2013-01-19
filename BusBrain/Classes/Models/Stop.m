@@ -78,14 +78,23 @@
       if( [(NSNumber*)[attributes valueForKeyPath:@"Actual"] integerValue] == 1 &&
          [[attributes valueForKeyPath:@"Route"] intValue] == [[self route ] short_name] ) {
         
+
+        
+        NSString *nextTime    = [attributes valueForKeyPath:@"DepartureTime"];
+        NSString *epochString = [[nextTime substringFromIndex:6] substringToIndex:13];
+        NSDate   *nextDate    = [NSDate dateWithTimeIntervalSince1970:[epochString doubleValue] / 1000];
+        StopTime *nextStop    = [[StopTime alloc] initWithDate:nextDate];
+       
 //#ifdef DEBUG_BB
         NSLog(@"DEBUG: (%@) %@ -- %@, %@",
               (NSNumber*)[attributes valueForKeyPath:@"Actual"],
               [attributes valueForKeyPath:@"DepartureText"],
               (NSNumber*)[attributes valueForKeyPath:@"VehicleLatitude"],
               (NSNumber*)[attributes valueForKeyPath:@"VehicleLongitude"]);
+        NSLog(@"NEXT: %@ --> %@ = %@ ",nextTime,epochString, nextDate);
 //#endif
-        [nextTripTimes addObject:[attributes valueForKeyPath:@"DepartureText"]];
+        
+        [nextTripTimes addObject:nextStop];
         [nextTripLocations addObject:[[CLLocation alloc]
                                       initWithLatitude:[(NSNumber*)[attributes valueForKeyPath:@"VehicleLatitude"] floatValue]
                                       longitude:[(NSNumber*)[attributes valueForKeyPath:@"VehicleLongitude"] floatValue]]];
@@ -207,9 +216,12 @@
     resultArray = [NSMutableArray arrayWithArray:stopsDB];
     [resultArray filterUsingPredicate:predicate];
     
-    Stop *stop = [resultArray objectAtIndex:0];
-    [stop setNextStopTime:nil];
-    [lastViewed setValue:stop forKey:@"stop"];
+    if([resultArray count] > 0){
+      Stop *stop = [resultArray objectAtIndex:0];
+      [stop setNextStopTime:nil];
+      [lastViewed setValue:stop forKey:@"stop"];
+    }
+    
   }
   
   //Prepare Return

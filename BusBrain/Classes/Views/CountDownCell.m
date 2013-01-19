@@ -13,6 +13,9 @@
 
 @synthesize countDown = _countDown;
 
+- (void) stopTimer {
+  [[self countDown] stopTimer];
+}
 - (void) setStop:(Stop*) stop {
   [[[self countDown] funnySaying] setText: [FunnyPhrase rand]];
   [[[self countDown] description] setText: [[stop trip] trip_headsign] ];
@@ -25,6 +28,10 @@
 
 - (void) setNexTrip:(NSString*) tripText {
   [[[self countDown] nextTripTime] setText: tripText];
+}
+
+- (void) setFormatedTime:(NSString*) timeString {
+  [[[self countDown] formattedTime] setText: timeString];
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier

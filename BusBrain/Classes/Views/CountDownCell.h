@@ -18,5 +18,7 @@
 - (void) setStop:(Stop*) stop;
 - (void) setStopTime:(StopTime*) stop_time;
 - (void) setNexTrip:(NSString*) tripText;
+- (void) setFormatedTime:(NSString*) timeString;
+- (void) stopTimer;
 
 @end

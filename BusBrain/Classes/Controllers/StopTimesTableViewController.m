@@ -29,6 +29,13 @@
   [app saveAnalytics:@"StopTimesTableView"];
 }
 
+- (void) viewWillDisappear:(BOOL)animated {
+  [[self refreshTimer] invalidate];
+  [self setRefreshTimer: nil];
+  
+  [[self countDownCell] stopTimer];
+}
+
 - (id)initWithStyle:(UITableViewStyle)style{
   self = [super initWithStyle:style];
   if (self) {
@@ -63,6 +70,7 @@
   StopTime *stop_time = (StopTime *)[[self stopTimes] objectAtIndex:0];
   NSArray  *departureData = [stop_time getTimeTillDeparture];
   NSNumber *timeTillDeparture = (NSNumber*) [departureData objectAtIndex:0];
+  
   if ([timeTillDeparture intValue] == 0) {
     [self loadStopTimes];
   } else {
@@ -128,11 +136,15 @@
     if(success){
       //Update UI
       if([[[self selectedStop] nextTripStopTimes] count] == 0){
-        [[self countDownCell] setNexTrip: @"NexTrip NA"];
+        [[self countDownCell] setNexTrip: @""];
       } else {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"hh:mm a"];
         
-        [[self countDownCell] setNexTrip: [NSString stringWithFormat:@"NexT %@",
-                                           [[[self selectedStop] nextTripStopTimes] objectAtIndex:0]]];
+        
+        [[self countDownCell] setFormatedTime: [dateFormatter stringFromDate:[[[[self selectedStop] nextTripStopTimes] objectAtIndex:0] getStopDate] ]];
+        [[self countDownCell] setStopTime:[[[self selectedStop] nextTripStopTimes] objectAtIndex:0]];
+        [[self countDownCell] setNexTrip: @"NexTrip"];
       }
       
       

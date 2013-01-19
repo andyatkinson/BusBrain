@@ -29,6 +29,7 @@
 @property (nonatomic, assign) int departureTimeMonth;
 @property (nonatomic, assign) int departureTimeDay;
 
+- (id)initWithDate:(NSDate *)date;
 - (id)initWithAttributes:(NSDictionary *)attributes;
 
 - (NSDate*)   getStopDate;

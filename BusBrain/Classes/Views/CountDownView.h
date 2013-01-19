@@ -55,6 +55,7 @@
 // these are the functions we will create in the .m file
 
 - (void) startTimer;
+- (void) stopTimer;
 - (void) setStopTime: (StopTime*) stopTime;
 - (void) layoutTimer:(BOOL) showHours showDays:(BOOL) showDays;
 - (void) setTimerColor:(UIColor*) thisColor;
