@@ -360,7 +360,6 @@
     
     NSMutableArray *times = [NSMutableArray array];
     for (NSDictionary *attributes in [JSON objectEnumerator]) {
-      NSLog(@"XXX: %@", attributes);
       StopTime *stop_time = [[StopTime alloc] initWithAttributes:attributes];
       
       //Cehck if stop is in the past
