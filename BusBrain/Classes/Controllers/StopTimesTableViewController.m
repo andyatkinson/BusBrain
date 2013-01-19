@@ -268,7 +268,7 @@
   if([[[self stopData] allKeys] count] == 1){
     return @"Upcoming Departures";
   } else {
-    return [[self stopHours] objectAtIndex:section];
+    return [[self stopHours] objectAtIndex:section - 1];
   }
   
   return nil;

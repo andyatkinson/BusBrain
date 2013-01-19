@@ -85,14 +85,14 @@
         NSDate   *nextDate    = [NSDate dateWithTimeIntervalSince1970:[epochString doubleValue] / 1000];
         StopTime *nextStop    = [[StopTime alloc] initWithDate:nextDate];
        
-//#ifdef DEBUG_BB
+#ifdef DEBUG_BB
         NSLog(@"DEBUG: (%@) %@ -- %@, %@",
               (NSNumber*)[attributes valueForKeyPath:@"Actual"],
               [attributes valueForKeyPath:@"DepartureText"],
               (NSNumber*)[attributes valueForKeyPath:@"VehicleLatitude"],
               (NSNumber*)[attributes valueForKeyPath:@"VehicleLongitude"]);
         NSLog(@"NEXT: %@ --> %@ = %@ ",nextTime,epochString, nextDate);
-//#endif
+#endif
         
         [nextTripTimes addObject:nextStop];
         [nextTripLocations addObject:[[CLLocation alloc]
@@ -360,6 +360,7 @@
     
     NSMutableArray *times = [NSMutableArray array];
     for (NSDictionary *attributes in [JSON objectEnumerator]) {
+      NSLog(@"XXX: %@", attributes);
       StopTime *stop_time = [[StopTime alloc] initWithAttributes:attributes];
       
       //Cehck if stop is in the past
