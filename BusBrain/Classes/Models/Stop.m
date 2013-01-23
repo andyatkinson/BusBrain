@@ -265,8 +265,7 @@
 }
 
 - (void) loadTrips:(void (^)(NSArray *records))block  {
-  //NSString *urlString = [NSString stringWithFormat:@"/bus/v2/grouped_headsigns.json"];
-  NSString *urlString = [NSString stringWithFormat:@"/bus/v2/trips.json"];
+  NSString *urlString = [NSString stringWithFormat:@"/bus/v2/trips/grouped_headsigns.json"];
 
   NSDate *now = [NSDate timeRightNow];
   NSCalendar *calendar = [NSCalendar currentCalendar];
@@ -291,12 +290,18 @@
     
     NSMutableArray *trips = [[NSMutableArray alloc] init];
     
-    for (NSDictionary *attributes in [JSON objectEnumerator]) {
-      Trip *thisTrip = [[Trip alloc] initWithAttributes:attributes];
+
+    for (NSString *tripName in [[(NSDictionary*)JSON allKeys] objectEnumerator]) {
+      NSArray* tripIDs = [(NSDictionary*)JSON objectForKey:tripName];
+      
+      Trip *thisTrip = [[Trip alloc] init];
+      [thisTrip setTrip_headsign:tripName];
+      [thisTrip setTrip_ids:tripIDs];
       [thisTrip setDate:[NSString stringWithFormat:@"%@", dateString]];
       [thisTrip setHour:[NSString stringWithFormat:@"%d", hour]];
       [thisTrip setMinute:[NSString stringWithFormat:@"%d", minute]];
       [trips addObject:thisTrip];
+
     }
     
     if (block) {
@@ -342,9 +347,9 @@
   NSString *urlString = @"/bus/v2/stop_times.json";
   
   NSDictionary *parameters = [[NSMutableDictionary alloc] init];
-  [parameters setValue:[NSString stringWithFormat:@"%i", [route short_name]] forKey:@"route_short_name"];
   [parameters setValue:[self stop_id] forKey:@"stop_id"];
-  [parameters setValue:[[self trip] trip_id] forKey:@"trip_id"];
+  
+  [parameters setValue:[[[self trip] trip_ids] componentsJoinedByString:@","] forKey:@"trip_id"];
   [parameters setValue:[[self trip] date] forKey:@"date"];
   [parameters setValue:[[self trip] hour] forKey:@"hour"];
   [parameters setValue:[[self trip] minute] forKey:@"minute"];

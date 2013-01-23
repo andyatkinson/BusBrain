@@ -71,6 +71,8 @@ NSString * const kRouteSectionID  = @"ROUTE";
 - (void) viewWillAppear:(BOOL)animated {
   BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
   [app saveAnalytics:@"MainTableView"];
+  
+  [self loadDataForLocation:[self myLocation]];
 }
 
 - (void) loadStopsForLocation:(CLLocation *)location {

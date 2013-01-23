@@ -10,20 +10,17 @@
 
 @implementation Trip
 
-@synthesize trip_id       = _trip_id;
+@synthesize trip_ids      = _trip_ids;
 @synthesize trip_headsign = _trip_headsign;
 @synthesize date          = _date;
 @synthesize hour          = _hour;
 @synthesize minute        = _minute;
 
-- (id)initWithAttributes:(NSDictionary *)attributes {
+- (id)init {
   self = [super init];
   if (!self) {
     return nil;
   }
-  
-  self.trip_id       = [attributes valueForKeyPath:@"trip_id"];
-  self.trip_headsign = [attributes valueForKeyPath:@"trip_headsign"];
   
   return self;
 }
