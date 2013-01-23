@@ -354,12 +354,12 @@
   [parameters setValue:[[self trip] hour] forKey:@"hour"];
   [parameters setValue:[[self trip] minute] forKey:@"minute"];
 
-//#ifdef DEBUG_BB
+#ifdef DEBUG_BB
   NSLog(@"URL: %@", urlString);
   for(NSString* key in [parameters allKeys]){
     NSLog(@"  Param: %@ = %@", key, [parameters objectForKey:key]);
   }
-//#endif
+#endif
   
   [[TransitAPIClient sharedClient] getPath:urlString parameters:parameters success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
     

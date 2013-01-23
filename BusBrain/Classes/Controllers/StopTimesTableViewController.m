@@ -141,10 +141,24 @@
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"hh:mm a"];
         
+
+        //Validate NextTrip, if it's wildly off the schedule it must be for another stop/route
+        NSDate *nextTime = [[[[self selectedStop] nextTripStopTimes] objectAtIndex:0] getStopDate];
+        NSDate *listTime = [[[self stopTimes] objectAtIndex:0] getStopDate];
         
-        [[self countDownCell] setFormatedTime: [dateFormatter stringFromDate:[[[[self selectedStop] nextTripStopTimes] objectAtIndex:0] getStopDate] ]];
-        [[self countDownCell] setStopTime:[[[self selectedStop] nextTripStopTimes] objectAtIndex:0]];
-        [[self countDownCell] setNexTrip: @"NexTrip"];
+        NSCalendar *gregorian = [[NSCalendar alloc]
+                                 initWithCalendarIdentifier:NSGregorianCalendar];
+        
+        NSDateComponents *components = [gregorian components:NSHourCalendarUnit
+                                                    fromDate:nextTime
+                                                      toDate:listTime options:0];
+        NSInteger hours = [components hour];
+        if(hours == 0) {
+          [[self countDownCell] setFormatedTime: [dateFormatter stringFromDate:[[[[self selectedStop] nextTripStopTimes] objectAtIndex:0] getStopDate] ]];
+          [[self countDownCell] setStopTime:[[[self selectedStop] nextTripStopTimes] objectAtIndex:0]];
+          [[self countDownCell] setNexTrip: @"NexTrip"];
+        }
+        
       }
       
       
