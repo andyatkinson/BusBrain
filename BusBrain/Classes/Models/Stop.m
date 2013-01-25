@@ -15,7 +15,7 @@
 
 @implementation Stop
 
-@synthesize stop_id, stop_name, stop_street, stop_lat, stop_lon, location, icon_path;
+@synthesize stop_id, stop_name, stop_street, stop_city, stop_lat, stop_lon, location, icon_path;
 @synthesize route, trip;
 @synthesize nextStopTime, refLocation, distanceFromLocation;
 @synthesize nextTripStopID,nextTripStopTimes, nextTripBusLocations;
@@ -27,6 +27,7 @@
   }
   
   self.stop_name = [attributes valueForKeyPath:@"stop_name"];
+  self.stop_city = [attributes valueForKeyPath:@"stop_city"];
   self.stop_id = [attributes valueForKeyPath:@"stop_id"];
   self.stop_lat = [[attributes valueForKeyPath:@"stop_lat"] floatValue];
   self.stop_lon = [[attributes valueForKeyPath:@"stop_lon"] floatValue];
@@ -45,7 +46,20 @@
   
   self.route.short_name = [[attributes valueForKeyPath:@"route_short_name"] intValue];
   
+  if(self.stop_city == nil){
+    [self fillInFromCache];
+  }
+  
   return self;
+}
+
+- (void) fillInFromCache {
+  BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
+  Stop *cachedStop = [Stop filterStopArrayByNumber:[[app mainTableViewController] stopsDB]
+                                            filter:[self stop_id]
+                                          location:[[app mainTableViewController] myLocation]];
+  [self setStop_city:[cachedStop stop_city]];
+  [self setStop_street:[cachedStop stop_street]];
 }
 
 - (NSComparisonResult)compareLocation:(Stop *)otherObject {
@@ -138,7 +152,7 @@
   return sortedArray;
 }
 
-+ (NSArray*) filterStopArrayByNumber:(NSArray*) stopArray filter:(NSString*) filterString location:(CLLocation *)location {
++ (NSArray*) filterStopArrayByRouteNumber:(NSArray*) stopArray filter:(NSString*) filterString location:(CLLocation *)location {
   NSString *match = [NSString stringWithFormat:@"%@", filterString];
   
   NSPredicate *predicate = [NSPredicate predicateWithFormat:@"route.short_name == %@", match];
@@ -156,6 +170,24 @@
   sortedArray = [resultArray sortedArrayUsingSelector:@selector(compareLocation:)];
   
   return sortedArray;
+}
+
++ (Stop*) filterStopArrayByNumber:(NSArray*) stopArray filter:(NSString*) filterString location:(CLLocation *)location {
+  NSString *match = [NSString stringWithFormat:@"%@", filterString];
+  
+  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"stop_id == %@", match];
+  
+  NSMutableArray *resultArray = [NSMutableArray arrayWithArray:stopArray];
+  [resultArray filterUsingPredicate:predicate];
+  
+  if([resultArray count] > 0){
+    Stop *stop = [resultArray objectAtIndex:0];
+    [stop setRefLocation:location];
+
+    return stop;
+  }
+  
+  return nil;
 }
 
 + (void) loadNearbyStopsFromDB:(NSArray*) stopsDB near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^)(NSDictionary *data))block {

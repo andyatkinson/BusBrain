@@ -215,6 +215,10 @@
   return [UIFont boldSystemFontOfSize:12.0];
 }
 
++ (UIColor *) getDetailSmallColor {
+  return [UIColor colorWithRed:167/256.0 green:167/256.0 blue:167/256.0 alpha:1];
+}
+
 + (UIColor *) getDetailColor {
   return [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
 }

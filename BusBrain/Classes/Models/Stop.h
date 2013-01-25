@@ -17,6 +17,7 @@
   NSString   *stop_id;
   NSString   *stop_name;
   NSString   *stop_street;
+  NSString   *stop_city;
   float       stop_lat;
   float       stop_lon;
   CLLocation *location;
@@ -44,6 +45,7 @@
 @property (nonatomic, strong) NSString   *stop_id;
 @property (nonatomic, strong) NSString   *stop_name;
 @property (nonatomic, strong) NSString   *stop_street;
+@property (nonatomic, strong) NSString   *stop_city;
 @property (nonatomic) float   stop_lat;
 @property (nonatomic) float   stop_lon;
 @property (nonatomic, strong) CLLocation *location;
@@ -62,8 +64,9 @@
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
 
++ (Stop*)     filterStopArrayByNumber:(NSArray*) stopArray filter:(NSString*) filterString location:(CLLocation *)location;
 + (NSArray *) filterStopArrayByName:(NSArray*) stopArray filter:(NSString*) filterString location:(CLLocation *)location;
-+ (NSArray *) filterStopArrayByNumber:(NSArray*) stopArray filter:(NSString*) filterString location:(CLLocation *)location;
++ (NSArray *) filterStopArrayByRouteNumber:(NSArray*) stopArray filter:(NSString*) filterString location:(CLLocation *)location;
 
 - (void) loadStopTimes:(void (^)(NSArray *records))block;
 - (void) loadRoutes:(void (^)(NSArray *records))block;

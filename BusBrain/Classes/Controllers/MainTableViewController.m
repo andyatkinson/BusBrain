@@ -103,7 +103,6 @@ NSString * const kRouteSectionID  = @"ROUTE";
     return;
   }
   
-  NSLog(@"LOAD");
   [Stop loadNearbyStopsFromDB:self.stopsDB near:location parameters:params block:^(NSDictionary *data) {
     
     if (data == NULL || ![data isKindOfClass:[NSDictionary class]]) {

@@ -8,7 +8,7 @@
 
 #import "BusBrainAppDelegate.h"
 #import "StopViewController.h"
-#import "NoStops.h"
+#import "StopCell.h"
 #import "Stop.h"
 #import "RouteTableViewController.h"
 #import "TripViewController.h"
@@ -127,15 +127,16 @@
   UITableViewCell *cell = [[UITableViewCell alloc] init];
   
   if ([[self stops] count] > 0) {
-    NoStops *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    StopCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-      cell = [[NoStops alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+      cell = [[StopCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     [cell setAccessoryView:[[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
     Stop *stop = [[self stops] objectAtIndex:[indexPath row]];
-    [[cell message] setText:[stop stop_name]];
+    [stop setRoute:[self route]];
+    [cell setStop:stop];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
@@ -153,7 +154,6 @@
     [target loadRoutesForStop:stop];
     [[self navigationController] pushViewController:target animated:YES];
   } else {
-    [stop setRoute:[self route]];
     TripViewController *target = [[TripViewController alloc] init];
     [target loadTripsForStop:stop];
     [[self navigationController] pushViewController:target animated:YES];

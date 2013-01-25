@@ -95,7 +95,7 @@
       if(_pendingSearches == 1){
         [self showHUD];
         
-        NSArray *resultStopArray = [Stop filterStopArrayByNumber:[self stopsDB] filter:searchText location:[self myLocation]];
+        NSArray *resultStopArray = [Stop filterStopArrayByRouteNumber:[self stopsDB] filter:searchText location:[self myLocation]];
         if([resultStopArray count] == 0){
           NSArray *resultStringArray;
           if ([searchText length] < 2) {

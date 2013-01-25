@@ -12,9 +12,11 @@
 
 @interface StopCell : BusTableCell {
   UILabel *_stopName;
+  UILabel *_stopCity;
 }
 
 @property (nonatomic, strong) UILabel *stopName;
+@property (nonatomic, strong) UILabel *stopCity;
 
 - (void) setStop:(Stop*) stop;
 

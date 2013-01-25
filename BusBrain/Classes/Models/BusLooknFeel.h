@@ -61,7 +61,8 @@
 + (UIFont *)  getSubTitleFont;
 + (UIColor *) getSubTitleColor;
 + (UIFont *)  getDetailFont;
-+ (UIFont *)  getDetailSmallFont;
 + (UIColor *) getDetailColor;
++ (UIFont *)  getDetailSmallFont;
++ (UIColor *) getDetailSmallColor;
 
 @end
