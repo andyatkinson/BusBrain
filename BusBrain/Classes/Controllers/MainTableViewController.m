@@ -345,6 +345,7 @@ NSString * const kRouteSectionID  = @"ROUTE";
     }
 
     Stop *stop = (Stop *)[[self lastViewed] valueForKey:@"stop"];
+    [stop setRoute:nil];
     [cell setStop: stop];
     [cell setAccessoryView: [[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
@@ -362,6 +363,7 @@ NSString * const kRouteSectionID  = @"ROUTE";
         }
       
         Stop *stop = (Stop *)[[self stops] objectAtIndex:[indexPath row]];
+        [stop setRoute:nil];
         [cell setStop: stop];
        
         [cell setAccessoryView:[[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];
