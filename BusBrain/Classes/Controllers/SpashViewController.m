@@ -57,13 +57,14 @@
   [[self hud] setOpacity:0];
   [[self hud] setLabelText: @""];
   
+  float yPos = [self.view convertPoint:self.view.frame.origin toView:nil].y; //Should be 20
   if (screenBounds.size.height == 568) {
     // code for 4-inch screen
-    [[self hud] setYOffset:-64.0];
+    [[self hud] setYOffset: ((yPos - 20) / 2) - 64.0];
     [[self hud] setXOffset:-0.5];
   } else {
     // code for 3.5-inch screen
-    [[self hud] setYOffset:-58.0];
+    [[self hud] setYOffset:((yPos - 20) / 2)  - 58.0];
     [[self hud] setXOffset:-0.5];
   }
   
