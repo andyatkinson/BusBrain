@@ -33,7 +33,7 @@
 - (void) loadTripsForStop:(Stop*) stop {
   [self setStop:stop];
   
-  [[self navigationItem] setTitle: [NSString stringWithFormat:@"Trips on route: %i", [[stop route] short_name] ]];
+  [[self navigationItem] setTitle: @"Route Direction"];
   
   [self showHUD];
   [stop loadTrips:^(NSArray *records) {
@@ -63,10 +63,6 @@
   [self setTableView:[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 300)]];
   
   [super viewDidLoad];
-  
-  
-  //Set Title
-  //[[self navigationItem] setTitle: @"Trips"];
   
   [[self tableView] setDataSource: self];
   [[self tableView] setDelegate: self];
