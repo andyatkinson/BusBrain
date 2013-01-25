@@ -31,7 +31,7 @@ NSString * const kRouteSectionID  = @"ROUTE";
 @synthesize routes                    = _routes;
 @synthesize routesDB                  = _routesDB;
 @synthesize stops                     = _stops;
-@synthesize stopsDB                   = _stopsDB; 
+@synthesize stopsDB                   = _stopsDB;
 @synthesize lastViewed                = _lastViewed; 
 @synthesize locationManager           = _locationManager; 
 @synthesize myLocation                = _myLocation;
@@ -68,11 +68,11 @@ NSString * const kRouteSectionID  = @"ROUTE";
   }
 }
 
-- (void) viewWillAppear:(BOOL)animated {
+- (void) viewDidAppear:(BOOL)animated {
   BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
   [app saveAnalytics:@"MainTableView"];
   
-  [self loadDataForLocation:[self myLocation]];
+  [[self tableView] reloadData];
 }
 
 - (void) loadStopsForLocation:(CLLocation *)location {
@@ -103,6 +103,7 @@ NSString * const kRouteSectionID  = @"ROUTE";
     return;
   }
   
+  NSLog(@"LOAD");
   [Stop loadNearbyStopsFromDB:self.stopsDB near:location parameters:params block:^(NSDictionary *data) {
     
     if (data == NULL || ![data isKindOfClass:[NSDictionary class]]) {
@@ -125,13 +126,8 @@ NSString * const kRouteSectionID  = @"ROUTE";
 
 
 - (void) repaintTable {
-    //if([self dataRefreshRequested]){
-    //  [self setDataRefreshRequested: false];
-    //  [self loadDataForLocation:[self myLocation]];
-    //} else {
-      NSLog(@"RELOAD 1");
-      [[self tableView] reloadData];
-    //}
+    NSLog(@"RELOAD 1");
+    [[self tableView] reloadData];
 }
 
 - (void) loadDataForLocation:(CLLocation *)location {
@@ -259,10 +255,6 @@ NSString * const kRouteSectionID  = @"ROUTE";
   [self loadDataForLocation:[self myLocation]];
   
   [self initPullRefresh];
-
-}
-
-- (void)viewDidAppear {
 
 }
 
