@@ -354,15 +354,15 @@
   
   [[TransitAPIClient sharedClient] getPath:urlString parameters:parameters success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
     
+    BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSMutableArray *stops = [[NSMutableArray alloc] init];
-    
     for (NSDictionary *attributes in [JSON objectEnumerator]) {
       Stop *thisStop = [[Stop alloc] initWithAttributes:attributes];
+      [thisStop setRefLocation:[[app mainTableViewController] myLocation]];
       [stops addObject:thisStop];
     }
     
-    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"stop_name" ascending:YES];
-    NSArray * sortedArray=[stops sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]];
+    NSArray * sortedArray = [stops sortedArrayUsingSelector:@selector(compareLocation:)];
     
     if (block) {
       block ([NSArray arrayWithArray:sortedArray]);

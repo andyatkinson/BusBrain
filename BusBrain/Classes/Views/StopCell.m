@@ -12,24 +12,31 @@
 
 @implementation StopCell
 
-@synthesize stopName = _stopName;
-@synthesize stopCity = _stopCity;
+@synthesize stopName     = _stopName;
+@synthesize stopCity     = _stopCity;
+@synthesize stopDistance = _stopDistance;
 
 - (void) setStop:(Stop*) stop {
   
   
   
   if([[stop route] short_name] > 0){
-    [[self stopName] setFrame: CGRectMake(5, 10, 280, 20)];
-    [[self stopCity] setFrame: CGRectMake(5, 30, 280, 20)];
+    [[self stopName]     setFrame: CGRectMake(  5, 10, 220, 20)];
+    [[self stopCity]     setFrame: CGRectMake(  5, 30, 280, 20)];
+    [[self stopDistance] setFrame: CGRectMake(230, 20,  60, 20)];
     
-    [[self stopCity] setHighlighted:NO];
+    [[self stopCity]     setHidden:NO];
+    [[self stopDistance] setHidden:NO];
+    
     [[self stopCity] setText: [[stop stop_city] capitalizedString]];
+    [[self stopDistance] setText: [NSString stringWithFormat:@"%.1f mi.", [[stop distanceFromLocation] doubleValue] ]];
   } else {
     [[self stopName] setFrame: CGRectMake(5, 20, 280, 20)];
-    [[self stopCity] setHighlighted:YES];
+    [[self stopCity] setHidden:YES];
+    [[self stopDistance] setHidden:YES];
     
-    [[self stopCity] setText: @""];
+    [[self stopCity]     setText: @""];
+    [[self stopDistance] setText: @""];
   }
   
   [[self stopName] setText: [stop stop_name]];
@@ -56,8 +63,13 @@
                                                 selectedColor:[BusLooknFeel getDetailSmallColor]
                                                          font:[BusLooknFeel getDetailSmallFont]]];
     
+    [self setStopDistance  : [self newUILabelWithPrimaryColor:[BusLooknFeel getDetailSmallColor]
+                                                selectedColor:[BusLooknFeel getDetailSmallColor]
+                                                         font:[BusLooknFeel getDetailFont]]];
+    
     [contentView addSubview:[self stopName]];
     [contentView addSubview:[self stopCity]];
+    [contentView addSubview:[self stopDistance]];
     
   }
 
