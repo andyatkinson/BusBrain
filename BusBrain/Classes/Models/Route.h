@@ -28,5 +28,6 @@
 @property (nonatomic, strong) NSString *icon_path;
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
++ (NSArray*) filterRouteArrayByNumber:(NSArray*) stopArray filter:(NSString*) filterString;
 
 @end

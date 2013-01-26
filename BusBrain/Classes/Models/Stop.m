@@ -152,26 +152,6 @@
   return sortedArray;
 }
 
-+ (NSArray*) filterStopArrayByRouteNumber:(NSArray*) stopArray filter:(NSString*) filterString location:(CLLocation *)location {
-  NSString *match = [NSString stringWithFormat:@"%@", filterString];
-  
-  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"route.short_name == %@", match];
-  
-  NSMutableArray *resultArray = [NSMutableArray arrayWithArray:stopArray];
-  [resultArray filterUsingPredicate:predicate];
-  
-  NSEnumerator *e = [resultArray objectEnumerator];
-  Stop *stop;
-  while (stop = [e nextObject]) {
-    [stop setRefLocation:location];
-  }
-  
-  NSArray *sortedArray;
-  sortedArray = [resultArray sortedArrayUsingSelector:@selector(compareLocation:)];
-  
-  return sortedArray;
-}
-
 + (Stop*) filterStopArrayByNumber:(NSArray*) stopArray filter:(NSString*) filterString location:(CLLocation *)location {
   NSString *match = [NSString stringWithFormat:@"%@", filterString];
   

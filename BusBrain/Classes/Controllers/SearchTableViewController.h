@@ -11,7 +11,8 @@
 @interface SearchTableViewController : BusTable <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate> {
   CLLocation        *_myLocation;
   NSArray           *_stopsDB;
-  NSArray           *_searchArray;
+  NSArray           *_storeSearchArray;
+  NSArray           *_routeSearchArray;
   UISearchBar       *_searchBar;
   UIView            *_greyView;
   UILabel           *_message;
@@ -22,7 +23,9 @@
 
 @property (nonatomic, strong) CLLocation        *myLocation;
 @property (nonatomic, strong) NSArray           *stopsDB;
-@property (nonatomic, strong) NSArray           *searchArray;
+@property (nonatomic, strong) NSArray           *routesDB;
+@property (nonatomic, strong) NSArray           *storeSearchArray;
+@property (nonatomic, strong) NSArray           *routeSearchArray;
 @property (nonatomic, strong) UISearchBar       *searchBar;
 @property (nonatomic, strong) UIView            *greyView;
 @property (nonatomic, strong) UILabel           *message;

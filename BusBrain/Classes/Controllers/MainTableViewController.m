@@ -221,6 +221,7 @@ NSString * const kRouteSectionID  = @"ROUTE";
 - (void) openSearch:(id)sender {
   SearchTableViewController *target = [[SearchTableViewController alloc] init];
   [target setStopsDB:[self stopsDB]];
+  [target setRoutesDB:[self routesDB]];
   [target setMyLocation:[self myLocation]];
   [target setMain:self];
    

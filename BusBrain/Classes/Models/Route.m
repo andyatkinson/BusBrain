@@ -42,4 +42,17 @@
   return self;
 }
 
++ (NSArray*) filterRouteArrayByNumber:(NSArray*) routeArray filter:(NSString*) filterString{
+  NSString *match = [NSString stringWithFormat:@"%@", filterString];
+  
+  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"short_name == %i", [match intValue]];
+  
+  NSMutableArray *resultArray = [NSMutableArray arrayWithArray:routeArray];
+  [resultArray filterUsingPredicate:predicate];
+  
+  //TODO sort by route number
+  
+  return resultArray;
+}
+
 @end

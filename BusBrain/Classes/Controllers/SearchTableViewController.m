@@ -8,18 +8,20 @@
 #import "Route.h"
 #import "Stop.h"
 #import "StopCell.h"
+#import "RouteCell.h"
 #import "RouteTableViewController.h"
+#import "StopViewController.h"
 #import "NSString+BeetleFight.h"
 #import "BusBrainAppDelegate.h"
 
 @implementation SearchTableViewController
 
-@synthesize searchArray = _searchArray;
-@synthesize stopsDB     = _stopsDB;
-@synthesize myLocation  = _myLocation;
-@synthesize searchBar   = _searchBar;
-@synthesize greyView    = _greyView;
-@synthesize message     = _message;
+@synthesize storeSearchArray = _storeSearchArray;
+@synthesize stopsDB          = _stopsDB;
+@synthesize myLocation       = _myLocation;
+@synthesize searchBar        = _searchBar;
+@synthesize greyView         = _greyView;
+@synthesize message          = _message;
 
 - (void) viewDidDisappear:(BOOL)animated{
   [[[self main] tableView] reloadData];
@@ -76,7 +78,7 @@
 
 - (void) buildSearchArrayFrom: (NSString *) searchText {
   if ([searchText length] == 0) {
-    [self setSearchArray: nil];
+    [self setStoreSearchArray: nil];
     [[self greyView] setHidden:NO];
     
     [[self tableView] reloadData];
@@ -95,19 +97,20 @@
       if(_pendingSearches == 1){
         [self showHUD];
         
-        NSArray *resultStopArray = [Stop filterStopArrayByRouteNumber:[self stopsDB] filter:searchText location:[self myLocation]];
-        if([resultStopArray count] == 0){
-          NSArray *resultStringArray;
-          if ([searchText length] < 2) {
-            resultStringArray = [Stop filterStopArrayByName:[self searchArray] filter:searchText location:[self myLocation]];
-          } else {
-            resultStringArray = [Stop filterStopArrayByName:[self stopsDB] filter:searchText location:[self myLocation]];
-          }
-          [self setSearchArray: resultStringArray];
-        } else {
-          [self setSearchArray: resultStopArray];
-        }
+        NSArray *resultRouteArray;
+        resultRouteArray = [Route filterRouteArrayByNumber:[self routesDB] filter:searchText];
+        [self setRouteSearchArray: resultRouteArray];
+      
         
+        NSArray *resultStoreArray;
+        if ([[self storeSearchArray] count] > 0) {
+          resultStoreArray = [Stop filterStopArrayByName:[self storeSearchArray] filter:searchText location:[self myLocation]];
+        } else {
+          resultStoreArray = [Stop filterStopArrayByName:[self stopsDB] filter:searchText location:[self myLocation]];
+        }
+        [self setStoreSearchArray: resultStoreArray];
+        
+
         dispatch_async( dispatch_get_main_queue(), ^{
           [[self tableView] reloadData];
           [[self greyView] setHidden:YES];
@@ -230,29 +233,43 @@
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  return 1;
+  return 2;
 }
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return [[self searchArray] count];
+  if(section == 1) {
+    return [[self storeSearchArray] count];
+  } else {
+    return [[self routeSearchArray] count];
+  }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-  NSString *searchText = [[self searchBar] text];
+  //NSString *searchText = [[self searchBar] text];
   
-  if([searchText length] > 0){
-    return [NSString stringWithFormat:@"Search Results for \"%@\"", searchText];
+  if(section == 1){
+    if([[self storeSearchArray] count] > 0){
+      return @"Stops";
+    } else {
+      return nil;
+    }
   } else {
-    return nil;
+    if([[self routeSearchArray] count] > 0){
+      return @"Routes";
+    } else {
+      return nil;
+    }
   }
+  
 }
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)thisTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   
-     Stop *stop = (Stop *)[[self searchArray] objectAtIndex:[indexPath row]];
-     static NSString *CellIdentifier = @"SearchResultCell";
+  if(indexPath.section == 1) {
+     Stop *stop = (Stop *)[[self storeSearchArray] objectAtIndex:[indexPath row]];
+     static NSString *CellIdentifier = @"SearchStoreResultCell";
      StopCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
      if (cell == nil) {
      cell = [[StopCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -264,17 +281,42 @@
      [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
      
      return cell;
+  } else if(indexPath.section == 0) {
+    Route *route = (Route *)[[self routeSearchArray] objectAtIndex:[indexPath row]];
+    static NSString *CellIdentifier = @"SearchRouteResultCell";
+    RouteCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+      cell = [[RouteCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    
+    [cell setRoute: route];
+    
+    [cell setAccessoryView: [[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];
+    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    
+    return cell;
+  }
+  
+  return nil;
   
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  Stop *stop = (Stop *)[[self searchArray] objectAtIndex:[indexPath row]];
   
-  RouteTableViewController *target = [[RouteTableViewController alloc] init];
-  [target loadRoutesForStop:stop];
+  if(indexPath.section == 1) {
+    Stop *stop = (Stop *)[[self storeSearchArray] objectAtIndex:[indexPath row]];
+    RouteTableViewController *target = [[RouteTableViewController alloc] init];
+    [target loadRoutesForStop:stop];
+    [[self navigationController] pushViewController:target animated:YES];
+  }
+  if(indexPath.section == 0) {
+    Route *route = (Route *)[[self routeSearchArray] objectAtIndex:[indexPath row]];
+    StopViewController *target = [[StopViewController alloc] init];
+    [target loadStopsForRoute:route];
+    [[self navigationController] pushViewController:target animated:YES];
+  }
   
-  [[self navigationController] pushViewController:target animated:YES];
 }
 
 
