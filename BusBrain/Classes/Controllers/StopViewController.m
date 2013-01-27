@@ -20,7 +20,7 @@
 
 - (void) viewWillAppear:(BOOL)animated {
   BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
-  [app saveAnalytics:@"RouteTableView"];
+  [app saveAnalytics:@"StopTableView"];
 }
 
 - (id)initWithStyle:(UITableViewStyle)style{

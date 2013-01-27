@@ -309,12 +309,21 @@
     RouteTableViewController *target = [[RouteTableViewController alloc] init];
     [target loadRoutesForStop:stop];
     [[self navigationController] pushViewController:target animated:YES];
+    
+    NSString *searchText = [[self searchBar] text];
+    BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [app saveAnalytics:[NSString stringWithFormat:@"Search/Stop/%@", searchText]];
   }
   if(indexPath.section == 0) {
     Route *route = (Route *)[[self routeSearchArray] objectAtIndex:[indexPath row]];
     StopViewController *target = [[StopViewController alloc] init];
     [target loadStopsForRoute:route];
     [[self navigationController] pushViewController:target animated:YES];
+    
+    NSString *searchText = [[self searchBar] text];
+    BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [app saveAnalytics:[NSString stringWithFormat:@"Search/Route/%@", searchText]];
+    
   }
   
 }

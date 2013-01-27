@@ -19,7 +19,7 @@
 
 - (void) viewWillAppear:(BOOL)animated {
   BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
-  [app saveAnalytics:@"RouteTableView"];
+  [app saveAnalytics:@"TripTableView"];
 }
 
 - (id)initWithStyle:(UITableViewStyle)style{

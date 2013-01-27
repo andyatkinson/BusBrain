@@ -7,6 +7,8 @@
 //
 
 #import "MainTableViewController.h"
+#import "GAI.h"
+
 #define kAppName @"bus brain"
 //#define DEBUG_BB 1;
 
@@ -18,6 +20,7 @@
   UITabBarController    *tabBarController;
 }
 
+@property (nonatomic, retain) id<GAITracker> tracker;
 @property (nonatomic, strong) IBOutlet UIWindow     *window;
 @property (nonatomic, strong) MainTableViewController *mainTableViewController;
 @property (nonatomic, strong) UIViewController      *infoViewController;

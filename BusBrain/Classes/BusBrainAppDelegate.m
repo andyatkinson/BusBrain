@@ -14,8 +14,10 @@
 #import "BusLooknFeel.h"
 #import "DataCache.h"
 
-#import "GANTracker.h"
+#import "GAI.h"
+
 static const NSInteger kGANDispatchPeriodSec = 10;
+static NSString *const kTrackingId = @"UA-34997631-3";
 
 @implementation BusBrainAppDelegate
 
@@ -32,31 +34,25 @@ static const NSInteger kGANDispatchPeriodSec = 10;
     [mainTableViewController initData:nil];
     [mainTableViewController initLocation];
   }
-  [self saveAnalytics:@"/app_entry_point"];
+  [self saveAnalytics:@"Entry"];
 }
 
 - (void) saveAnalytics:(NSString*) pageName {
-  
   if([[self getDeviceName] isEqualToString:@"iPhone Simulator"]){
     NSLog(@"Skip GA in Simulator");
     return;
   }
   
-  [[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-34997631-1"
-                                         dispatchPeriod:kGANDispatchPeriodSec
-                                               delegate:nil];
-  
-  NSError *error;
-  
-  if (![[GANTracker sharedTracker] trackPageview:pageName
-                                       withError:&error]) {
-    // Handle error here
-  }
-  
+  [self.tracker trackView:pageName];
 }
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
-  [self saveAnalytics:@"/app_entry_point"];
+  // Initialize Google Analytics
+  [GAI sharedInstance].debug = NO;
+  [GAI sharedInstance].dispatchInterval = kGANDispatchPeriodSec;
+  [GAI sharedInstance].trackUncaughtExceptions = YES;
+  self.tracker = [[GAI sharedInstance] trackerWithTrackingId:kTrackingId];
+  [self saveAnalytics:@"Entry"];
   
   // Create image for navigation background - portrait
   UIImage *navigationBarImage = [UIImage imageNamed:@"bg_header.png"];
