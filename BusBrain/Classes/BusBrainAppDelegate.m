@@ -69,14 +69,12 @@ static NSString *const kTrackingId = @"UA-34997631-3";
   
   if(!onboardingComplete){
     onboard = [[OnboardViewController alloc] init];
-    [mainTableViewController setSurpressHUD:YES];
   }
   
   
   SpashViewController *splash = nil;
   if(onboard == nil && [DataCache isCacheStail]){
-    splash = [[SpashViewController alloc] init];
-    [mainTableViewController setSurpressHUD:YES];
+    //splash = [[SpashViewController alloc] init];
   }
   [mainTableViewController initData:splash];
   [mainTableViewController initLocation];
@@ -103,6 +101,11 @@ static NSString *const kTrackingId = @"UA-34997631-3";
   [window makeKeyAndVisible];
   
   self.window.rootViewController = tabBarController;
+  
+  if(onboard == nil && [DataCache isCacheStail]){
+    [mainTableViewController showHUD];
+  }
+  
   if(splash != nil){
     splash.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [mainTableViewController presentModalViewController:splash animated:NO];

@@ -23,13 +23,16 @@
 }
 
 - (void) progessSwirl:(NSTimer *)timer {
-  _progressCounter++;
-  
-  if(_progressCounter == 100.0){
-    _progressCounter = 0.0;
+  while(_progress < 1.0){
+    _progressCounter++;
+    
+    if(_progressCounter == 100.0){
+      _progressCounter = 0.0;
+    }
+    
+    [[self hud] setProgress:_progressCounter / 100.0];
   }
-
-  [[self hud] setProgress:_progressCounter / 100.0];
+  
 }
 
 - (void) viewDidLoad {
@@ -37,6 +40,7 @@
   CGFloat screenWidth = screenRect.size.width;
   CGFloat screenHeight = screenRect.size.height;
   _progressCounter = 0;
+  _progress        = 0;
   
   UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
   
@@ -70,16 +74,13 @@
   
   [[self hud] setDimBackground:YES];
   
-  _t = [NSTimer scheduledTimerWithTimeInterval:0.012
-                                                target:self
-                                              selector:@selector(progessSwirl:)
-                                              userInfo:nil
-                                               repeats:YES];
   
 }
 
 - (void) setProgress:(float) progress {
-  
+  _progress = progress;
+  NSLog(@"Progress: %f", progress);
+  [[self hud] setProgress:_progress];
 }
 
 

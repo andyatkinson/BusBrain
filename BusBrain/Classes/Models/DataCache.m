@@ -6,6 +6,7 @@
 //
 //
 
+#import "BusBrainAppDelegate.h"
 #import "DataCache.h"
 #import "Stop.h"
 #import "NSDate+BusBrain.h"
@@ -126,7 +127,10 @@
   
   AFHTTPRequestOperation *operation = [[TransitAPIClient sharedClient] HTTPRequestOperationWithRequest:afRequest
                                                                                                success:^(AFHTTPRequestOperation *operation, id JSON) {
-                                                                                                 
+
+#ifdef DEBUG_BB
+  NSLog(@"Cache Received results");
+#endif
          NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
          [settings setInteger:[[NSDate timeRightNow] timeIntervalSince1970] forKey:@"lastCacheStamp"];
          
@@ -192,14 +196,13 @@
              
            }
            
-           [main setSurpressHUD:NO];
-           
          }];
                                                                                                  
          [DataCache loadCacheRoutes:^(NSArray *db) {
            if([db count] > 0 ){
              [main setRoutesDB:db];
              [main setCacheLoaded:true];
+             [main hideHUD];
            } else {
              //Corruption was already dealt with when loading the stops
            }

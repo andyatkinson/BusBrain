@@ -39,7 +39,6 @@ NSString * const kRouteSectionID  = @"ROUTE";
 @synthesize dataRefreshRequested      = _dataRefreshRequested;
 @synthesize fetchCount                = _fetchCount;
 @synthesize cacheLoaded               = _cacheLoaded;
-@synthesize surpressHUD               = _surpressHUD;
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
   [self loadDataForLocation:newLocation];
@@ -63,9 +62,8 @@ NSString * const kRouteSectionID  = @"ROUTE";
 }
 
 - (void) hideHUD {
-  if([self fetchCount] < 1) {
-    [[self HUD] hide:YES];
-  }
+  NSLog(@"Hide HUD");
+  [[self HUD] hide:YES];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -114,11 +112,8 @@ NSString * const kRouteSectionID  = @"ROUTE";
       self.stops = [data objectForKey:@"stops"];
       [self setLastViewed: [data objectForKey:@"last_viewed"]];
       
-      //[self.tableView reloadRowsAtIndexPaths:[self.tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
     }
     
-    [self setFetchCount: [self fetchCount] - 1];
-    [self hideHUD];
     [[self tableView] reloadData];
   }];
 }
@@ -130,24 +125,15 @@ NSString * const kRouteSectionID  = @"ROUTE";
 }
 
 - (void) loadDataForLocation:(CLLocation *)location {
-  
-  if(! [self surpressHUD]){
-    [self showHUD];
-  }
-
-  //Since we are WERE kicking off multiple requests that could come back in a different order
-  //We need to keep track of it and each caller needs to decreemnt the fetchCount and
-  //call hideHUD
-  
-  [self setFetchCount: 1];
-  
   [self loadStopsForLocation:location];
-
 }
 
 - (void) cacheStopDB:(id <BusProgressDelegate>)delegate {
   [self setCacheLoaded:false];
-  [DataCache downloadCacheProgress:delegate main:self];
+  
+  if([DataCache isCacheStail]){
+    [DataCache downloadCacheProgress:delegate main:self];
+  }
   
   //Load existing cache
   [DataCache loadCacheStops:^(NSArray *db) {

@@ -16,7 +16,7 @@
 
 @implementation SearchTableViewController
 
-@synthesize storeSearchArray = _storeSearchArray;
+@synthesize stopSearchArray  = _stopSearchArray;
 @synthesize stopsDB          = _stopsDB;
 @synthesize myLocation       = _myLocation;
 @synthesize searchBar        = _searchBar;
@@ -78,7 +78,9 @@
 
 - (void) buildSearchArrayFrom: (NSString *) searchText {
   if ([searchText length] == 0) {
-    [self setStoreSearchArray: nil];
+    [self setStopSearchArray: nil];
+    [self setRouteSearchArray:nil];
+    
     [[self greyView] setHidden:NO];
     
     [[self tableView] reloadData];
@@ -103,12 +105,12 @@
       
         
         NSArray *resultStoreArray;
-        if ([[self storeSearchArray] count] > 0) {
-          resultStoreArray = [Stop filterStopArrayByName:[self storeSearchArray] filter:searchText location:[self myLocation]];
+        if ([[self stopSearchArray] count] > 0) {
+          resultStoreArray = [Stop filterStopArrayByName:[self stopSearchArray] filter:searchText location:[self myLocation]];
         } else {
           resultStoreArray = [Stop filterStopArrayByName:[self stopsDB] filter:searchText location:[self myLocation]];
         }
-        [self setStoreSearchArray: resultStoreArray];
+        [self setStopSearchArray: resultStoreArray];
         
 
         dispatch_async( dispatch_get_main_queue(), ^{
@@ -239,7 +241,7 @@
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   if(section == 1) {
-    return [[self storeSearchArray] count];
+    return [[self stopSearchArray] count];
   } else {
     return [[self routeSearchArray] count];
   }
@@ -249,7 +251,7 @@
   //NSString *searchText = [[self searchBar] text];
   
   if(section == 1){
-    if([[self storeSearchArray] count] > 0){
+    if([[self stopSearchArray] count] > 0){
       return @"Stops";
     } else {
       return nil;
@@ -268,7 +270,7 @@
 - (UITableViewCell *)tableView:(UITableView *)thisTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   
   if(indexPath.section == 1) {
-     Stop *stop = (Stop *)[[self storeSearchArray] objectAtIndex:[indexPath row]];
+     Stop *stop = (Stop *)[[self stopSearchArray] objectAtIndex:[indexPath row]];
      static NSString *CellIdentifier = @"SearchStoreResultCell";
      StopCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
      if (cell == nil) {
@@ -305,7 +307,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   
   if(indexPath.section == 1) {
-    Stop *stop = (Stop *)[[self storeSearchArray] objectAtIndex:[indexPath row]];
+    Stop *stop = (Stop *)[[self stopSearchArray] objectAtIndex:[indexPath row]];
     RouteTableViewController *target = [[RouteTableViewController alloc] init];
     [target loadRoutesForStop:stop];
     [[self navigationController] pushViewController:target animated:YES];

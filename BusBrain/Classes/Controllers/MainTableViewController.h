@@ -20,10 +20,8 @@
   NSTimer           *_refreshTimer;
   NSString          *_errorMessage;
   
-  int  _fetchCount;
   BOOL _dataRefreshRequested;
   BOOL _cacheLoaded;
-  BOOL _surpressHUD;
 }
 
 @property (nonatomic, strong) NSMutableArray    *dataArraysForRoutesScreen;
@@ -39,11 +37,11 @@
 @property (nonatomic)         int               fetchCount;
 @property (nonatomic)         BOOL              dataRefreshRequested;
 @property (nonatomic)         BOOL              cacheLoaded;
-@property (nonatomic)         BOOL              surpressHUD;
 
 - (void) initData:(id <BusProgressDelegate>)delegate;
 - (void) initLocation;
 - (void) purgeCachedData;
+- (void) hideHUD;
 
 @end
 

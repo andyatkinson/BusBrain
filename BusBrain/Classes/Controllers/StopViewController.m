@@ -12,6 +12,7 @@
 #import "Stop.h"
 #import "RouteTableViewController.h"
 #import "TripViewController.h"
+#import "NoStops.h"
 
 @implementation StopViewController
 
@@ -41,8 +42,8 @@
 
   [Stop loadStopsforRoute:route block:^(NSArray *records) {
     [self setStops:records];
-    [[self tableView] reloadData];
     [[self HUD] hide:YES];
+    [[self tableView] reloadData];
   }];
 
 }
@@ -91,13 +92,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  if([[self stops] count] > 0){
-    return 1;
-  } else {
-    return 0;
-  }
-  
-  return 0;
+  return 1;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -115,8 +110,15 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return [[self stops] count];
+  if ([[self stops] count] > 0) {
+    return [[self stops] count];
+  }
   
+  if([[self HUD] alpha] < 1){
+    return 1;
+  }
+  
+  return 0;
 }
 
 
@@ -141,6 +143,14 @@
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
     return cell;
+  }  else {
+    static NSString *CellIdentifier = @"NoStops";
+    NoStops* cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+      cell = [[NoStops alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    [[cell message] setText:@"No Active Buses on this Route"];
+    return cell;
   }
   
   return cell;
@@ -148,17 +158,19 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   
-  Stop *stop = [[self stops] objectAtIndex:[indexPath row]];
-  if([self route] == nil){
-    RouteTableViewController *target = [[RouteTableViewController alloc] init];
-    [target loadRoutesForStop:stop];
-    [[self navigationController] pushViewController:target animated:YES];
-  } else {
-    TripViewController *target = [[TripViewController alloc] init];
-    [target loadTripsForStop:stop];
-    [[self navigationController] pushViewController:target animated:YES];
+  if ([[self stops] count] > 0) {
+    Stop *stop = [[self stops] objectAtIndex:[indexPath row]];
+    if([self route] == nil){
+      RouteTableViewController *target = [[RouteTableViewController alloc] init];
+      [target loadRoutesForStop:stop];
+      [[self navigationController] pushViewController:target animated:YES];
+    } else {
+      TripViewController *target = [[TripViewController alloc] init];
+      [target loadTripsForStop:stop];
+      [[self navigationController] pushViewController:target animated:YES];
+    }
   }
-  
+
 }
 
 @end

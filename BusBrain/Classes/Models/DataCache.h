@@ -26,8 +26,8 @@
 @end
 
 @protocol BusMainDelegate
-- (void) setSurpressHUD:(BOOL)surpress;
 - (void) setRoutesDB:(NSArray*)routes;
 - (void) setStopsDB:(NSArray*)stops;
 - (void) setCacheLoaded:(BOOL)loaded;
+- (void) hideHUD;
 @end
