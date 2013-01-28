@@ -44,7 +44,7 @@
     
     if([records count] == 0){
       BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
-      [app saveAnalytics:@"TripTableView/NoTrips"];
+      [app saveAnalytics:[NSString stringWithFormat:@"TripTableView/%@/NoTrips", [stop stop_id]]];
     }
   }];
 }

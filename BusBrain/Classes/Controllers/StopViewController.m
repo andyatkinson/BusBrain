@@ -47,7 +47,7 @@
     
     if([records count] == 0){
       BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
-      [app saveAnalytics:@"StopTableView/NoStops"];
+      [app saveAnalytics:[NSString stringWithFormat:@"StopTableView/%i/NoStops", [route short_name]]];
     }
   }];
 
