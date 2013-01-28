@@ -131,9 +131,11 @@ NSString * const kRouteSectionID  = @"ROUTE";
 - (void) cacheStopDB:(id <BusProgressDelegate>)delegate {
   [self setCacheLoaded:false];
   
+  /*
   if([DataCache isCacheStail]){
     [DataCache downloadCacheProgress:delegate main:self];
   }
+   */
   
   //Load existing cache
   [DataCache loadCacheStops:^(NSArray *db) {

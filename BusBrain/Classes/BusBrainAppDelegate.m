@@ -30,10 +30,12 @@ static NSString *const kTrackingId = @"UA-34997631-3";
 }
 
 - (void) applicationWillEnterForeground:(UIApplication *)application {
+  /*
   if([DataCache isCacheStail]){
     [mainTableViewController initData:nil];
     [mainTableViewController initLocation];
   }
+  */
   [self saveAnalytics:@"Entry"];
 }
 
@@ -73,9 +75,12 @@ static NSString *const kTrackingId = @"UA-34997631-3";
   
   
   SpashViewController *splash = nil;
+  /*
   if(onboard == nil && [DataCache isCacheStail]){
     //splash = [[SpashViewController alloc] init];
   }
+  */
+  
   [mainTableViewController initData:splash];
   [mainTableViewController initLocation];
   
@@ -102,9 +107,11 @@ static NSString *const kTrackingId = @"UA-34997631-3";
   
   self.window.rootViewController = tabBarController;
   
+  /*
   if(onboard == nil && [DataCache isCacheStail]){
     [mainTableViewController showHUD];
   }
+  */
   
   if(splash != nil){
     splash.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
