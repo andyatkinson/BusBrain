@@ -44,6 +44,11 @@
     [self setStops:records];
     [[self HUD] hide:YES];
     [[self tableView] reloadData];
+    
+    if([records count] == 0){
+      BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
+      [app saveAnalytics:@"StopTableView/NoStops"];
+    }
   }];
 
 }

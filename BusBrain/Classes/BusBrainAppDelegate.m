@@ -39,7 +39,7 @@ static NSString *const kTrackingId = @"UA-34997631-3";
 
 - (void) saveAnalytics:(NSString*) pageName {
   if([[self getDeviceName] isEqualToString:@"iPhone Simulator"]){
-    NSLog(@"Skip GA in Simulator");
+    NSLog([NSString stringWithFormat:@"Skip GA in Simulator: %@", pageName]);
     return;
   }
   
