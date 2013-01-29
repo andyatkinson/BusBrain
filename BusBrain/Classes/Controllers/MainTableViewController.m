@@ -85,15 +85,19 @@ NSString * const kRouteSectionID  = @"ROUTE";
 }
 
 - (void) loadStopsForLocation:(CLLocation *)location {
+  if(_lastLocation != NULL){
+    double dist = [location distanceFromLocation:_lastLocation] / 1609.344;
+    if(dist < 0.2){
+      [[self tableView] reloadData];
+      return;
+    }
+  }
+  _lastLocation = location;
   
   NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
   NSString *last_viewed_stop_id = [settings stringForKey: @"last_viewed_stop_id"];
   if (last_viewed_stop_id == NULL) {
     last_viewed_stop_id = @"1000";
-  }
-  
-  if(location.coordinate.latitude == 0){
-    return;
   }
 
   [Stop loadNearbyStopsFromDB:self.stopsDB near:location lastStop:last_viewed_stop_id block:^(NSDictionary *data) {

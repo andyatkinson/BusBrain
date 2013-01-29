@@ -11,6 +11,7 @@
 @interface MainTableViewController : BusTable <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, BusMainDelegate> {
   NSMutableArray    *_dataArraysForRoutesScreen;
   CLLocation        *_myLocation;
+  CLLocation        *_lastLocation;
   CLLocationManager *_locationManager;
   NSArray           *_routes;
   NSArray           *_routesDB;
