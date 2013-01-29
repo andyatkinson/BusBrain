@@ -55,13 +55,8 @@
   
   [super layoutSubviews];
   
-  // getting the cell size
-  CGRect contentRect = [[self contentView] bounds];
-  
-  CGFloat boundsX = contentRect.origin.x;
-  
-  [[self routeNumber]     setFrame: CGRectMake(boundsX +  10, 15, 50, 30)];
-  [[self routeName]       setFrame: CGRectMake(boundsX +  50, 0, 240, 60)];
+  [[self routeNumber]     setFrame: CGRectMake(10, 15, 50, 30)];
+  [[self routeName]       setFrame: CGRectMake(70, 0, 220, 60)];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
