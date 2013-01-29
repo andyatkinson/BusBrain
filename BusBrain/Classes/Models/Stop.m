@@ -170,16 +170,16 @@
   return nil;
 }
 
-+ (void) loadNearbyStopsFromDB:(NSArray*) stopsDB near:(CLLocation *)location parameters:(NSDictionary *)parameters block:(void (^)(NSDictionary *data))block {
++ (void) loadNearbyStopsFromDB:(NSArray*) stopsDB near:(CLLocation *)location lastStop:(NSString *)lastStop block:(void (^)(NSDictionary *data))block {
   
   NSMutableArray *resultArray     = [[NSMutableArray alloc] init];
   NSMutableArray *topArray        = [[NSMutableArray alloc] init];
   NSMutableDictionary *lastViewed = [[NSMutableDictionary alloc] init];
   
   if(location.coordinate.latitude != 0){
-    float maxDistance = 0.25f; //Miles
-    while([resultArray count] < 4 && maxDistance < 25){
-      
+    float maxDistance = 1.0f; //Miles
+    while([resultArray count] < 3 && maxDistance < 25){
+
       float boxSize = maxDistance * (1.0/60.0);
       float latMax = location.coordinate.latitude + boxSize;
       float latMin = location.coordinate.latitude - boxSize;
@@ -193,7 +193,7 @@
       resultArray = [NSMutableArray arrayWithArray:stopsDB];
       [resultArray filterUsingPredicate:predicate];
       
-      maxDistance = maxDistance + 1.0;
+      maxDistance = maxDistance + 2.0;
     }
     
     
@@ -223,8 +223,7 @@
     
     
     //Get Last Viewed
-    NSString *lastStopID = [parameters objectForKey:@"last_viewed_stop_id"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"stop_id == %@", lastStopID];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"stop_id == %@", lastStop];
     resultArray = [NSMutableArray arrayWithArray:stopsDB];
     [resultArray filterUsingPredicate:predicate];
     

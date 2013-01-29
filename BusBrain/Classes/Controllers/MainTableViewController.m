@@ -41,9 +41,20 @@ NSString * const kRouteSectionID  = @"ROUTE";
 @synthesize cacheLoaded               = _cacheLoaded;
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-  [self loadDataForLocation:newLocation];
-  [self setMyLocation: newLocation];
-  [[self locationManager] stopUpdatingLocation];
+  if(newLocation.coordinate.latitude != 0){
+    [[self locationManager] stopUpdatingLocation];
+    
+    CLLocation *mpls = [[CLLocation alloc] initWithLatitude:44.949651 longitude:-93.242223];
+    double dist = [mpls distanceFromLocation:newLocation] / 1609.344;
+    if(dist > 25){
+      [self setMyLocation: mpls];
+      [self loadStopsForLocation:mpls];
+    } else {
+      [self setMyLocation: newLocation];
+      [self loadStopsForLocation:newLocation];
+    }
+
+  }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
@@ -75,33 +86,17 @@ NSString * const kRouteSectionID  = @"ROUTE";
 
 - (void) loadStopsForLocation:(CLLocation *)location {
   
-  NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-  if (location) {
-		[params setValue:[NSString stringWithFormat:@"%1.7f", location.coordinate.latitude] forKey:@"lat"];
-		[params setValue:[NSString stringWithFormat:@"%1.7f", location.coordinate.longitude] forKey:@"lon"];
-	}
-  
   NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
   NSString *last_viewed_stop_id = [settings stringForKey: @"last_viewed_stop_id"];
-  if (last_viewed_stop_id != NULL) {
-    [params setValue:last_viewed_stop_id forKey:@"last_viewed_stop_id"];
-  } else {
-    [params setValue:@"1000" forKey:@"last_viewed_stop_id"];
+  if (last_viewed_stop_id == NULL) {
+    last_viewed_stop_id = @"1000";
   }
   
-  //Get hour and minute from device, and send as params to do time calculation
-  NSDate *now = [NSDate timeRightNow];
-  NSCalendar *calendar = [NSCalendar currentCalendar];
-  NSDateComponents *components = [calendar components:NSHourCalendarUnit|NSMinuteCalendarUnit fromDate:now];
-  [params setValue:[NSString stringWithFormat:@"%d", [components hour]] forKey:@"hour"];
-  [params setValue:[NSString stringWithFormat:@"%d", [components minute]] forKey:@"minute"];
-  
-
   if(location.coordinate.latitude == 0){
     return;
   }
-  
-  [Stop loadNearbyStopsFromDB:self.stopsDB near:location parameters:params block:^(NSDictionary *data) {
+
+  [Stop loadNearbyStopsFromDB:self.stopsDB near:location lastStop:last_viewed_stop_id block:^(NSDictionary *data) {
     
     if (data == NULL || ![data isKindOfClass:[NSDictionary class]]) {
       self.stops = [[NSArray alloc] init];
@@ -122,10 +117,6 @@ NSString * const kRouteSectionID  = @"ROUTE";
 - (void) repaintTable {
     NSLog(@"RELOAD 1");
     [[self tableView] reloadData];
-}
-
-- (void) loadDataForLocation:(CLLocation *)location {
-  [self loadStopsForLocation:location];
 }
 
 - (void) cacheStopDB:(id <BusProgressDelegate>)delegate {
@@ -179,10 +170,13 @@ NSString * const kRouteSectionID  = @"ROUTE";
   if( [self myLocation] == NULL) {
     CLLocation *mpls = [[CLLocation alloc] initWithLatitude:44.949651 longitude:-93.242223];
     if ([CLLocationManager locationServicesEnabled]) {
-      [self setLocationManager:[[CLLocationManager alloc] init]];
-      [[self locationManager] setDelegate:self];
-      [[self locationManager] setDistanceFilter:kCLDistanceFilterNone];
-      [[self locationManager] setDesiredAccuracy:kCLLocationAccuracyNearestTenMeters];
+      if([self locationManager] == NULL){
+        [self setLocationManager:[[CLLocationManager alloc] init]];
+        [[self locationManager] setDelegate:self];
+        [[self locationManager] setDistanceFilter:kCLDistanceFilterNone];
+        [[self locationManager] setDesiredAccuracy:kCLLocationAccuracyNearestTenMeters];
+      }
+    
       [[self locationManager] startUpdatingLocation];
       
     } else {
@@ -199,7 +193,7 @@ NSString * const kRouteSectionID  = @"ROUTE";
       UIApplication* app = [UIApplication sharedApplication];
       UIApplicationState state = [app applicationState];
       if (state == UIApplicationStateActive) {
-        [self loadDataForLocation:[self myLocation]];
+        [self loadStopsForLocation:[self myLocation]];
       }
     }
   }
@@ -239,8 +233,6 @@ NSString * const kRouteSectionID  = @"ROUTE";
   [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
   [[self tableView] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_app.png"]]];
   [self setView:[self tableView]];
-
-  [self loadDataForLocation:[self myLocation]];
   
   [self initPullRefresh];
 
@@ -441,7 +433,6 @@ NSString * const kRouteSectionID  = @"ROUTE";
 - (void)doneLoadingTableViewData {
 
   //  model should call this when its done loading
-  //_reloading = NO;
   [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:[self tableView]];
 }
 

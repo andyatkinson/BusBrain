@@ -10,7 +10,6 @@
   UITableView       *_tableView;
   MBProgressHUD     *_HUD;
   EGORefreshTableHeaderView *_refreshHeaderView;
-  
 }
 
 @property (nonatomic, strong) UITableView               *tableView;

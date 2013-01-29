@@ -73,9 +73,9 @@
 - (void) loadNextTripTimes:(void (^)(BOOL))block;
 
 + (void) loadStopsforRoute:(Route*) route block:(void (^)(NSArray *records))block;
-+ (void) loadNearbyStopsFromDB:(NSArray*) stopsDB
-                          near:(CLLocation *)location
-                    parameters:(NSDictionary *)parameters
++ (void) loadNearbyStopsFromDB:(NSArray*)
+                  stopsDB near:(CLLocation *)location
+                      lastStop:(NSString *)lastStop
                          block:(void (^)(NSDictionary *data))block;
 
 

@@ -84,7 +84,10 @@
 
 + (void) loadCacheStops:(void (^)(NSArray *records))block {
   NSString *filepath = [DataCache cacheFile];
-  //NSLog(@"Loading Stops From: %@", filepath);
+
+#ifdef DEBUG_BB
+  NSLog(@"Loading Stops From: %@", filepath);
+#endif
   
   NSData* jsonData = [NSData dataWithContentsOfFile:filepath];
   NSMutableArray *mutableRecords = [NSMutableArray array];
