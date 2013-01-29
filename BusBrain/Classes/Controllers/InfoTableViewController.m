@@ -10,7 +10,9 @@
 
 @implementation InfoTableViewController
 
-@synthesize dataArrays, tableView;
+@synthesize dataArrays = _dataArrays;
+@synthesize tableView  = _tableView;
+@synthesize hud        = _hud;
 
 - (id)init {
   self = [super init];
@@ -51,11 +53,11 @@
   [[self tableView] setBackgroundColor:[UIColor clearColor]];
 
   //Initialize the array.
-  dataArrays = [[NSMutableArray alloc] init];
+  _dataArrays = [[NSMutableArray alloc] init];
 
-  NSArray *metroTransit = [NSArray arrayWithObjects:@"Call Metro Transit", nil];
-  NSArray *support = [NSArray arrayWithObjects:@"Email the team", nil];
-  NSArray *emailShare = [NSArray arrayWithObjects:@"Tell your friends", nil];
+  NSArray *metroTransit = [NSArray arrayWithObjects:@"Call Metro Transit", @"Refresh Transit Data", nil];
+  NSArray *support      = [NSArray arrayWithObjects:@"Email the team", nil];
+  NSArray *emailShare   = [NSArray arrayWithObjects:@"Tell your friends", nil];
 
   [self.dataArrays addObject:metroTransit];
   [self.dataArrays addObject:support];
@@ -65,6 +67,11 @@
   self.navigationItem.title = @"Information";
 
   [[self view] addSubview:[self tableView]];
+  
+  _hud = [[MBProgressHUD alloc] initWithView:[self view]];
+  [[self view] addSubview:_hud];
+  [_hud setDelegate: self];
+  [_hud setLabelText:@"Loading"];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -100,14 +107,7 @@
 }
 
 -(int) numberOfRowsInSection:(NSInteger)section {
-  if (section == 0) {
-    return 1;
-  } else if (section == 1 || section == 2) {
-    return 1;
-  } else {
-    // should not reach here
-    return 0;
-  }
+  return [[[self dataArrays] objectAtIndex:section] count];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
@@ -115,8 +115,7 @@
 
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
   if ([self.dataArrays count] > 0) {
     return [self.dataArrays count];
   } else {
@@ -183,11 +182,23 @@
   return cell;
 }
 
+- (void) dismiss {
+  [_hud hide:YES];
+}
+
+- (void) setProgress:(float) progress {
+  //
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
   if (indexPath.section == 0) {
     if (indexPath.row == 0) {
       // call metro transit
       [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://612-373-3333"]];
+    } else {
+      [_hud show:YES];
+      BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
+      [DataCache downloadCacheProgress:self main:[app mainTableViewController]];
     }
   } else if (indexPath.section == 1) {
     NSString *subjectLine = @"Support request from Bus Brain";

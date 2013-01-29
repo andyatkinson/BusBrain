@@ -202,10 +202,11 @@
            if([db count] > 0 ){
              [main setRoutesDB:db];
              [main setCacheLoaded:true];
-             [main hideHUD];
            } else {
              //Corruption was already dealt with when loading the stops
            }
+           [main hideHUD];
+           
          }];
          
        } 

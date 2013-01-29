@@ -13,13 +13,19 @@
 
 @synthesize hud = _hud;
 
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+}
+
 - (void) dismiss {
   [_t invalidate];
   [self dismissModalViewControllerAnimated:YES];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
+- (void) setProgress:(float) progress {
+  _progress = progress;
+  NSLog(@"Progress: %f", progress);
+  [[self hud] setProgress:_progress];
 }
 
 - (void) progessSwirl:(NSTimer *)timer {
@@ -75,12 +81,6 @@
   [[self hud] setDimBackground:YES];
   
   
-}
-
-- (void) setProgress:(float) progress {
-  _progress = progress;
-  NSLog(@"Progress: %f", progress);
-  [[self hud] setProgress:_progress];
 }
 
 
