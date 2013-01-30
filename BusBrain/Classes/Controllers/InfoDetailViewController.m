@@ -67,9 +67,9 @@
   [self.webView setOpaque:NO];
   self.view = self.webView;
   
-  if (selectedRow == @"northstar") {
+  if ([selectedRow isEqual: @"northstar"]) {
     self.title = @"Northstar Commuter Rail";
-  } else if (selectedRow == @"hiawatha") {
+  } else if ([selectedRow isEqual: @"hiawatha"]) {
     self.title = @"Hiawatha Light Rail";
   }
 }

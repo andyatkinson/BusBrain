@@ -55,8 +55,8 @@
   //Initialize the array.
   _dataArrays = [[NSMutableArray alloc] init];
 
-  NSArray *metroTransit = [NSArray arrayWithObjects:@"Call Metro Transit", @"Refresh Transit Data", nil];
-  NSArray *support      = [NSArray arrayWithObjects:@"Email the team", nil];
+  NSArray *metroTransit = [NSArray arrayWithObjects:@"Call Metro Transit", nil];
+  NSArray *support      = [NSArray arrayWithObjects:@"Email the team", @"Refresh Transit Data", nil];
   NSArray *emailShare   = [NSArray arrayWithObjects:@"Tell your friends", nil];
 
   [self.dataArrays addObject:metroTransit];
@@ -160,12 +160,17 @@
     
   }
   
+  cell.accessoryView = [[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]];
+  if(indexPath.section == 1 && indexPath.row == 1){
+    cell.accessoryView = nil;
+  }
+  
   int rowsInSection = [self numberOfRowsInSection:indexPath.section];
   if (rowsInSection == 1){
     cell.backgroundView = [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"info_cell_single.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
     
   } else {
-    cell.accessoryView = [[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]];
+    
     if (indexPath.row == 0) {
       cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"info_cell_top.png"]
                                                                 resizableImageWithCapInsets:UIEdgeInsetsZero]];
@@ -192,17 +197,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
   if (indexPath.section == 0) {
+    // call metro transit
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://612-373-3333"]];
+  } else if (indexPath.section == 1) {
     if (indexPath.row == 0) {
-      // call metro transit
-      [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://612-373-3333"]];
+      NSString *subjectLine = @"Support request from Bus Brain";
+      [self composeEmail:@"beetlefight@gmail.com" emailBody:@"" subjectLine:subjectLine];
     } else {
       [_hud show:YES];
       BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
       [DataCache downloadCacheProgress:self main:[app mainTableViewController]];
     }
-  } else if (indexPath.section == 1) {
-    NSString *subjectLine = @"Support request from Bus Brain";
-    [self composeEmail:@"beetlefight@gmail.com" emailBody:@"" subjectLine:subjectLine];
   } else if (indexPath.section == 2) {
     
     NSString *subjectLine = @"Check out Bus Brain for iPhone!";
