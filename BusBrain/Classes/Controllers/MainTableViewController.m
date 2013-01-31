@@ -73,14 +73,17 @@ NSString * const kRouteSectionID  = @"ROUTE";
 }
 
 - (void) hideHUD {
-  NSLog(@"Hide HUD");
   [[self HUD] hide:YES];
+  _loading = NO;
 }
 
 - (void) viewDidAppear:(BOOL)animated {
   BusBrainAppDelegate *app = (BusBrainAppDelegate *)[[UIApplication sharedApplication] delegate];
   [app saveAnalytics:@"MainTableView"];
   
+  if(_loading){
+    [self showHUD];
+  }
   [[self tableView] reloadData];
 }
 
@@ -100,6 +103,7 @@ NSString * const kRouteSectionID  = @"ROUTE";
     last_viewed_stop_id = @"1000";
   }
 
+  _loading = YES;
   [Stop loadNearbyStopsFromDB:self.stopsDB near:location lastStop:last_viewed_stop_id block:^(NSDictionary *data) {
     
     if (data == NULL || ![data isKindOfClass:[NSDictionary class]]) {
@@ -110,7 +114,7 @@ NSString * const kRouteSectionID  = @"ROUTE";
       
       self.stops = [data objectForKey:@"stops"];
       [self setLastViewed: [data objectForKey:@"last_viewed"]];
-      
+      [self hideHUD];
     }
     
     [[self tableView] reloadData];
@@ -272,7 +276,7 @@ NSString * const kRouteSectionID  = @"ROUTE";
     if([[self stops] count] > 1){
       return [[self stops] count];
     } else {
-      return 1;
+      return 0;
     }
   } else if ([id isEqualToString:kRouteSectionID]) {
     if([[self stops] count] > 1){

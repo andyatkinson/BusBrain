@@ -23,6 +23,7 @@
   
   BOOL _dataRefreshRequested;
   BOOL _cacheLoaded;
+  BOOL _loading;
 }
 
 @property (nonatomic, strong) NSMutableArray    *dataArraysForRoutesScreen;
