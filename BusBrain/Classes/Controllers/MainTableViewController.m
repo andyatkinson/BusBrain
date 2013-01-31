@@ -89,6 +89,18 @@ NSString * const kRouteSectionID  = @"ROUTE";
 
 - (void) loadStopsForLocation:(CLLocation *)location {
   if(_lastLocation != NULL){
+    if(! [self cacheLoaded]){
+      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Low memory condition"
+                                                      message:@"Cached data was purged to free up memory, reloading ..."
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+      [alert show];
+      
+      [self cacheStopDB:nil];
+      return;
+    }
+    
     double dist = [location distanceFromLocation:_lastLocation] / 1609.344;
     if(dist < 0.2){
       [[self tableView] reloadData];
@@ -139,10 +151,10 @@ NSString * const kRouteSectionID  = @"ROUTE";
   //Load existing cache
   [DataCache loadCacheStops:^(NSArray *db) {
     [self setStopsDB:db];
-  }];
-  [DataCache loadCacheRoutes:^(NSArray *db) {
-    [self setRoutesDB:db];
-    [self setCacheLoaded:true];
+    [DataCache loadCacheRoutes:^(NSArray *db) {
+      [self setRoutesDB:db];
+      [self setCacheLoaded:true];
+    }];
   }];
   
 }
@@ -171,6 +183,8 @@ NSString * const kRouteSectionID  = @"ROUTE";
   NSLog(@"Cache Dumped");
 #endif
   [self setStopsDB:nil];
+  [self setRoutesDB:nil];
+  [self setCacheLoaded:false];
 }
 
 - (void) initLocation {
@@ -210,6 +224,18 @@ NSString * const kRouteSectionID  = @"ROUTE";
 
 - (void) openSearch:(id)sender {
   SearchTableViewController *target = [[SearchTableViewController alloc] init];
+  if(! [self cacheLoaded]){
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Low memory condition"
+                                                    message:@"Cached data was purged to free up memory, reloading ..."
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    [alert show];
+    
+    [self cacheStopDB:nil];
+    return;
+  }
+  
   [target setStopsDB:[self stopsDB]];
   [target setRoutesDB:[self routesDB]];
   [target setMyLocation:[self myLocation]];
