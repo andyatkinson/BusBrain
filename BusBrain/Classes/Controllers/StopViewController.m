@@ -131,7 +131,7 @@
 {
   
   static NSString *CellIdentifier = @"Cell";
-  UITableViewCell *cell = [[UITableViewCell alloc] init];
+  UITableViewCell *cell =nil;
   
   if ([[self stops] count] > 0) {
     StopCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];

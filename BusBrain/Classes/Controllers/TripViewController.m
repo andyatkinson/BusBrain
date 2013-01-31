@@ -122,7 +122,7 @@
 {
   
   static NSString *CellIdentifier = @"Cell";
-  UITableViewCell *cell = [[UITableViewCell alloc] init];
+  UITableViewCell *cell = nil;
   
   if ([[self trips] count] > 0) {
     TripCell *cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];

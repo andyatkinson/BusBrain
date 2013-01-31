@@ -27,10 +27,10 @@
 
 - (NSString*) getDirection {
   
-  NSRange northRange = NSMakeRange(NSNotFound, 0);
-  NSRange southRange = NSMakeRange(NSNotFound, 0);
-  NSRange eastRange  = NSMakeRange(NSNotFound, 0);
-  NSRange westRange  = NSMakeRange(NSNotFound, 0);
+  NSRange northRange;
+  NSRange southRange;
+  NSRange eastRange;
+  NSRange westRange;
 
   northRange = [self.trip_headsign rangeOfString:@"north" options:NSCaseInsensitiveSearch];  
   if(northRange.location != NSNotFound) {
