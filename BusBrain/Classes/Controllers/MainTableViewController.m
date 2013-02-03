@@ -116,7 +116,7 @@ NSString * const kRouteSectionID  = @"ROUTE";
   }
 
   _loading = YES;
-  [Stop loadNearbyStopsFromDB:self.stopsDB near:location lastStop:last_viewed_stop_id block:^(NSDictionary *data) {
+  [Stop loadNearbyStops:self.stopsDB near:location block:^(NSDictionary *data) {
     
     if (data == NULL || ![data isKindOfClass:[NSDictionary class]]) {
       self.stops = [[NSArray alloc] init];
@@ -126,6 +126,13 @@ NSString * const kRouteSectionID  = @"ROUTE";
       
       self.stops = [data objectForKey:@"stops"];
       [self setLastViewed: [data objectForKey:@"last_viewed"]];
+      
+      Stop* lastStop = [Stop getStopByID:last_viewed_stop_id fromArray:self.stopsDB];
+      
+      NSMutableDictionary *lastViewed = [[NSMutableDictionary alloc] init];
+      [lastViewed setValue:lastStop forKey:@"stop"];
+      [self setLastViewed: lastViewed];
+      
       [self hideHUD];
     }
     

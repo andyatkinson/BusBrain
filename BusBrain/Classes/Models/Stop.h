@@ -72,10 +72,15 @@
 - (void) loadTrips:(void (^)(NSArray *records))block;
 - (void) loadNextTripTimes:(void (^)(BOOL))block;
 
++ (Stop*) getStopByID:(NSString*) stop_id fromArray:(NSArray*)stopsDB;
 + (void) loadStopsforRoute:(Route*) route block:(void (^)(NSArray *records))block;
+
++ (void) loadNearbyStops:(NSArray*) stopsDB
+                    near:(CLLocation *)location
+                   block:(void (^)(NSDictionary *data))block;
+
 + (void) loadNearbyStopsFromDB:(NSArray*)
                   stopsDB near:(CLLocation *)location
-                      lastStop:(NSString *)lastStop
                          block:(void (^)(NSDictionary *data))block;
 
 
