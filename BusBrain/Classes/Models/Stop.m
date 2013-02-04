@@ -46,10 +46,6 @@
   
   self.route.short_name = [[attributes valueForKeyPath:@"route_short_name"] intValue];
   
-  if(self.stop_city == nil){
-    [self fillInFromCache];
-  }
-  
   return self;
 }
 
@@ -386,11 +382,13 @@
     for (NSDictionary *attributes in [JSON objectEnumerator]) {
       Stop *thisStop = [[Stop alloc] initWithAttributes:attributes];
       [thisStop setRefLocation:[[app mainTableViewController] myLocation]];
+      //if(thisStop.stop_city == nil){
+      //  [thisStop fillInFromCache];
+      //}
       [stops addObject:thisStop];
     }
     
     NSArray * sortedArray = [stops sortedArrayUsingSelector:@selector(compareLocation:)];
-    
     if (block) {
       block ([NSArray arrayWithArray:sortedArray]);
     }
