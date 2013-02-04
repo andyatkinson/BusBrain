@@ -56,7 +56,7 @@
   _dataArrays = [[NSMutableArray alloc] init];
 
   NSArray *metroTransit = [NSArray arrayWithObjects:@"Call Metro Transit", nil];
-  NSArray *support      = [NSArray arrayWithObjects:@"Email the team", @"Refresh Transit Data", nil];
+  NSArray *support      = [NSArray arrayWithObjects:@"Email the team", @"Refresh stop and route data", nil];
   NSArray *emailShare   = [NSArray arrayWithObjects:@"Tell your friends", nil];
 
   [self.dataArrays addObject:metroTransit];
@@ -147,18 +147,37 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  static NSString *CellIdentifier = @"Cell";
-  UITableViewCell *cell = [tv dequeueReusableCellWithIdentifier:CellIdentifier];
-  if (cell == nil) {
-    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    cell.backgroundColor = [UIColor clearColor];
-    cell.textLabel.textColor = [UIColor whiteColor];
-    cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.shadowColor = [UIColor blackColor];
-    cell.textLabel.shadowOffset = CGSizeMake(0,-1);
+  UITableViewCell *cell;
+  
+  if(indexPath.section == 1 && indexPath.row == 1){
+    static NSString *CellIdentifier = @"SubCell";
+    cell = [tv dequeueReusableCellWithIdentifier:CellIdentifier];
+    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     
+    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+    int lastCacheStamp = [settings integerForKey:@"lastCacheStamp"];
+    NSDate *lastCacheDate = [NSDate dateWithTimeIntervalSince1970:lastCacheStamp];
+    
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"MMM dd yyyy"];
+    
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"Last refreshed: %@", [dateFormat stringFromDate:lastCacheDate]];
+  } else {
+    static NSString *CellIdentifier = @"Cell";
+    cell = [tv dequeueReusableCellWithIdentifier:CellIdentifier];
+    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
   }
+
+  cell.backgroundColor = [UIColor clearColor];
+  cell.textLabel.textColor = [UIColor whiteColor];
+  cell.detailTextLabel.textColor = [UIColor grayColor];
+  
+  cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0];
+  cell.selectionStyle = UITableViewCellSelectionStyleNone;
+  cell.textLabel.shadowColor = [UIColor blackColor];
+  cell.textLabel.shadowOffset = CGSizeMake(0,-1);
+  
+
   
   cell.accessoryView = [[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]];
   if(indexPath.section == 1 && indexPath.row == 1){
@@ -184,6 +203,9 @@
   }
   
   cell.textLabel.text = [[self.dataArrays objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+  
+  
+  
   return cell;
 }
 
