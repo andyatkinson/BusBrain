@@ -46,9 +46,18 @@ NSString * const kRouteSectionID  = @"ROUTE";
     
     CLLocation *mpls = [[CLLocation alloc] initWithLatitude:44.949651 longitude:-93.242223];
     double dist = [mpls distanceFromLocation:newLocation] / 1609.344;
-    if(dist > 25){
-      [self setMyLocation: mpls];
-      [self loadStopsForLocation:mpls];
+    if(dist > 50){
+      [self setMyLocation: newLocation];
+      [self loadStopsForLocation:newLocation];
+      
+      UIAlertView *alert = [[UIAlertView alloc]
+                            initWithTitle: @"Not from around here?"
+                            message: @"Whoa, your pretty far away. Metro Transit does not have service near you."
+                            delegate: nil
+                            cancelButtonTitle:@"OK"
+                            otherButtonTitles:nil];
+      [alert show];
+      
     } else {
       [self setMyLocation: newLocation];
       [self loadStopsForLocation:newLocation];
@@ -312,11 +321,7 @@ NSString * const kRouteSectionID  = @"ROUTE";
       return 0;
     }
   } else if ([id isEqualToString:kRouteSectionID]) {
-    if([[self stops] count] > 1){
-      return 1;
-    } else {
-      return 0;
-    }
+    return 1;
   } else {
     return 0;
   }
@@ -342,11 +347,7 @@ NSString * const kRouteSectionID  = @"ROUTE";
     }
     
   } else if ([id isEqualToString:kRouteSectionID]) {
-    if([[self stops] count] > 1){
-      return @"Routes";
-    } else {
-      return NULL;
-    }
+    return @"Routes";
   }
   
   return NULL;
@@ -403,21 +404,16 @@ NSString * const kRouteSectionID  = @"ROUTE";
       }
     
   } else if ([id isEqualToString:kRouteSectionID]) {
-    if([[self stops] count] > 1){
-      static NSString *CellIdentifier = @"RouteCell";
-      NoStops* cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-      if (cell == nil) {
-        cell = [[NoStops alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-      }
-      [cell setAccessoryView:[[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];
-      [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-      
-      [[cell message] setText:@"Select a Route"];
-      return cell;
-    } else {
-      return NULL;
+    static NSString *CellIdentifier = @"RouteCell";
+    NoStops* cell = [thisTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+      cell = [[NoStops alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
+    [cell setAccessoryView:[[ UIImageView alloc ] initWithImage:[UIImage imageNamed:@"arrow_cell.png"]]];
+    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
+    [[cell message] setText:@"Select a Route"];
+    return cell;
   }
 
   return NULL;
