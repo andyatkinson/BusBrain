@@ -144,7 +144,7 @@
     if (cell == nil) {
       cell = [[NoStops alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    [[cell message] setText:@"No Active Buses on this Route"];
+    [[cell message] setText:@"No departures in the next 24 hours"];
     return cell;
   }
   
