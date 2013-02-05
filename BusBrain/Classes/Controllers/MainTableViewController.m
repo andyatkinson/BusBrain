@@ -99,13 +99,6 @@ NSString * const kRouteSectionID  = @"ROUTE";
 - (void) loadStopsForLocation:(CLLocation *)location {
   if(_lastLocation != NULL){
     if(! [self cacheLoaded]){
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Low memory condition"
-                                                      message:@"Cached data was purged to free up memory, reloading ..."
-                                                     delegate:nil
-                                            cancelButtonTitle:@"OK"
-                                            otherButtonTitles:nil];
-      [alert show];
-      
       [self cacheStopDB:nil];
       return;
     }
