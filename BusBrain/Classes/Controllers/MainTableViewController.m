@@ -52,7 +52,7 @@ NSString * const kRouteSectionID  = @"ROUTE";
       
       UIAlertView *alert = [[UIAlertView alloc]
                             initWithTitle: @"Not from around here?"
-                            message: @"Metro Transit does service your current location."
+                            message: @"Metro Transit does not service your location."
                             delegate: nil
                             cancelButtonTitle:@"OK"
                             otherButtonTitles:nil];
