@@ -71,12 +71,16 @@ NSString * const kRouteSectionID  = @"ROUTE";
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failed to acquire location."
-                        message:nil
-                        delegate:nil
+  CLLocation *mpls = [[CLLocation alloc] initWithLatitude:44.949651 longitude:-93.242223];
+  [self setMyLocation:mpls];
+  UIAlertView *alert = [[UIAlertView alloc]
+                        initWithTitle: @"Location Services Unavailable"
+                        message: @"\nLocation Services are not available. A pre-set location will be used. Distances will not be accurate."
+                        delegate: nil
                         cancelButtonTitle:@"OK"
                         otherButtonTitles:nil];
   [alert show];
+  [self loadStopsForLocation:mpls];
 
 }
 
@@ -219,7 +223,7 @@ NSString * const kRouteSectionID  = @"ROUTE";
       [self setMyLocation:mpls];
       UIAlertView *alert = [[UIAlertView alloc]
                             initWithTitle: @"Location Services Unavailable"
-                            message: @"\n\nLocation Services are not available. A pre-set location will be used. Distances will not be accurate."
+                            message: @"\nLocation Services are not available. A pre-set location will be used. Distances will not be accurate."
                             delegate: nil
                             cancelButtonTitle:@"OK"
                             otherButtonTitles:nil];
