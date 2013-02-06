@@ -24,6 +24,7 @@
   BOOL _dataRefreshRequested;
   BOOL _cacheLoaded;
   BOOL _loading;
+  BOOL _farAwayAlertShown;
 }
 
 @property (nonatomic, strong) NSMutableArray    *dataArraysForRoutesScreen;

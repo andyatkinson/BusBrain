@@ -50,13 +50,17 @@ NSString * const kRouteSectionID  = @"ROUTE";
       [self setMyLocation: newLocation];
       [self loadStopsForLocation:newLocation];
       
-      UIAlertView *alert = [[UIAlertView alloc]
-                            initWithTitle: @"Not from around here?"
-                            message: @"Metro Transit does not service your location."
-                            delegate: nil
-                            cancelButtonTitle:@"OK"
-                            otherButtonTitles:nil];
-      [alert show];
+      if(! _farAwayAlertShown){
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle: @"Not from around here?"
+                              message: @"Metro Transit does not service your location."
+                              delegate: nil
+                              cancelButtonTitle:@"OK"
+                              otherButtonTitles:nil];
+        [alert show];
+        _farAwayAlertShown = YES;
+      }
+      
       
     } else {
       [self setMyLocation: newLocation];
@@ -259,7 +263,8 @@ NSString * const kRouteSectionID  = @"ROUTE";
   [super viewDidLoad];
 
   [[self navigationItem] setTitle:kAppName];
-
+  _farAwayAlertShown = NO;
+  
   UIButton *searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
   [searchButton setFrame:CGRectMake(0.0f, 0.0f, 35.0f, 30.0f)];
   [searchButton addTarget:self action:@selector(openSearch:) forControlEvents:UIControlEventTouchUpInside];
