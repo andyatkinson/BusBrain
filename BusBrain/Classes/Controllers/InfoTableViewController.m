@@ -42,7 +42,7 @@
 - (void)viewDidLoad {
   self.tableView = [[UITableView alloc] init];
   self.tableView.frame = CGRectMake(10, 0, self.view.bounds.size.width - 20, self.view.bounds.size.height);
-  self.tableView.scrollEnabled = NO;
+  self.tableView.scrollEnabled = YES;
   
   [super viewDidLoad];
   
@@ -173,7 +173,6 @@
   cell.detailTextLabel.textColor = [UIColor grayColor];
   
   cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0];
-  cell.selectionStyle = UITableViewCellSelectionStyleNone;
   cell.textLabel.shadowColor = [UIColor blackColor];
   cell.textLabel.shadowOffset = CGSizeMake(0,-1);
   
@@ -204,13 +203,16 @@
   
   cell.textLabel.text = [[self.dataArrays objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
   
-  
+  UIView *selectHighlightView = [[UIView alloc] init];
+  [selectHighlightView setBackgroundColor:[UIColor blackColor]];
+  [cell setSelectedBackgroundView: selectHighlightView];
   
   return cell;
 }
 
 - (void) dismiss {
   [_hud hide:YES];
+  [[self tableView] reloadData];
 }
 
 - (void) setProgress:(float) progress {
@@ -218,6 +220,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+  
+  [tableView deselectRowAtIndexPath:indexPath animated:YES];
+  
   if (indexPath.section == 0) {
     // call metro transit
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://612-373-3333"]];
@@ -236,6 +241,7 @@
     NSString *emailBody = @"Bus Brain provides easy iPhone access to the Twin Cities Metro Transit bus schedule. <a href='https://itunes.apple.com/us/app/bus-brain/id560807582?ls=1&mt=8'>Download it on the App Store</a>";
     [self composeEmail:@"" emailBody:emailBody subjectLine:subjectLine];
   }
+  
 }
 
 - (void)composeEmail:(NSString *)emailAddr emailBody:(NSString *)emailBody subjectLine:(NSString *)subjectLine {
