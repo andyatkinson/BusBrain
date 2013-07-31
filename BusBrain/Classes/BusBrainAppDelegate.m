@@ -17,7 +17,7 @@
 #import "GAI.h"
 
 static const NSInteger kGANDispatchPeriodSec = 10;
-static NSString *const kTrackingId = @"UA-34997631-3";
+static NSString *const kTrackingId = @"XXX"; // something like UA-12997631-3
 
 @implementation BusBrainAppDelegate
 

@@ -1,27 +1,7 @@
-bus brain
-=========
-iOS application for bus schedule data in the Twin Cities 
+Train Brain is a iOS application developed in 2012 and 2013 for the Minneapolis/St. Paul (Twin Cities) MN transit market, providing schedule data for the Metro Transit bus system.
 
+The application was originally created by Andy Atkinson and designed by Nate Kadlac, utilizing a back-end application that imported and served schedule data. John Doll eventually lead the development of the Bus Brain application code in collaboration with Andy Atkinson and the first release happened in 2012. The application was sold in the Apple App Store for 99 cents. The revenue from the application sales was not enough to support maintenance and ongoing development of the application so development ceased in 2013.
 
+Bus Brain contains some useful code and patterns and the decision was made to open source the code in hopes that it is useful for others.
 
-
-Request nearby stops with a last viewed stop ID in response from a lat/lon near MOA
-===================================================================================
-curl -H "X-Transit-API-Key: 94adbe66804dbf92e7290de08334d5d0" "http://api.beetlefight.com/bus/v1/stops/nearby.json?lat=44.8447873206953&lon=-93.2392055050438&last_viewed_stop_id=1000"
-
-Request nearby stops with a last viewed stop ID in response
-===========================================================
-curl -H "X-Transit-API-Key: 94adbe66804dbf92e7290de08334d5d0" "http://api.beetlefight.com/bus/v1/stops/nearby.json?lat=44.8447873206953&lon=-93.2392055050438&last_viewed_stop_id=1000"
-
-
-Request nearby stops with a last viewed stop ID in response from a lat/lon near MOA, from a time of day
-========================================================================================================
-curl -H "X-Transit-API-Key: 94adbe66804dbf92e7290de08334d5d0" "http://api.beetlefight.com/bus/v1/stops/nearby.json?lat=44.8447873206953&lon=-93.2392055050438&last_viewed_stop_id=1000&hour=08&minute=10"
-
-
-Search
-------
-
-Request all stops presented with minimal field data for presenting in search UI (warning: 10k+ results)
-===============================================================================================
-curl -H "X-Transit-API-Key: 94adbe66804dbf92e7290de08334d5d0" "http://api.beetlefight.com/bus/v1/stops/search.json"
+Bus Brain was developed with iOS 5 and 6 in mind, designed for the higher resolution iPhone 4 and larger screen iPhone 5, capable of maximizing the experience on both devices. We also were able to use some new UI controls, more heavily utilize caching on the client, deliver a fast search experience across thousands of items. The application generally ran much faster as well thanks to optimizations in the OS frameworks like faster JSON parsing and improved hardware. Both Bus Brain and Train Brain had well designed promotional websites delivering a consistent experience as users researched, downloaded, and interacted with our organization afterwards through our support forum.
